@@ -1,26 +1,20 @@
-import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
 import React from "react";
 
-import { useUser } from "../libs/hooks";
-
 const Home = () => {
-  const router = useRouter();
-  const [user] = useUser();
-
-  if (user) {
-    router.push("/timeline");
-  }
-
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>Tinnies | Beer tracking, but better</title>
+
         <link rel="icon" href="/favicon.ico" />
+
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
       <main>
-        <h1>You are not logged in</h1>
+        <h1>Tinnies | Beer tracking, but better</h1>
       </main>
 
       <footer></footer>

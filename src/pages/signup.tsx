@@ -1,18 +1,19 @@
 import Head from "next/head";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 import { useUser } from "../libs/hooks";
 
 const SignupPage = () => {
-  const [user, { mutate }] = useUser();
+  const router = useRouter();
   const [errorMsg, setErrorMsg] = useState("");
+  const [user, { mutate }] = useUser();
 
   useEffect(() => {
     if (user) {
-      Router.replace("/");
+      router.replace("/timeline");
     }
-  }, [user]);
+  }, [router, user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
