@@ -1,14 +1,13 @@
-import { session, promisifyStore, Store, MemoryStore } from "next-session";
 import connectMongo from "connect-mongo";
+import { session } from "next-session";
 
-const MongoStore = connectMongo({ Store, MemoryStore } as any);
+const MongoStore = connectMongo(session);
 
 export default function (req, res, next) {
-  const mongoStore = new MongoStore({
-    client: req.dbClient, // see how we use req.dbClient from the previous step
-    stringify: false,
-  });
   return session({
-    store: promisifyStore(mongoStore),
+    store: new MongoStore({
+      client: req.dbClient,
+      stringify: false,
+    }),
   })(req, res, next);
 }

@@ -1,9 +1,12 @@
 import Head from "next/head";
+import React from "react";
+
 import BeerCard from "../components/BeerCard";
 import { useTimeline } from "../libs/hooks";
 
 const Timeline = () => {
   const [data, error] = useTimeline();
+  console.log(error);
 
   return (
     <div className="container">

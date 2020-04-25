@@ -1,6 +1,6 @@
 const data = {
-  name: "Jane Doe",
   email: "jane@example.com",
+  name: "Jane Doe",
 };
 
 export default (req, res) => {

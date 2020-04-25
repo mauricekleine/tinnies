@@ -1,35 +1,35 @@
 const data = [
   {
-    id: 1,
     addedBy: "Kirra",
     addedOn: new Date(),
-    name: "Dead Pony Club",
     brewery: "Brewdog",
-    rating: 3,
+    id: 1,
     image:
       "https://images-na.ssl-images-amazon.com/images/I/811BAZ0Jd5L._AC_UL160_SR160,160_.jpg",
+    name: "Dead Pony Club",
+    rating: 3,
   },
 
   {
-    id: 2,
     addedBy: "Simon",
     addedOn: new Date(),
-    name: "Flink",
     brewery: "Brouwerij 't IJ",
-    rating: 5,
+    id: 2,
     image:
       "https://www.drankgigant.nl/media/catalog/product/cache/small_image/152x190/beff4985b56e3afdbeabfc89641a4582/b/r/brouwerij_t_ij_flink.jpg",
+    name: "Flink",
+    rating: 5,
   },
 
   {
-    id: 3,
     addedBy: "Shannon",
     addedOn: new Date(),
-    name: "Daku Waqa",
     brewery: "Walhalla",
-    rating: 4,
+    id: 3,
     image:
       "http://www.walhallacraftbeer.nl/wp-content/uploads/2016/08/WALHALLA__DAKUWAQA_vrijstaand.png",
+    name: "Daku Waqa",
+    rating: 4,
   },
 ];
 

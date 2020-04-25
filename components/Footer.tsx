@@ -1,3 +1,5 @@
+import React from "react";
+
 const Footer = () => (
   <footer>
     <h1>2020 - Tinnies</h1>

@@ -1,6 +1,10 @@
+import url from "url";
+
 import { MongoClient } from "mongodb";
 
-const client = new MongoClient(process.env.MONGODB_URI, {
+const { MONGODB_URI } = process.env;
+
+const client = new MongoClient(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -10,8 +14,10 @@ export default async function database(req, res, next) {
     await client.connect();
   }
 
+  const databaseName = url.parse(MONGODB_URI).pathname.substr(1);
+
+  req.db = await client.db(databaseName);
   req.dbClient = client;
-  req.db = client.db("test");
 
   return next();
 }

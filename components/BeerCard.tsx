@@ -1,4 +1,12 @@
-const BeerCard = ({ beer }) => (
+import React from "react";
+
+import Beer from "../data/beer";
+
+type Props = {
+  beer: Beer;
+};
+
+const BeerCard = ({ beer }: Props) => (
   <section className="bg-gray-100 max-w-xs rounded overflow-hidden shadow-lg m-2">
     <div className="px-6 py-4">
       <p className="text-gray-700 text-base mb-1">

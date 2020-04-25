@@ -1,11 +1,13 @@
-import Head from "next/head";
-import { useUser } from "../libs/hooks";
 import { useRouter } from "next/dist/client/router";
+import Head from "next/head";
+import React from "react";
+
+import { useUser } from "../libs/hooks";
 
 const Home = () => {
   const router = useRouter();
   const [user, error] = useUser();
-  console.log(user);
+  console.log(error);
 
   if (user) {
     router.push("/timeline");
