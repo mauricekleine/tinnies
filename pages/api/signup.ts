@@ -3,7 +3,7 @@ import nextConnect from "next-connect";
 import isEmail from "validator/lib/isEmail";
 import normalizeEmail from "validator/lib/normalizeEmail";
 
-import useAuthentication from "../../middlewares/useAuthentication";
+import commonMiddleware from "../../middlewares/common";
 import extractUser from "../../utils/extractUser";
 
 const handlePostRequest = async (req, res) => {
@@ -46,4 +46,4 @@ const handlePostRequest = async (req, res) => {
   });
 };
 
-export default nextConnect().use(useAuthentication).post(handlePostRequest); // POST api/signup; => sign in
+export default nextConnect().use(commonMiddleware).post(handlePostRequest); // POST api/signup; => sign in

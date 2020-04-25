@@ -1,7 +1,7 @@
 import nextConnect from "next-connect";
 
 import passport from "../../libs/passport";
-import useAuthentication from "../../middlewares/useAuthentication";
+import commonMiddleware from "../../middlewares/common";
 import extractUser from "../../utils/extractUser";
 
 const handlePostRequest = (req, res) => {
@@ -9,5 +9,5 @@ const handlePostRequest = (req, res) => {
 };
 
 export default nextConnect()
-  .use(useAuthentication)
+  .use(commonMiddleware)
   .post(passport.authenticate("local"), handlePostRequest); // POST api/login

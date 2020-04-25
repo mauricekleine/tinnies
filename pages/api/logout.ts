@@ -1,12 +1,12 @@
 import nextConnect from "next-connect";
 
-import useAuthentication from "../../middlewares/useAuthentication";
+import commonMiddleware from "../../middlewares/common";
 
 const handleDeleteRequest = (req, res) => {
   req.logOut();
   res.status(204).end();
-}
+};
 
 export default nextConnect()
-  .use(useAuthentication)
+  .use(commonMiddleware)
   .delete(handleDeleteRequest); // POST api/login

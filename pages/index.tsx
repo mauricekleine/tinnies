@@ -7,7 +7,7 @@ import { useUser } from "../libs/hooks";
 const Home = () => {
   const router = useRouter();
   const [user] = useUser();
-  console.log(user)
+
   if (user) {
     router.push("/timeline");
   }

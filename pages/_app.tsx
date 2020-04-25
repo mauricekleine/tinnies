@@ -18,9 +18,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <Navigation />
 
         <div className="container mx-auto">
-          <div className="mx-8 sm:mx-auto">
-            <Component {...pageProps} />
-          </div>
+          <Component {...pageProps} />
         </div>
 
         <Footer />

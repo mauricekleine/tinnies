@@ -1,3 +1,8 @@
+import nextConnect from "next-connect";
+
+import authenticationMiddleware from "../../middlewares/authentication";
+import commonMiddleware from "../../middlewares/common";
+
 const data = [
   {
     addedBy: "Kirra",
@@ -33,10 +38,15 @@ const data = [
   },
 ];
 
-export default (req, res) => {
+const handleGetRequest = (req, res) => {
   if (req.method === "GET") {
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
     res.end(JSON.stringify(data));
   }
 };
+
+export default nextConnect()
+  .use(commonMiddleware)
+  .use(authenticationMiddleware)
+  .get(handleGetRequest); // POST api/timeline
