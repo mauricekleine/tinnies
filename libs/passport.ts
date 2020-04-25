@@ -7,7 +7,6 @@ passport.serializeUser((user, done) => {
   done(null, user._id.toString());
 });
 
-// passport#160
 passport.deserializeUser((req, id, done) => {
   req.db
     .collection("users")

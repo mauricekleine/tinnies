@@ -1,10 +1,10 @@
 import React from "react";
 
-import Beer from "../data/beer";
+import Beer from "../models/beer";
 
-type Props = {
+interface Props {
   beer: Beer;
-};
+}
 
 const BeerCard = ({ beer }: Props) => (
   <section className="bg-gray-100 max-w-xs rounded overflow-hidden shadow-lg m-2">
