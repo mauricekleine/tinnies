@@ -1,9 +1,8 @@
 const BeerCard = ({ beer }) => (
   <section className="bg-gray-100 max-w-xs rounded overflow-hidden shadow-lg m-2">
-
     <div className="px-6 py-4">
       <p className="text-gray-700 text-base mb-1">
-        {beer.addedBy} on {beer.addedOn.toDateString()}
+        {beer.addedBy} on {new Date(beer.addedOn).toDateString()}
       </p>
     </div>
 

@@ -1,39 +1,16 @@
 import Head from "next/head";
-import BeerCard from "../components/BeerCard";
+import { useUser } from "../libs/hooks";
+import { useRouter } from "next/dist/client/router";
 
-const data = [
-  {
-    addedBy: "Kirra",
-    addedOn: new Date(),
-    name: "Dead Pony Club",
-    brewery: "Brewdog",
-    rating: 3,
-    image:
-      "https://images-na.ssl-images-amazon.com/images/I/811BAZ0Jd5L._AC_UL160_SR160,160_.jpg",
-  },
+const Home = () => {
+  const router = useRouter();
+  const [user, error] = useUser();
+  console.log(user);
 
-  {
-    addedBy: "Simon",
-    addedOn: new Date(),
-    name: "Flink",
-    brewery: "Brouwerij 't IJ",
-    rating: 5,
-    image:
-      "https://www.drankgigant.nl/media/catalog/product/cache/small_image/152x190/beff4985b56e3afdbeabfc89641a4582/b/r/brouwerij_t_ij_flink.jpg",
-  },
+  if (user) {
+    router.push("/timeline");
+  }
 
-  {
-    addedBy: "Shannon",
-    addedOn: new Date(),
-    name: "Daku Waqa",
-    brewery: "Walhalla",
-    rating: 4,
-    image:
-      "http://www.walhallacraftbeer.nl/wp-content/uploads/2016/08/WALHALLA__DAKUWAQA_vrijstaand.png",
-  },
-];
-
-export default function Home() {
   return (
     <div className="container">
       <Head>
@@ -42,14 +19,12 @@ export default function Home() {
       </Head>
 
       <main>
-        <div className="flex">
-          {data.map((beer) => (
-            <BeerCard beer={beer} />
-          ))}
-        </div>
+        <h1>You are not logged in</h1>
       </main>
 
       <footer></footer>
     </div>
   );
-}
+};
+
+export default Home;
