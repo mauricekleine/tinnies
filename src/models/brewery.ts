@@ -13,8 +13,8 @@ export const BrewerySchema = new mongoose.Schema(
   }
 );
 
-const Brewery =
+const Brewery: mongoose.Model<BreweryDocument> =
   mongoose.models.Brewery ||
-  mongoose.model<BreweryDocument>("Brewery", BrewerySchema);
+  mongoose.model("Brewery", BrewerySchema);
 
 export default Brewery;

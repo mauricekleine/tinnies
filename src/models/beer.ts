@@ -5,7 +5,7 @@ import { BreweryDocument } from "./brewery";
 import { UserDocument } from "./user";
 
 export type BeerDocument = {
-  addedBy: UserDocument
+  addedBy: UserDocument;
   brewery: BreweryDocument;
   createdAt: string;
   image: string;
@@ -26,7 +26,7 @@ const beerSchema = new mongoose.Schema(
   }
 );
 
-const Beer =
-  mongoose.models.Beer || mongoose.model<BeerDocument>("Beer", beerSchema);
+const Beer: mongoose.Model<BeerDocument> =
+  mongoose.models.Beer || mongoose.model("Beer", beerSchema);
 
 export default Beer;

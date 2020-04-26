@@ -39,7 +39,7 @@ const handlePostRequest: NextAuthenticatedApiHandler = async (req, res) => {
       throw err;
     }
 
-    res.status(201).json(extractUser(req));
+    res.status(201).json(extractUser(req.user));
   });
 };
 
