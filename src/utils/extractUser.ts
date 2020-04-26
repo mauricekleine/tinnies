@@ -1,15 +1,13 @@
+import User from "../models/user";
+
 export default (req) => {
   if (!req.user) {
     return null;
   }
 
-  const { name, email, bio, profilePicture, emailVerified } = req.user;
+  const { email }: User = req.user;
 
   return {
-    bio,
     email,
-    emailVerified,
-    name,
-    profilePicture,
   };
 };

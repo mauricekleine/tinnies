@@ -5,7 +5,9 @@ import passport from "../../middlewares/passport";
 import extractUser from "../../utils/extractUser";
 
 const handlePostRequest = (req, res) => {
-  res.json({ user: extractUser(req.user) });
+  const user = extractUser(req.user);
+
+  res.json(user || {});
 };
 
 export default nextConnect()

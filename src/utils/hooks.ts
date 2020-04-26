@@ -4,7 +4,10 @@ import useSWR from "swr";
 
 import User from "../models/user";
 
-const fetcher = (url) => fetch(url).then((r) => r.json());
+const fetcher = async (url) => {
+  const res = await fetch(url);
+  return await res.json();
+};
 
 export const useTimeline = () => {
   const { data = [], mutate } = useSWR("/api/timeline", fetcher);
@@ -13,10 +16,9 @@ export const useTimeline = () => {
 };
 
 export const useUser = () => {
-  const { data, mutate } = useSWR("/api/me", fetcher);
-  const user: User = data && data.user;
+  const { data: user, mutate } = useSWR<User>("/api/me", fetcher);
 
-  return { mutate, user }
+  return { mutate, user };
 };
 
 export const useAuthentication = (fallback = "/") => {
@@ -24,7 +26,7 @@ export const useAuthentication = (fallback = "/") => {
   const { user } = useUser();
 
   useEffect(() => {
-    if (user) {
+    if (user || user === undefined) {
       return;
     }
 

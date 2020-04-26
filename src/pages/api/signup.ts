@@ -40,9 +40,7 @@ const handlePostRequest = async (req, res) => {
       throw err;
     }
 
-    res.status(201).json({
-      user: extractUser(req),
-    });
+    res.status(201).json(extractUser(req));
   });
 };
 

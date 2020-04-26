@@ -1,6 +1,6 @@
 import { Reducer, useReducer } from "react";
 
-interface Action<T> {
+interface Action {
   type: "error" | "fetching" | "success";
 }
 
@@ -11,24 +11,24 @@ interface State<T> {
   status: Response["status"];
 }
 
-interface ErrorAction<T> extends Action<T> {
+interface ErrorAction extends Action {
   payload: {
-    error: State<T>["error"];
+    error: Error;
   };
 }
 
-interface SuccessAction<T> extends Action<T> {
+interface SuccessAction<T> extends Action {
   payload: {
     json: State<T>["json"];
     status: State<T>["status"];
   };
 }
 
-const isErrorAction = <T>(action: Action<T>): action is ErrorAction<T> => {
+const isErrorAction = (action: Action): action is ErrorAction => {
   return action.type === "error";
 };
 
-const isSuccessAction = <T>(action: Action<T>): action is SuccessAction<T> => {
+const isSuccessAction = <T>(action: Action): action is SuccessAction<T> => {
   return action.type === "success";
 };
 
@@ -41,7 +41,7 @@ const initialState = {
 
 const reducer = <T>(
   state: State<T>,
-  action: Action<T> | ErrorAction<T> | SuccessAction<T>
+  action: Action | ErrorAction | SuccessAction<T>
 ) => {
   if (isErrorAction(action)) {
     return {
@@ -70,8 +70,8 @@ const reducer = <T>(
 };
 
 const useFetch = <T>(url: RequestInfo) => {
-  const [{ error, isFetching, json }, dispatch] = useReducer<
-    Reducer<State<T>, Action<T> | ErrorAction<T> | SuccessAction<T>>
+  const [{ error, isFetching, json, status }, dispatch] = useReducer<
+    Reducer<State<T>, Action | ErrorAction | SuccessAction<T>>
   >(reducer, initialState);
 
   const customFetch = (method: RequestInit["method"]) => async (

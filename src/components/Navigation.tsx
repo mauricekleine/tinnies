@@ -9,7 +9,7 @@ import { Button, ButtonLink } from "./ui/Buttons";
 
 const Navigation = () => {
   const { del } = useFetch("/api/logout");
-  const [user, { mutate }] = useUser();
+  const { mutate, user } = useUser();
 
   const handleLogout = async () => {
     await del();
