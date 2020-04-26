@@ -1,11 +1,36 @@
-import { useReducer } from "react";
+import { Reducer, useReducer } from "react";
 
-interface State {
+interface Action<T> {
+  type: "error" | "fetching" | "success";
+}
+
+interface State<T> {
   error: Error;
   isFetching: boolean;
-  json: any;
+  json: T;
   status: Response["status"];
 }
+
+interface ErrorAction<T> extends Action<T> {
+  payload: {
+    error: State<T>["error"];
+  };
+}
+
+interface SuccessAction<T> extends Action<T> {
+  payload: {
+    json: State<T>["json"];
+    status: State<T>["status"];
+  };
+}
+
+const isErrorAction = <T>(action: Action<T>): action is ErrorAction<T> => {
+  return action.type === "error";
+};
+
+const isSuccessAction = <T>(action: Action<T>): action is SuccessAction<T> => {
+  return action.type === "success";
+};
 
 const initialState = {
   error: null,
@@ -14,48 +39,46 @@ const initialState = {
   status: null,
 };
 
-const reducer = (_, action) => {
-  switch (action.type) {
-    case "error":
-      return {
-        error: action.error,
-        isFetching: false,
-        json: null,
-        status: null,
-      };
-    case "fetching":
-      return {
-        error: null,
-        isFetching: true,
-        json: null,
-        status: null,
-      };
-    case "success":
-      return {
-        error: null,
-        isFetching: false,
-        json: action.json,
-        status: action.status,
-      };
-    default:
-      throw new Error();
+const reducer = <T>(
+  state: State<T>,
+  action: Action<T> | ErrorAction<T> | SuccessAction<T>
+) => {
+  if (isErrorAction(action)) {
+    return {
+      error: action.payload.error,
+      isFetching: false,
+      json: null,
+      status: null,
+    };
   }
+
+  if (isSuccessAction(action)) {
+    return {
+      error: null,
+      isFetching: false,
+      json: action.payload.json,
+      status: action.payload.status,
+    };
+  }
+
+  return {
+    error: null,
+    isFetching: true,
+    json: null,
+    status: null,
+  };
 };
 
-const useFetch = (url: RequestInfo) => {
-  const [{ error, isFetching, json }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+const useFetch = <T>(url: RequestInfo) => {
+  const [{ error, isFetching, json }, dispatch] = useReducer<
+    Reducer<State<T>, Action<T> | ErrorAction<T> | SuccessAction<T>>
+  >(reducer, initialState);
 
   const customFetch = (method: RequestInit["method"]) => async (
     options?: Omit<RequestInit, "headers" | "method">
   ) => {
     try {
       dispatch({
-        payload: {
-          isFetching: true,
-        },
         type: "fetching",
       });
 
@@ -65,7 +88,7 @@ const useFetch = (url: RequestInfo) => {
         method,
       });
 
-      const json = await res.json();
+      const json: T = await res.json();
 
       dispatch({
         payload: {

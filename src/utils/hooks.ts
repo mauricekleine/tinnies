@@ -2,6 +2,8 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import useSWR from "swr";
 
+import User from "../models/user";
+
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
 export const useTimeline = () => {
@@ -12,14 +14,14 @@ export const useTimeline = () => {
 
 export const useUser = () => {
   const { data, mutate } = useSWR("/api/me", fetcher);
-  const user = data && data.user;
+  const user: User = data && data.user;
 
-  return [user, { mutate }];
+  return { mutate, user }
 };
 
 export const useAuthentication = (fallback = "/") => {
   const router = useRouter();
-  const [user] = useUser();
+  const { user } = useUser();
 
   useEffect(() => {
     if (user) {
