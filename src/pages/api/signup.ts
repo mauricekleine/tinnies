@@ -4,9 +4,11 @@ import isEmail from "validator/lib/isEmail";
 import normalizeEmail from "validator/lib/normalizeEmail";
 
 import commonMiddleware from "../../middlewares/common";
+import { NextAuthenticatedApiHandler } from "../../middlewares/passport";
+import User from "../../models/user";
 import extractUser from "../../utils/extractUser";
 
-const handlePostRequest = async (req, res) => {
+const handlePostRequest: NextAuthenticatedApiHandler = async (req, res) => {
   const { email, password } = req.body;
   const normalizedEmail = normalizeEmail(email);
 
@@ -20,20 +22,17 @@ const handlePostRequest = async (req, res) => {
     return;
   }
 
-  const results = await req.db
-    .collection("users")
-    .countDocuments({ email: normalizedEmail });
+  const results = await User.countDocuments({ email: normalizedEmail });
 
   if (results > 0) {
     res.status(403).send("The email has already been used.");
+
     return;
   }
+  
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await req.db
-    .collection("users")
-    .insertOne({ email, password: hashedPassword })
-    .then(({ ops }) => ops[0]);
+  const user = await User.create({ email, password: hashedPassword });
 
   req.logIn(user, (err) => {
     if (err) {

@@ -1,28 +1,28 @@
 import { Reducer, useReducer } from "react";
 
-interface Action {
+type Action = {
   type: "error" | "fetching" | "success";
-}
+};
 
-interface State<T> {
+type State<T> = {
   error: Error;
   isFetching: boolean;
   json: T;
   status: Response["status"];
-}
+};
 
-interface ErrorAction extends Action {
+type ErrorAction = {
   payload: {
     error: Error;
   };
-}
+} & Action;
 
-interface SuccessAction<T> extends Action {
+type SuccessAction<T> = {
   payload: {
     json: State<T>["json"];
     status: State<T>["status"];
   };
-}
+} & Action;
 
 const isErrorAction = (action: Action): action is ErrorAction => {
   return action.type === "error";

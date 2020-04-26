@@ -3,12 +3,12 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
 import LoginSignupForm from "../components/LoginSignupForm";
-import User from "../models/user";
+import { UserDocument } from "../models/user";
 import { useUser } from "../utils/hooks";
 import useFetch from "../utils/useFetch";
 
 const SignupPage = () => {
-  const { post } = useFetch<User>("/api/signup");
+  const { post } = useFetch<UserDocument>("/api/signup");
   const router = useRouter();
   const { mutate, user } = useUser();
 

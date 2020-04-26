@@ -1,13 +1,18 @@
 import nextConnect from "next-connect";
 
 import commonMiddleware from "../../middlewares/common";
-import passport from "../../middlewares/passport";
-import extractUser from "../../utils/extractUser";
+import passport, {
+  NextAuthenticatedApiHandler,
+} from "../../middlewares/passport";
+import extractUser, { ExtractedUser } from "../../utils/extractUser";
 
-const handlePostRequest = (req, res) => {
+const handlePostRequest: NextAuthenticatedApiHandler<ExtractedUser> = (
+  req,
+  res
+) => {
   const user = extractUser(req.user);
 
-  res.json(user || {});
+  res.json(user);
 };
 
 export default nextConnect()

@@ -9,13 +9,13 @@ import {
 import React from "react";
 import * as Yup from "yup";
 
-interface Props {
+type Props = {
   label: string;
   onSubmit: (
     values: FormikValues,
     formikHelpers: FormikHelpers<FormikValues>
   ) => void | Promise<any>;
-}
+};
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),

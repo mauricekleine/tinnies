@@ -1,10 +1,10 @@
 import Link, { LinkProps } from "next/link";
 import React from "react";
 
-interface ButtonProps {
-  onClick: React.MouseEventHandler,
+type ButtonProps = {
+  onClick: React.MouseEventHandler;
   text: string;
-}
+};
 
 export const Button = ({ text, onClick }: ButtonProps) => (
   <button
@@ -15,10 +15,10 @@ export const Button = ({ text, onClick }: ButtonProps) => (
   </button>
 );
 
-interface ButtonLinkProps {
+type ButtonLinkProps = {
   text: ButtonProps["text"];
   to: LinkProps["href"];
-}
+};
 
 export const ButtonLink = ({ text, to }: ButtonLinkProps) => (
   <Link href={to}>
