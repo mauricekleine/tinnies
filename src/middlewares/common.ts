@@ -1,8 +1,7 @@
 import nextConnect from "next-connect";
 
-import passport from "../libs/passport";
-
 import database from "./database";
+import passport from "./passport";
 import session from "./session";
 
 export default nextConnect()

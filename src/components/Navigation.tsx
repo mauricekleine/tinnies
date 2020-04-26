@@ -2,17 +2,17 @@ import { faBeer } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-import { useUser } from "../libs/hooks";
+import { useUser } from "../utils/hooks";
+import useFetch from "../utils/useFetch";
 
 import { Button, ButtonLink } from "./ui/Buttons";
 
 const Navigation = () => {
+  const { del } = useFetch("/api/logout");
   const [user, { mutate }] = useUser();
 
   const handleLogout = async () => {
-    await fetch("/api/logout", {
-      method: "DELETE",
-    });
+    await del();
 
     mutate(null);
   };
@@ -41,7 +41,10 @@ const Navigation = () => {
 
       <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         {user ? (
-          <Button onClick={handleLogout} text="Log out" />
+          <>
+            <span>{user.email}</span>
+            <Button onClick={handleLogout} text="Log out" />
+          </>
         ) : (
           <>
             <ButtonLink to="/signup" text="Sign up" />

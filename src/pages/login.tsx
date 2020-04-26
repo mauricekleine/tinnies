@@ -1,13 +1,14 @@
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-import { useUser } from "../libs/hooks";
+import LoginSignupForm from "../components/LoginSignupForm";
+import { useUser } from "../utils/hooks";
+import useFetch from "../utils/useFetch";
 
 const LoginPage = () => {
+  const { post } = useFetch("/api/login");
   const router = useRouter();
-  const [errorMsg, setErrorMsg] = useState("");
   const [user, { mutate }] = useUser();
 
   useEffect(() => {
@@ -16,58 +17,33 @@ const LoginPage = () => {
     }
   }, [router, user]);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (values, { setSubmitting }) => {
+    setSubmitting(true);
 
-    const body = {
-      email: e.currentTarget.email.value,
-      password: e.currentTarget.password.value,
-    };
-
-    const res = await fetch("/api/login", {
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" },
-      method: "POST",
+    const { json, status } = await post({
+      body: JSON.stringify(values),
     });
 
-    if (res.status === 200) {
-      const userObj = await res.json();
+    setSubmitting(false);
 
-      mutate(userObj);
+    if (status === 200) {
+      mutate(json);
     } else {
-      setErrorMsg("Incorrect username or password. Try again!");
+      // $TODO: handle error
     }
   };
 
   return (
     <>
       <Head>
-        <title>Sign in</title>
+        <title>Log in</title>
       </Head>
-      <h2>Sign in</h2>
-      <form onSubmit={onSubmit}>
-        {errorMsg ? <p style={{ color: "red" }}>{errorMsg}</p> : null}
-        <label htmlFor="email">
-          <input
-            id="email"
-            type="email"
-            name="email"
-            placeholder="Email address"
-          />
-        </label>
-        <label htmlFor="password">
-          <input
-            id="password"
-            type="password"
-            name="password"
-            placeholder="Password"
-          />
-        </label>
-        <button type="submit">Sign in</button>
-        <Link href="/forgetpassword">
-          <a>Forget password</a>
-        </Link>
-      </form>
+
+      <div>
+        <h2>Log in</h2>
+
+        <LoginSignupForm label="Log in" onSubmit={onSubmit} />
+      </div>
     </>
   );
 };

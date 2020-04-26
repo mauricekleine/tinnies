@@ -1,7 +1,7 @@
 import nextConnect from "next-connect";
 
-import passport from "../../libs/passport";
 import commonMiddleware from "../../middlewares/common";
+import passport from "../../middlewares/passport";
 import extractUser from "../../utils/extractUser";
 
 const handlePostRequest = (req, res) => {

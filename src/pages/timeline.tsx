@@ -2,11 +2,12 @@ import Head from "next/head";
 import React from "react";
 
 import BeerCard from "../components/BeerCard";
-import { useAuthentication, useTimeline } from "../libs/hooks";
+import { useAuthentication, useTimeline } from "../utils/hooks";
 
 const Timeline = () => {
   useAuthentication();
-  const [data, error] = useTimeline();
+  
+  const [data] = useTimeline();
 
   return (
     <div className="container">
