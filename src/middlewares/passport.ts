@@ -6,6 +6,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import User, { UserDocument } from "../models/user";
 
 export type NextAuthenticatedApiRequest = {
+  isAuthenticated: () => boolean;
   logIn(user: UserDocument, done: (err: any) => void): void;
   logOut: () => void;
   user: UserDocument;
