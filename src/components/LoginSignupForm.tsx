@@ -1,13 +1,9 @@
-import {
-  ErrorMessage,
-  Field,
-  Form,
-  Formik,
-  FormikHelpers,
-  FormikValues,
-} from "formik";
+import { Form, Formik, FormikHelpers, FormikValues } from "formik";
 import React from "react";
 import * as Yup from "yup";
+
+import { Button } from "./ui/Buttons";
+import FormField from "./ui/FormField";
 
 type Props = {
   label: string;
@@ -29,17 +25,14 @@ const LoginSignupForm = ({ label, onSubmit }: Props) => {
       onSubmit={onSubmit}
       validationSchema={SignupSchema}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, submitForm }) => (
         <Form>
-          <Field type="email" name="email" />
-          <ErrorMessage name="email" component="div" />
+          <FormField label="Email" name="email" type="email" />
+          <FormField label="Password" name="password" type="password" />
 
-          <Field type="password" name="password" />
-          <ErrorMessage name="password" component="div" />
-
-          <button type="submit" disabled={isSubmitting}>
+          <Button disabled={isSubmitting} onClick={submitForm} type="submit">
             {label}
-          </button>
+          </Button>
         </Form>
       )}
     </Formik>

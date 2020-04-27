@@ -14,10 +14,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="bg-gray-100 h-screen">
+      <div className="bg-gray-100 flex flex-col min-h-screen">
         <Navigation />
 
-        <div className="container mx-auto">
+        <div className="flex-1 mx-auto my-4 w-3/5">
           <Component {...pageProps} />
         </div>
 

@@ -14,7 +14,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (user) {
-      router.replace("/timeline");
+      router.replace("/home");
     }
   }, [router, user]);
 
@@ -37,14 +37,12 @@ const LoginPage = () => {
   return (
     <>
       <Head>
-        <title>Log in</title>
+        <title>Log in | Tinnies</title>
       </Head>
 
-      <div>
-        <h2>Log in</h2>
+      <h2>Log in</h2>
 
-        <LoginSignupForm label="Log in" onSubmit={onSubmit} />
-      </div>
+      <LoginSignupForm label="Log in" onSubmit={onSubmit} />
     </>
   );
 };

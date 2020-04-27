@@ -2,12 +2,14 @@ import React from "react";
 
 import { BeerDocument } from "../models/beer";
 
+import Card from "./ui/Card";
+
 type Props = {
   beer: BeerDocument;
 };
 
 const BeerCard = ({ beer }: Props) => (
-  <section className="bg-gray-100 max-w-xs rounded overflow-hidden shadow-lg m-2">
+  <Card>
     <div className="px-6 py-4">
       <p className="text-gray-700 text-base mb-1">
         {beer.addedBy.email} on {new Date(beer.createdAt).toDateString()}
@@ -26,7 +28,7 @@ const BeerCard = ({ beer }: Props) => (
 
       <h4>{new Array(beer.rating).fill("⭐️").join("")}</h4>
     </div>
-  </section>
+  </Card>
 );
 
 export default BeerCard;

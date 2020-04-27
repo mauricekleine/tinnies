@@ -1,29 +1,54 @@
 import Link, { LinkProps } from "next/link";
-import React from "react";
+import React, {
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
+  MouseEventHandler,
+} from "react";
 
 type ButtonProps = {
-  onClick: React.MouseEventHandler;
-  text: string;
+  borderless?: boolean;
+  children: React.ReactNode;
+  onClick: MouseEventHandler;
+} & DetailedHTMLProps<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>;
+
+const getButtonClasses = ({ borderless }: { borderless: boolean }) => {
+  const baseClasses =
+    "bg-orange-500 px-4 py-2 text-sm rounded text-white hover:bg-white hover:text-orange-500";
+  const borderClasses = "border border-b-2 border-white hover:border-orange-500";
+
+  if (borderless) {
+    return baseClasses;
+  }
+
+  return `${baseClasses} ${borderClasses}`;
 };
 
-export const Button = ({ text, onClick }: ButtonProps) => (
+export const Button = ({
+  borderless,
+  children,
+  onClick,
+  ...props
+}: ButtonProps) => (
   <button
-    className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
+    className={getButtonClasses({ borderless })}
     onClick={onClick}
+    {...props}
   >
-    {text}
+    {children}
   </button>
 );
 
 type ButtonLinkProps = {
-  text: ButtonProps["text"];
+  borderless?: ButtonProps["borderless"];
+  children: ButtonProps["children"];
   to: LinkProps["href"];
 };
 
-export const ButtonLink = ({ text, to }: ButtonLinkProps) => (
+export const ButtonLink = ({ borderless, children, to }: ButtonLinkProps) => (
   <Link href={to}>
-    <a className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">
-      {text}
-    </a>
+    <a className={getButtonClasses({ borderless })}>{children}</a>
   </Link>
 );
