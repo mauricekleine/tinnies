@@ -5,5 +5,5 @@ node_modules
 .next
 .now
 
-# ignore css
 *.css
+postcss.config.js
