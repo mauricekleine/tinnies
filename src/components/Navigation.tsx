@@ -7,6 +7,7 @@ import { useUser } from "../utils/hooks";
 import useFetch from "../utils/useFetch";
 
 import { Button, ButtonLink } from "./ui/Buttons";
+import colors from "./ui/colors";
 
 const Navigation = () => {
   const { del } = useFetch("/api/logout");
@@ -19,29 +20,32 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="bg-orange-500 border-b-4 border-orange-600 flex items-center justify-between px-6 py-4">
+    <nav
+      className={`bg-${colors.primary} border-b-2 border-${colors.primaryAccent}  flex items-center justify-between px-6 py-4`}
+    >
       <div className="flex">
         <Link href="/">
-          <a className="flex items-center text-white mr-8">
+          <a className={`flex items-center text-${colors.white} mr-8`}>
             <FontAwesomeIcon
               className="h-8 mr-1 w-8 transform -rotate-45"
               icon={faBeer}
             />
 
-            <span className="font-semibold text-xl tracking-tight">
-              Tinnies
-            </span>
+            <span className="font-semibold text-xl">Tinnies</span>
           </a>
         </Link>
 
-        {user && <ButtonLink borderless to="/home">Home</ButtonLink>}
-        {user && <ButtonLink borderless to="/home">My Beers</ButtonLink>}
+        {/* {user && (
+          <ButtonLink borderless to="/home">
+            Home
+          </ButtonLink>
+        )} */}
       </div>
 
       <div>
         {user ? (
           <>
-            <span className="mx-2 text-sm text-white tracking-tight">{user.email}</span>
+            <span className={`hidden md:inline-block mx-2 text-${colors.white}`}>{user.email}</span>
             <Button onClick={handleLogout}>Log out</Button>
           </>
         ) : (

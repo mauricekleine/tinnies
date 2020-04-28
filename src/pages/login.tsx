@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
 import LoginSignupForm from "../components/LoginSignupForm";
+import { Title } from "../components/ui/Typography";
 import { UserDocument } from "../models/user";
 import { useUser } from "../utils/hooks";
 import useFetch from "../utils/useFetch";
@@ -40,7 +41,7 @@ const LoginPage = () => {
         <title>Log in | Tinnies</title>
       </Head>
 
-      <h2>Log in</h2>
+      <Title>Log in</Title>
 
       <LoginSignupForm label="Log in" onSubmit={onSubmit} />
     </>

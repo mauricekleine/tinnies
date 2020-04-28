@@ -12,12 +12,15 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
+
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      <div className="bg-gray-100 flex flex-col min-h-screen">
+      <div className="bg-gray-200 flex flex-col font-light min-h-screen">
         <Navigation />
 
-        <div className="flex-1 mx-auto my-4 w-3/5">
+        <div className="flex-1 mx-auto my-4 w-4/5 md:w-3/5 lg:w-2/5">
           <Component {...pageProps} />
         </div>
 

@@ -9,6 +9,7 @@ import useFetch from "../utils/useFetch";
 import { Button } from "./ui/Buttons";
 import Card from "./ui/Card";
 import FormField from "./ui/FormField";
+import { Title } from "./ui/Typography";
 
 const NewBeerSchema = Yup.object().shape({
   brewery: Yup.string().required("Required"),
@@ -39,7 +40,8 @@ const NewBeerCard = () => {
 
   return (
     <Card>
-      <h2>Add new beer</h2>
+      <Title>Add new beer</Title>
+
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={onSubmit}

@@ -5,6 +5,8 @@ import React, {
   MouseEventHandler,
 } from "react";
 
+import colors from "./colors";
+
 type ButtonProps = {
   borderless?: boolean;
   children: React.ReactNode;
@@ -15,9 +17,8 @@ type ButtonProps = {
 >;
 
 const getButtonClasses = ({ borderless }: { borderless: boolean }) => {
-  const baseClasses =
-    "bg-orange-500 px-4 py-2 text-sm rounded text-white hover:bg-white hover:text-orange-500";
-  const borderClasses = "border border-b-2 border-white hover:border-orange-500";
+  const baseClasses = `bg-${colors.primary} border border-b-2 border-r-2 border-transparent px-4 py-2 rounded text-${colors.white} hover:bg-${colors.white} hover:border-${colors.primaryAccent} hover:text-${colors.primaryAccent}`;
+  const borderClasses = `border-${colors.primaryAccent}`;
 
   if (borderless) {
     return baseClasses;
