@@ -8,7 +8,7 @@ const database: Middleware = async (req, res, next) => {
     return next();
   }
 
-  await mongoose.connect(process.env.MONGODB_URI, {
+  await mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
