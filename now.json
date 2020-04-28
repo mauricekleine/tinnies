@@ -1,7 +1,4 @@
 {
-  "env": {
-    "MONGODB_URI": "@mongodb-uri"
-  },
   "trailingSlash": false,
   "version": 2
 }
