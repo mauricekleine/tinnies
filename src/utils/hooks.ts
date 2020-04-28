@@ -11,13 +11,28 @@ const fetcher = async (url) => {
 };
 
 export const useBeers = () => {
-  const { data: beers = [], mutate } = useSWR<BeerDocument[]>("/api/beers", fetcher);
+  const { data: beers = [], mutate } = useSWR<BeerDocument[]>(
+    "/api/beers",
+    fetcher
+  );
+
+  return { beers, mutate };
+};
+
+export const useMyBeers = () => {
+  const { data: beers = [], mutate } = useSWR<BeerDocument[]>(
+    "/api/my/beers",
+    fetcher
+  );
 
   return { beers, mutate };
 };
 
 export const useUser = () => {
-  const { data: user, mutate } = useSWR<UserDocument>("/api/me", fetcher);
+  const { data: user, mutate } = useSWR<UserDocument>(
+    "/api/my/profile",
+    fetcher
+  );
 
   return { mutate, user };
 };

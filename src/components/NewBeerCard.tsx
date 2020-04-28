@@ -1,4 +1,5 @@
 import { Form, Formik } from "formik";
+import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
 
@@ -35,6 +36,7 @@ const NewBeerSchema = yup.object().shape({
 const NewBeerCard = () => {
   const { mutate } = useBeers();
   const { post } = useFetch<BeerDocument[]>("/api/beers");
+  const router = useRouter();
 
   const onSubmit = async (values, { setSubmitting }) => {
     setSubmitting(true);
@@ -61,6 +63,8 @@ const NewBeerCard = () => {
 
     if (status === 201) {
       mutate(json);
+
+      router.replace("/home");
     } else {
       // $TODO: handle error
     }
@@ -83,7 +87,7 @@ const NewBeerCard = () => {
             <BeerRatingField label="Rating" name="rating" />
 
             <Button disabled={isSubmitting} onClick={submitForm} type="submit">
-              Submit
+              Add
             </Button>
           </Form>
         )}

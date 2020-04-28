@@ -23,7 +23,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <div className="bg-gray-200 flex flex-col font-light min-h-screen">
         <Navigation />
 
-        <div className="flex-1 mx-auto my-4 w-4/5 md:w-3/5 lg:w-2/5">
+        <div className="flex-1 mx-auto my-8 w-4/5 md:w-3/5 lg:w-2/5">
           <Component {...pageProps} />
         </div>
 

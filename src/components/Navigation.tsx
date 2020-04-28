@@ -21,13 +21,13 @@ const Navigation = () => {
 
   return (
     <nav
-      className={`bg-${colors.primary} border-b-2 border-${colors.primaryAccent}  flex items-center justify-between px-6 py-4`}
+      className={`bg-${colors.primary} border-b-2 border-${colors.primaryAccent} flex items-center justify-between px-6 py-4`}
     >
       <div className="flex">
         <Link href="/">
-          <a className={`flex items-center text-${colors.white} mr-8`}>
+          <a className={`flex items-center text-${colors.white} mr-4`}>
             <FontAwesomeIcon
-              className="h-8 mr-1 w-8 transform -rotate-45"
+              className="h-4 md:h-8 mr-1 w-4 md:w-8 transform -rotate-45"
               icon={faBeer}
             />
 
@@ -36,23 +36,33 @@ const Navigation = () => {
         </Link>
 
         {user && (
-          <ButtonLink borderless to="/home">
-            Home
-          </ButtonLink>
+          <>
+            <ButtonLink borderless to="/home">
+              Home
+            </ButtonLink>
+
+            <ButtonLink borderless to="/my/beers">
+              My Beers
+            </ButtonLink>
+          </>
         )}
       </div>
 
       <div>
         {user ? (
           <>
-            <span className={`hidden md:inline-block mx-2 text-${colors.white}`}>{user.name}</span>
-            <Button onClick={handleLogout}>Log out</Button>
+            <ButtonLink to="/new/beer">Add a beer</ButtonLink>
+
+            {/* <Button borderless onClick={handleLogout}>
+              Log out
+            </Button> */}
           </>
         ) : (
           <>
             <ButtonLink borderless to="/login">
               Log in
             </ButtonLink>
+
             <ButtonLink to="/signup">Sign up</ButtonLink>
           </>
         )}

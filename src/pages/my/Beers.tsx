@@ -1,18 +1,18 @@
 import Head from "next/head";
 import React from "react";
 
-import BeerCard from "../components/BeerCard";
-import { useAuthentication, useBeers } from "../utils/hooks";
+import BeerCard from "../../components/BeerCard";
+import { useAuthentication, useMyBeers } from "../../utils/hooks";
 
 const Home = () => {
   useAuthentication();
 
-  const { beers } = useBeers();
+  const { beers } = useMyBeers();
 
   return (
     <>
       <Head>
-        <title>Recent updates | Tinnies</title>
+        <title>My Beers | Tinnies</title>
       </Head>
 
       {beers.map((beer) => (
