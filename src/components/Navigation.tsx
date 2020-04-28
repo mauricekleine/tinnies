@@ -35,11 +35,11 @@ const Navigation = () => {
           </a>
         </Link>
 
-        {/* {user && (
+        {user && (
           <ButtonLink borderless to="/home">
             Home
           </ButtonLink>
-        )} */}
+        )}
       </div>
 
       <div>
