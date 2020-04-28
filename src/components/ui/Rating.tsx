@@ -11,14 +11,14 @@ const RATING_VALUES: BeerDocument["rating"][] = [1, 2, 3, 4, 5];
 
 type Props = {
   onClick?: (rating: BeerDocument["rating"]) => void;
-  size?: string;
+  size?: number;
   value: BeerDocument["rating"];
 };
 
-const Rating = ({ onClick, size = "6", value }: Props) => (
-  <div className="flex items-center -ml-2">
+const Rating = ({ onClick, size = 8, value }: Props) => (
+  <div className={`flex items-center ${size > 4 && "-ml-1"}`}>
     {RATING_VALUES.map((rating) => (
-      <div className="px-1" key={rating}>
+      <div className={size > 4 ? "px-1" : "pr-1"} key={rating}>
         <FontAwesomeIcon
           className={`h-${size} text-${colors.yellow} w-${size}`}
           icon={rating <= value ? fasStar : farStar}

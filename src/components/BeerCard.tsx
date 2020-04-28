@@ -33,9 +33,9 @@ const BeerCard = ({ beer }: Props) => (
             {beer.addedBy.name}
           </span>
 
-          <span className="ml-1 mr-2">rated a beer</span>
+          <span className="ml-1 mr-1">rated a beer</span>
 
-          <Rating size="4" value={beer.rating} />
+          <Rating size={4} value={beer.rating} />
         </div>
 
         <span className={`text-${colors.gray} text-sm`}>
