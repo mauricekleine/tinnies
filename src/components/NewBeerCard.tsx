@@ -7,6 +7,7 @@ import { useBeers } from "../utils/hooks";
 import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "../utils/imageConfig";
 import useFetch from "../utils/useFetch";
 
+import BeerRatingField from "./BeerRatingField";
 import { Button } from "./ui/Buttons";
 import Card from "./ui/Card";
 import FormField, { ImageField } from "./ui/FormField";
@@ -79,7 +80,7 @@ const NewBeerCard = () => {
             <FormField label="Brewery" name="brewery" type="text" />
             <ImageField label="Image" name="image" />
             <FormField label="Name" name="name" type="text" />
-            <FormField label="Rating" name="rating" type="text" />
+            <BeerRatingField label="Rating" name="rating" />
 
             <Button disabled={isSubmitting} onClick={submitForm} type="submit">
               Submit

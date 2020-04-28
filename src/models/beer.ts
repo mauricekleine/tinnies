@@ -10,7 +10,7 @@ export type BeerDocument = {
   createdAt: string;
   image: string;
   name: string;
-  rating: number;
+  rating: 1 | 2 | 3 | 4 | 5;
 } & mongoose.Document;
 
 const beerSchema = new mongoose.Schema(

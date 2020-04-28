@@ -1,3 +1,4 @@
+import { config } from "@fortawesome/fontawesome-svg-core";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
@@ -6,6 +7,8 @@ import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 
 import "./styles.css";
+
+config.autoAddCss = false;
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (

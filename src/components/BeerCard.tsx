@@ -6,6 +6,7 @@ import React from "react";
 import { BeerDocument } from "../models/beer";
 
 import Card from "./ui/Card";
+import Rating from "./ui/Rating";
 import colors from "./ui/colors";
 
 type Props = {
@@ -47,7 +48,7 @@ const BeerCard = ({ beer }: Props) => (
     <div className="font-semibold text-xl">{beer.name}</div>
     <div className={`text-${colors.gray}`}>{beer.brewery.name}</div>
 
-    <h4>{new Array(beer.rating).fill("⭐️").join("")}</h4>
+    <Rating value={beer.rating} />
   </Card>
 );
 

@@ -16,7 +16,7 @@ type FormErrorProps = {
   children: ReactNode;
 };
 
-const FormError = ({ children }: FormErrorProps) => (
+export const FormError = ({ children }: FormErrorProps) => (
   <div className={`italic px-1 text-${colors.red} text-xs`}>{children}</div>
 );
 

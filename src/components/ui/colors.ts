@@ -7,4 +7,5 @@ export default {
   primaryAccent: `${base}-800`,
   red: "red-500",
   white: "white",
+  yellow: "yellow-500",
 };
