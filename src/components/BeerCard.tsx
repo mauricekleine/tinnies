@@ -26,7 +26,7 @@ const BeerCard = ({ beer }: Props) => (
 
       <div className="flex flex-col">
         <span className={`font-semibold text-${colors.primaryAccent}`}>
-          {beer.addedBy.email}
+          {beer.addedBy.name}
         </span>
 
         <span className={`text-${colors.gray} text-sm`}>

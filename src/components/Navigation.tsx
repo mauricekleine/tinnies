@@ -45,7 +45,7 @@ const Navigation = () => {
       <div>
         {user ? (
           <>
-            <span className={`hidden md:inline-block mx-2 text-${colors.white}`}>{user.email}</span>
+            <span className={`hidden md:inline-block mx-2 text-${colors.white}`}>{user.name}</span>
             <Button onClick={handleLogout}>Log out</Button>
           </>
         ) : (

@@ -9,7 +9,7 @@ import User from "../../models/user";
 import extractUser from "../../utils/extractUser";
 
 const handlePostRequest: NextAuthenticatedApiHandler = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, name, password } = req.body;
   const normalizedEmail = normalizeEmail(email);
 
   if (!isEmail(email)) {
@@ -22,6 +22,11 @@ const handlePostRequest: NextAuthenticatedApiHandler = async (req, res) => {
     return;
   }
 
+  if (!name) {
+    res.status(400).send("Please enter a name");
+    return;
+  }
+
   const results = await User.countDocuments({ email: normalizedEmail });
 
   if (results > 0) {
@@ -29,10 +34,9 @@ const handlePostRequest: NextAuthenticatedApiHandler = async (req, res) => {
 
     return;
   }
-  
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await User.create({ email, password: hashedPassword });
+  const user = await User.create({ email, name, password: hashedPassword });
 
   req.logIn(user, (err) => {
     if (err) {

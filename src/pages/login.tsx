@@ -1,12 +1,21 @@
+import { Form, Formik } from "formik";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import * as yup from "yup";
 
-import LoginSignupForm from "../components/LoginSignupForm";
+import { Button } from "../components/ui/Buttons";
+import Card from "../components/ui/Card";
+import FormField from "../components/ui/FormField";
 import { Title } from "../components/ui/Typography";
 import { UserDocument } from "../models/user";
 import { useUser } from "../utils/hooks";
 import useFetch from "../utils/useFetch";
+
+const LoginSchema = yup.object().shape({
+  email: yup.string().email("Invalid email").required("Required"),
+  password: yup.string().min(8, "Too Short!").required("Required"),
+});
 
 const LoginPage = () => {
   const { post } = useFetch<UserDocument>("/api/login");
@@ -41,9 +50,30 @@ const LoginPage = () => {
         <title>Log in | Tinnies</title>
       </Head>
 
-      <Title>Log in</Title>
+      <Card>
+        <Title>Log in</Title>
 
-      <LoginSignupForm label="Log in" onSubmit={onSubmit} />
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          onSubmit={onSubmit}
+          validationSchema={LoginSchema}
+        >
+          {({ isSubmitting, submitForm }) => (
+            <Form>
+              <FormField label="Email" name="email" type="email" />
+              <FormField label="Password" name="password" type="password" />
+
+              <Button
+                disabled={isSubmitting}
+                onClick={submitForm}
+                type="submit"
+              >
+                Log in
+              </Button>
+            </Form>
+          )}
+        </Formik>
+      </Card>
     </>
   );
 };

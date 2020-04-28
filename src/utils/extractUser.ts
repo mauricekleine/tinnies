@@ -3,6 +3,7 @@ import { UserDocument } from "../models/user";
 export type ExtractedUser = {
   email: UserDocument["email"];
   id?: UserDocument["id"];
+  name: UserDocument["name"];
 };
 
 const extractUser = (user?: UserDocument) => {
@@ -10,11 +11,12 @@ const extractUser = (user?: UserDocument) => {
     return null;
   }
 
-  const { email, id }: ExtractedUser = user;
+  const { email, id, name }: ExtractedUser = user;
 
   return {
     email,
     id,
+    name,
   };
 };
 
