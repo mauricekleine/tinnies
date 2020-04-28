@@ -18,7 +18,10 @@ const getBreweryByName = async (name: BreweryDocument["name"]) => {
 };
 
 const handleGetRequest: NextApiHandler<BeerDocument[]> = async (req, res) => {
-  const beers = await Beer.find().populate("addedBy").populate("brewery");
+  const beers = await Beer.find()
+    .populate("addedBy")
+    .populate("brewery")
+    .sort({ createdAt: -1 });
 
   res.status(200).json(beers);
 };
@@ -44,7 +47,10 @@ const handlePostRequest: NextAuthenticatedApiHandler<
     rating,
   });
 
-  const beers = await Beer.find().populate("addedBy").populate("brewery");
+  const beers = await Beer.find()
+    .populate("addedBy")
+    .populate("brewery")
+    .sort({ createdAt: -1 });
 
   res.status(201).json(beers);
 };

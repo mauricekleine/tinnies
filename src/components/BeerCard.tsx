@@ -1,5 +1,6 @@
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Image } from "cloudinary-react";
 import React from "react";
 
 import { BeerDocument } from "../models/beer";
@@ -28,16 +29,19 @@ const BeerCard = ({ beer }: Props) => (
           {beer.addedBy.email}
         </span>
 
-        <span className={`text-${colors.gray}`}>
+        <span className={`text-${colors.gray} text-sm`}>
           {new Date(beer.createdAt).toDateString()}
         </span>
       </div>
     </div>
 
-    <img
-      className="object-cover h-64 my-2 rounded-t w-full"
-      src={beer.image}
+    <Image
       alt={`${beer.name} by ${beer.brewery.name}`}
+      className="object-cover h-64 my-4 rounded-t w-full"
+      cloudName="tinnies"
+      crop="scale"
+      publicId={beer.image}
+      width="300"
     />
 
     <div className="font-semibold text-xl">{beer.name}</div>
