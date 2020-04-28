@@ -3,10 +3,10 @@ import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
 
+import { useBeers } from "../hooks/hooks";
+import useFetch from "../hooks/useFetch";
 import { BeerDocument } from "../models/beer";
-import { useBeers } from "../utils/hooks";
 import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "../utils/imageConfig";
-import useFetch from "../utils/useFetch";
 
 import BeerRatingField from "./BeerRatingField";
 import { Button } from "./ui/Buttons";

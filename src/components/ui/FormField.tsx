@@ -28,7 +28,7 @@ const FormField = ({ label, name, type }: FormFieldProps) => {
       <FormLabel>{label}</FormLabel>
 
       <input
-        className={`appearance-none border border-b-2 border-r-2 border-${
+        className={`appearance-none border border-b-2 border-${
           meta.touched && meta.error ? colors.red : colors.grayLight
         } px-3 py-2 rounded text-${colors.gray} w-full focus:border-${
           colors.primary
@@ -65,7 +65,7 @@ export const ImageField = ({ label, name }: ImageFieldProps) => {
 
       <div
         {...getRootProps({
-          className: `border border-b-2 border-r-2 border-${
+          className: `border border-b-2 border-${
             meta.touched && meta.error ? colors.red : colors.grayLight
           } cursor-pointer flex flex-col h-64 items-center justify-center p-4 overflow-hidden rounded text-center focus:border-${
             colors.primary

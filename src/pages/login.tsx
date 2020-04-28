@@ -8,9 +8,9 @@ import { Button } from "../components/ui/Buttons";
 import Card from "../components/ui/Card";
 import FormField from "../components/ui/FormField";
 import { Title } from "../components/ui/Typography";
+import { useUser } from "../hooks/hooks";
+import useFetch from "../hooks/useFetch";
 import { UserDocument } from "../models/user";
-import { useUser } from "../utils/hooks";
-import useFetch from "../utils/useFetch";
 
 const LoginSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Required"),

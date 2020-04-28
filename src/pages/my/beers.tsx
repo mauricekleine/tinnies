@@ -2,7 +2,8 @@ import Head from "next/head";
 import React from "react";
 
 import BeerCard from "../../components/BeerCard";
-import { useAuthentication, useMyBeers } from "../../utils/hooks";
+import {  useMyBeers } from "../../hooks/hooks";
+import useAuthentication from "../../hooks/useAuthentication";
 
 const Home = () => {
   useAuthentication();

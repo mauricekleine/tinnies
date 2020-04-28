@@ -2,7 +2,7 @@ import Head from "next/head";
 import React from "react";
 
 import NewBeerCard from "../../components/NewBeerCard";
-import { useAuthentication } from "../../utils/hooks";
+import useAuthentication from "../../hooks/useAuthentication";
 
 const Home = () => {
   useAuthentication();

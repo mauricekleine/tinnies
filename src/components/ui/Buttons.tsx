@@ -17,7 +17,7 @@ type ButtonProps = {
 >;
 
 const getButtonClasses = ({ borderless }: { borderless: boolean }) => {
-  const baseClasses = `bg-${colors.primary} border border-b-2 border-r-2 border-transparent font-light px-3 md:px-4 py-2 rounded text-${colors.white} hover:bg-${colors.white} hover:border-${colors.primaryAccent} hover:text-${colors.primaryAccent}`;
+  const baseClasses = `bg-${colors.primary} border border-b-2 border-transparent font-light px-3 md:px-4 py-2 rounded text-${colors.white} hover:bg-${colors.white} hover:border-${colors.primaryAccent} hover:text-${colors.primaryAccent}`;
   const borderClasses = `border-${colors.primaryAccent}`;
 
   if (borderless) {
@@ -45,11 +45,14 @@ export const Button = ({
 type ButtonLinkProps = {
   borderless?: ButtonProps["borderless"];
   children: ButtonProps["children"];
-  to: LinkProps["href"];
-};
+} & LinkProps;
 
-export const ButtonLink = ({ borderless, children, to }: ButtonLinkProps) => (
-  <Link href={to}>
+export const ButtonLink = ({
+  borderless,
+  children,
+  ...props
+}: ButtonLinkProps) => (
+  <Link {...props}>
     <a className={getButtonClasses({ borderless })}>{children}</a>
   </Link>
 );

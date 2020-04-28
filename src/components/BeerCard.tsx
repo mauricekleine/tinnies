@@ -1,12 +1,10 @@
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "cloudinary-react";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import React from "react";
 
 import { BeerDocument } from "../models/beer";
 
-import { Button } from "./ui/Buttons";
+import Avatar from "./ui/Avatar";
 import Card from "./ui/Card";
 import Rating from "./ui/Rating";
 import colors from "./ui/colors";
@@ -18,14 +16,7 @@ type Props = {
 const BeerCard = ({ beer }: Props) => (
   <Card px="0">
     <div className="flex flex-row items-center px-6">
-      <div
-        className={`bg-${colors.grayLight} flex h-10 items-center justify-center mr-2 rounded-full w-10`}
-      >
-        <FontAwesomeIcon
-          className={`h-5 text-${colors.white} w-5`}
-          icon={faUser}
-        />
-      </div>
+      <Avatar />
 
       <div className="flex flex-col">
         <div className="flex items-center justify-center">
