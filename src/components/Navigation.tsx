@@ -21,7 +21,7 @@ const Navigation = () => {
 
   return (
     <nav
-      className={`bg-${colors.primary} border-b-2 border-${colors.primaryAccent} flex items-center justify-between px-6 py-4`}
+      className={`bg-${colors.primary} border-b-2 border-${colors.primaryAccent} flex items-center justify-between px-4 md:px-6 py-4`}
     >
       <div className="flex">
         <Link href="/">
@@ -31,7 +31,7 @@ const Navigation = () => {
               icon={faBeer}
             />
 
-            <span className="font-semibold text-xl">Tinnies</span>
+            <span className="font-semibold md:text-xl">Tinnies</span>
           </a>
         </Link>
 
@@ -50,13 +50,9 @@ const Navigation = () => {
 
       <div>
         {user ? (
-          <>
-            <ButtonLink to="/new/beer">Add a beer</ButtonLink>
-
-            {/* <Button borderless onClick={handleLogout}>
-              Log out
-            </Button> */}
-          </>
+          <Button borderless onClick={handleLogout}>
+            Log out
+          </Button>
         ) : (
           <>
             <ButtonLink borderless to="/login">

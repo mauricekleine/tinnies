@@ -17,7 +17,7 @@ type ButtonProps = {
 >;
 
 const getButtonClasses = ({ borderless }: { borderless: boolean }) => {
-  const baseClasses = `bg-${colors.primary} border border-b-2 border-r-2 border-transparent font-light px-4 py-2 rounded text-${colors.white} hover:bg-${colors.white} hover:border-${colors.primaryAccent} hover:text-${colors.primaryAccent}`;
+  const baseClasses = `bg-${colors.primary} border border-b-2 border-r-2 border-transparent font-light px-3 md:px-4 py-2 rounded text-${colors.white} hover:bg-${colors.white} hover:border-${colors.primaryAccent} hover:text-${colors.primaryAccent}`;
   const borderClasses = `border-${colors.primaryAccent}`;
 
   if (borderless) {
