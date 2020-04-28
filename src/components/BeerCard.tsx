@@ -17,7 +17,7 @@ const BeerCard = ({ beer }: Props) => (
     </div>
 
     <img
-      className="object-cover rounded-t w-full h-48"
+      className="object-cover rounded-t w-full h-64"
       src={beer.image}
       alt={`${beer.name} by ${beer.brewery.name}`}
     />
