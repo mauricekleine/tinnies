@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "cloudinary-react";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import React from "react";
+import { mutate } from "swr";
 
 import useFetch from "../hooks/useFetch";
 import useUser from "../hooks/useUser";
@@ -25,6 +26,11 @@ const BeerCard = ({ beer }: Props) => {
   const { user } = useUser();
 
   const canDelete = canDeleteBeer(beer, user);
+  const handleDelete = async () => {
+    await del();
+
+    mutate(READ_BEERS_RESOURCE);
+  };
 
   return (
     <Card px="0">
@@ -75,7 +81,7 @@ const BeerCard = ({ beer }: Props) => {
 
                       <p
                         className={`cursor-pointer p-2 hover:color-${colors.primaryAccent}`}
-                        onClick={() => del()}
+                        onClick={handleDelete}
                       >
                         Delete
                       </p>
