@@ -1,8 +1,4 @@
-import {
-  faEdit,
-  faEllipsisV,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "cloudinary-react";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
@@ -55,7 +51,10 @@ const BeerCard = ({ beer }: Props) => {
           <Dropdown>
             {({ dropdownProps, handleToggle, isOpen }) => (
               <>
-                <div className="cursor-pointer -mt-2 p-2" onClick={handleToggle}>
+                <div
+                  className="cursor-pointer -mt-2 p-2"
+                  onClick={handleToggle}
+                >
                   <FontAwesomeIcon
                     className={`text-${colors.gray}`}
                     icon={faEllipsisV}
@@ -75,16 +74,10 @@ const BeerCard = ({ beer }: Props) => {
                       </span> */}
 
                       <p
-                        className="cursor-pointer p-2 hover:font-semibold"
+                        className={`cursor-pointer p-2 hover:color-${colors.primaryAccent}`}
                         onClick={() => del()}
                       >
-                        <FontAwesomeIcon
-                          className={`mr-2 text-${colors.gray}`}
-                          fixedWidth
-                          icon={faTrash}
-                        />
-
-                        <span>Delete</span>
+                        Delete
                       </p>
                     </div>
                   </div>
