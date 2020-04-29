@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 import { Middleware } from "next-connect";
 
-mongoose.set('useCreateIndex', true);
+import "../models/beer";
+import "../models/brewery";
+import "../models/user";
+
+mongoose.set("useCreateIndex", true);
 
 const database: Middleware = async (req, res, next) => {
   if (mongoose.connections[0].readyState) {
