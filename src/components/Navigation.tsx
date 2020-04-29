@@ -1,21 +1,19 @@
 import { faBeer, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NextLink from "next/link";
-import React, { useRef, useState } from "react";
+import React from "react";
 
 import useFetch from "../hooks/useFetch";
-import useOnClickOutside from "../hooks/useOnClickOutside";
 import useUser from "../hooks/useUser";
 
 import Avatar from "./ui/Avatar";
 import { Button, ButtonLink } from "./ui/Buttons";
+import Dropdown from "./ui/Dropdown";
 import { Link } from "./ui/Typography";
 import colors from "./ui/colors";
 
 const Navigation = () => {
   const { del } = useFetch("/api/logout");
-  const dropdownRef = useRef();
-  const [isOpen, setIsOpen] = useState(false);
   const { mutate, user } = useUser();
 
   const handleLogout = async () => {
@@ -23,10 +21,6 @@ const Navigation = () => {
 
     mutate(null);
   };
-
-  const onToggle = () => setIsOpen(!isOpen);
-
-  useOnClickOutside(dropdownRef, () => setIsOpen(false));
 
   return (
     <nav
@@ -69,34 +63,38 @@ const Navigation = () => {
 
       <div>
         {user ? (
-          <div ref={dropdownRef}>
-            <div className="py-2" onClick={onToggle}>
-              <Avatar />
-            </div>
-
-            {isOpen && (
-              <div className="absolute bg-white border mr-6 mt-0 p-4 right-0 rounded shadow-xl w-48">
-                <div className="flex flex-col">
-                  <span
-                    className={`border-b border-${colors.grayLight} py-2`}
-                  >
-                    Cheers {user.name}!
-                  </span>
-
-                  <div
-                    className={`border-b border-${colors.grayLight} mb-2 py-2 flex flex-col mb-1 sm:hidden`}
-                  >
-                    <Link href="/home">Home</Link>
-                    <Link href="/my/beers">My Beers</Link>
-                  </div>
-
-                  <Button borderless onClick={handleLogout}>
-                    Log out
-                  </Button>
+          <Dropdown>
+            {({ dropdownProps, handleToggle, isOpen }) => (
+              <>
+                <div className="cursor-pointer py-2" onClick={handleToggle}>
+                  <Avatar />
                 </div>
-              </div>
+
+                {isOpen && (
+                  <div {...dropdownProps}>
+                    <div className="flex flex-col">
+                      <span
+                        className={`border-b border-${colors.grayLight} py-2`}
+                      >
+                        Cheers {user.name}!
+                      </span>
+
+                      <div
+                        className={`border-b border-${colors.grayLight} mb-2 py-2 flex flex-col mb-1 sm:hidden`}
+                      >
+                        <Link href="/home">Home</Link>
+                        <Link href="/my/beers">My Beers</Link>
+                      </div>
+
+                      <Button borderless onClick={handleLogout}>
+                        Log out
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
-          </div>
+          </Dropdown>
         ) : (
           <>
             <ButtonLink borderless href="/login">

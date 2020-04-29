@@ -1,11 +1,11 @@
 import { NextApiHandler } from "next";
 import nextConnect from "next-connect";
 
-import authenticationMiddleware from "../../middlewares/authentication";
-import commonMiddleware from "../../middlewares/common";
-import { NextAuthenticatedApiHandler } from "../../middlewares/passport";
-import Beer, { BeerDocument } from "../../models/beer";
-import Brewery, { BreweryDocument } from "../../models/brewery";
+import authenticationMiddleware from "../../../middlewares/authentication";
+import commonMiddleware from "../../../middlewares/common";
+import { NextAuthenticatedApiHandler } from "../../../middlewares/passport";
+import Beer, { BeerDocument } from "../../../models/beer";
+import Brewery, { BreweryDocument } from "../../../models/brewery";
 
 const getBreweryByName = async (name: BreweryDocument["name"]) => {
   const brewery = await Brewery.findOne({ name });

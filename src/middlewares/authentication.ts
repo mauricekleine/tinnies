@@ -3,7 +3,7 @@ import { NextHandler } from "next-connect";
 
 import { NextAuthenticatedApiRequest } from "./passport";
 
-const withAuthentication = (
+const authenticationMiddleware = (
   req: NextAuthenticatedApiRequest,
   res: NextApiResponse,
   next: NextHandler
@@ -15,4 +15,4 @@ const withAuthentication = (
   res.status(401).end();
 };
 
-export default withAuthentication;
+export default authenticationMiddleware;

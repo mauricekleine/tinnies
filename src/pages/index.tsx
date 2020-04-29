@@ -2,8 +2,11 @@ import Head from "next/head";
 import React from "react";
 
 import { Title } from "../components/ui/Typography";
+import useAuthentication from "../hooks/useAuthentication";
 
 const Home = () => {
+  useAuthentication({ isPublic: true });
+
   return (
     <>
       <Head>

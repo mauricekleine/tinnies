@@ -1,8 +1,8 @@
 import { UserDocument } from "../models/user";
 
 export type ExtractedUser = {
+  _id?: UserDocument["id"];
   email: UserDocument["email"];
-  id?: UserDocument["id"];
   name: UserDocument["name"];
 };
 
@@ -11,11 +11,11 @@ const extractUser = (user?: UserDocument) => {
     return null;
   }
 
-  const { email, id, name }: ExtractedUser = user;
+  const { _id, email, name }: ExtractedUser = user;
 
   return {
+    _id,
     email,
-    id,
     name,
   };
 };
