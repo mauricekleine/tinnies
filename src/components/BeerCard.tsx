@@ -38,7 +38,7 @@ const BeerCard = ({ beer }: Props) => {
         <div className="flex items-center">
           <Avatar />
 
-          <div className="flex flex-col">
+          <div className="flex flex-col leading-snug">
             <p className="truncate w-40">
               <span className={`font-semibold text-${colors.primaryAccent}`}>
                 {`${beer.addedBy.name} `}
