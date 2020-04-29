@@ -4,6 +4,8 @@ import authenticationMiddleware from "../../../middlewares/authentication";
 import commonMiddleware from "../../../middlewares/common";
 import { NextAuthenticatedApiHandler } from "../../../middlewares/passport";
 import Beer, { BeerDocument } from "../../../models/beer";
+import Brewery from "../../../models/brewery";
+import User from "../../../models/user";
 
 const handleGetRequest: NextAuthenticatedApiHandler<BeerDocument[]> = async (
   req,
@@ -11,8 +13,8 @@ const handleGetRequest: NextAuthenticatedApiHandler<BeerDocument[]> = async (
 ) => {
   try {
     const beers = await Beer.find({ addedBy: req.user._id })
-      .populate("addedBy")
-      .populate("brewery")
+      .populate({ model: User, path: "addedBy" })
+      .populate({ model: Brewery, path: "brewery" })
       .sort({ createdAt: -1 });
 
     res.status(200).json(beers);

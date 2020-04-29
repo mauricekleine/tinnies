@@ -6,6 +6,7 @@ import commonMiddleware from "../../../middlewares/common";
 import { NextAuthenticatedApiHandler } from "../../../middlewares/passport";
 import Beer, { BeerDocument } from "../../../models/beer";
 import Brewery, { BreweryDocument } from "../../../models/brewery";
+import User from "../../../models/user";
 
 const getBreweryByName = async (name: BreweryDocument["name"]) => {
   const brewery = await Brewery.findOne({ name });
@@ -19,8 +20,8 @@ const getBreweryByName = async (name: BreweryDocument["name"]) => {
 
 const handleGetRequest: NextApiHandler<BeerDocument[]> = async (req, res) => {
   const beers = await Beer.find()
-    .populate("addedBy")
-    .populate("brewery")
+    .populate({ model: User, path: "addedBy" })
+    .populate({ model: Brewery, path: "brewery" })
     .sort({ createdAt: -1 });
 
   res.status(200).json(beers);
@@ -48,8 +49,8 @@ const handlePostRequest: NextAuthenticatedApiHandler<
   });
 
   const beers = await Beer.find()
-    .populate("addedBy")
-    .populate("brewery")
+    .populate({ model: User, path: "addedBy" })
+    .populate({ model: Brewery, path: "brewery" })
     .sort({ createdAt: -1 });
 
   res.status(201).json(beers);
