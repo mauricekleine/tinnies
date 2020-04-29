@@ -1,14 +1,16 @@
 import Head from "next/head";
 import React from "react";
+import useSWR from "swr";
 
 import BeerCard from "../../components/BeerCard";
-import {  useMyBeers } from "../../hooks/hooks";
 import useAuthentication from "../../hooks/useAuthentication";
+import { BeerDocument } from "../../models/beer";
+import { READ_MY_BEERS_RESOURCE } from "../../utils/endpoints";
 
-const Home = () => {
+const MyBeers = () => {
   useAuthentication();
 
-  const { beers } = useMyBeers();
+  const { data: beers } = useSWR<BeerDocument[]>(READ_MY_BEERS_RESOURCE);
 
   return (
     <>
@@ -16,11 +18,9 @@ const Home = () => {
         <title>My Beers | Tinnies</title>
       </Head>
 
-      {beers.map((beer) => (
-        <BeerCard beer={beer} key={beer._id} />
-      ))}
+      {beers && beers.map((beer) => <BeerCard beer={beer} key={beer._id} />)}
     </>
   );
 };
 
-export default Home;
+export default MyBeers;

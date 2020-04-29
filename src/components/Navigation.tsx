@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NextLink from "next/link";
 import React, { useRef, useState } from "react";
 
-import { useUser } from "../hooks/hooks";
 import useFetch from "../hooks/useFetch";
 import useOnClickOutside from "../hooks/useOnClickOutside";
+import useUser from "../hooks/useUser";
 
 import Avatar from "./ui/Avatar";
 import { Button, ButtonLink } from "./ui/Buttons";
@@ -36,8 +36,9 @@ const Navigation = () => {
         <NextLink href="/">
           <a className={`flex items-center text-${colors.white} mr-4`}>
             <FontAwesomeIcon
-              className="h-8 mr-1 w-8 transform -rotate-45"
+              className="mr-2 transform -rotate-45"
               icon={faBeer}
+              size="2x"
             />
 
             <span className="font-semibold md:text-xl">Tinnies</span>

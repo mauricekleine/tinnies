@@ -5,11 +5,13 @@ import React, {
   MouseEventHandler,
 } from "react";
 
+import Spinner from "./Spinner";
 import colors from "./colors";
 
 type ButtonProps = {
   borderless?: boolean;
   children: React.ReactNode;
+  isLoading?: boolean;
   onClick: MouseEventHandler;
 } & DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -30,6 +32,7 @@ const getButtonClasses = ({ borderless }: { borderless: boolean }) => {
 export const Button = ({
   borderless,
   children,
+  isLoading,
   onClick,
   ...props
 }: ButtonProps) => (
@@ -38,7 +41,7 @@ export const Button = ({
     onClick={onClick}
     {...props}
   >
-    {children}
+    {isLoading ? <Spinner /> : children}
   </button>
 );
 

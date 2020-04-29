@@ -27,7 +27,7 @@ const BeerCard = ({ beer }: Props) => (
           <span className="hidden ml-1 sm:inline-block">rated a beer</span>
 
           <div className="mx-1">
-            <Rating size={4} value={beer.rating} />
+            <Rating value={beer.rating} />
           </div>
         </div>
 

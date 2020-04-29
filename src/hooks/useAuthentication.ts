@@ -1,20 +1,26 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-import { useUser } from "./hooks";
+import useUser from "./useUser";
 
-const useAuthentication = (fallback = "/") => {
+const useAuthentication = ({
+  isPublic = false,
+  fallback = isPublic ? "/home" : "/",
+} = {}) => {
   const router = useRouter();
-  const { user } = useUser();
+  const { isValidating, user } = useUser();
 
   useEffect(() => {
-    if (user || user === undefined) {
-      return;
+    if (isValidating) {
+      return; // data is being loaded
     }
 
-    router.replace(fallback);
+    if ((user && isPublic) || (!user && !isPublic)) {
+      router.replace(fallback);
+    }
+
     return;
-  }, [fallback, router, user]);
+  }, [fallback, isPublic, isValidating, router, user]);
 };
 
 export default useAuthentication;

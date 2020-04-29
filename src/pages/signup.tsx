@@ -1,15 +1,15 @@
 import { Form, Formik } from "formik";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 import * as yup from "yup";
 
 import { Button } from "../components/ui/Buttons";
 import Card from "../components/ui/Card";
 import FormField from "../components/ui/FormField";
 import { Title } from "../components/ui/Typography";
-import { useUser } from "../hooks/hooks";
+import useAuthentication from "../hooks/useAuthentication";
 import useFetch from "../hooks/useFetch";
+import useUser from "../hooks/useUser";
 import { UserDocument } from "../models/user";
 
 const SignupSchema = yup.object().shape({
@@ -19,15 +19,10 @@ const SignupSchema = yup.object().shape({
 });
 
 const SignupPage = () => {
-  const { post } = useFetch<UserDocument>("/api/signup");
-  const router = useRouter();
-  const { mutate, user } = useUser();
+  useAuthentication({ isPublic: true });
 
-  useEffect(() => {
-    if (user) {
-      router.replace("/home");
-    }
-  }, [router, user]);
+  const { post } = useFetch<UserDocument>("/api/signup");
+  const { mutate } = useUser();
 
   const onSubmit = async (values, { setSubmitting }) => {
     setSubmitting(true);
@@ -67,6 +62,7 @@ const SignupPage = () => {
 
               <Button
                 disabled={isSubmitting}
+                isLoading={isSubmitting}
                 onClick={submitForm}
                 type="submit"
               >

@@ -1,14 +1,16 @@
 import Head from "next/head";
 import React from "react";
+import useSWR from "swr";
 
 import BeerCard from "../components/BeerCard";
-import { useBeers } from "../hooks/hooks";
 import useAuthentication from "../hooks/useAuthentication";
+import { BeerDocument } from "../models/beer";
+import { READ_BEERS_RESOURCE } from "../utils/endpoints";
 
 const Home = () => {
   useAuthentication();
 
-  const { beers } = useBeers();
+  const { data: beers } = useSWR<BeerDocument[]>(READ_BEERS_RESOURCE);
 
   return (
     <>
@@ -16,7 +18,7 @@ const Home = () => {
         <title>Recent updates | Tinnies</title>
       </Head>
 
-      {beers.map((beer) => (
+      {beers && beers.map((beer) => (
         <BeerCard beer={beer} key={beer._id} />
       ))}
     </>

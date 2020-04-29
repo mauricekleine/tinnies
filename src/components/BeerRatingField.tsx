@@ -23,6 +23,7 @@ const BeerRatingField = ({ label, name }: Props) => {
 
       <Rating
         onClick={(rating) => helpers.setValue(rating)}
+        size={2}
         value={field.value}
       />
 

@@ -1,3 +1,4 @@
+import { SizeProp } from "@fortawesome/fontawesome-svg-core";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as fasStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,14 +16,15 @@ type Props = {
   value: BeerDocument["rating"];
 };
 
-const Rating = ({ onClick, size = 8, value }: Props) => (
-  <div className={`flex items-center ${size > 4 && "-ml-1"}`}>
+const Rating = ({ onClick, size = 1, value }: Props) => (
+  <div className={`flex items-center ${size > 1 && "-ml-1"}`}>
     {RATING_VALUES.map((rating) => (
-      <div className={size > 4 ? "px-1" : "pr-1"} key={rating}>
+      <div className={size > 1 ? "px-1" : "pr-1"} key={rating}>
         <FontAwesomeIcon
-          className={`h-${size} text-${colors.yellow} w-${size}`}
+          className={`text-${colors.yellow}`}
           icon={rating <= value ? fasStar : farStar}
           onClick={() => onClick && onClick(rating)}
+          size={`${size}x` as SizeProp}
         />
       </div>
     ))}

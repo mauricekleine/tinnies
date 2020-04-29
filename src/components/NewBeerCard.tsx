@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
 
-import { useBeers } from "../hooks/hooks";
 import useFetch from "../hooks/useFetch";
 import { BeerDocument } from "../models/beer";
 import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "../utils/imageConfig";
@@ -34,7 +33,6 @@ const NewBeerSchema = yup.object().shape({
 });
 
 const NewBeerCard = () => {
-  const { mutate } = useBeers();
   const { post } = useFetch<BeerDocument[]>("/api/beers");
   const router = useRouter();
 
@@ -55,15 +53,13 @@ const NewBeerCard = () => {
 
     const { public_id: imageId } = await cloudinaryResponse.json();
 
-    const { json, status } = await post({
+    const { status } = await post({
       body: JSON.stringify({ ...values, image: imageId }),
     });
 
     setSubmitting(false);
 
     if (status === 201) {
-      mutate(json);
-
       router.replace("/home");
     } else {
       // $TODO: handle error
@@ -86,7 +82,12 @@ const NewBeerCard = () => {
             <FormField label="Name" name="name" type="text" />
             <BeerRatingField label="Rating" name="rating" />
 
-            <Button disabled={isSubmitting} onClick={submitForm} type="submit">
+            <Button
+              disabled={isSubmitting}
+              isLoading={isSubmitting}
+              onClick={submitForm}
+              type="submit"
+            >
               Add
             </Button>
           </Form>

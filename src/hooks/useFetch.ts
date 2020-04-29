@@ -1,3 +1,4 @@
+import fetch from "isomorphic-unfetch";
 import { Reducer, useReducer } from "react";
 
 type Action = {
@@ -102,7 +103,7 @@ const useFetch = <T>(url: RequestInfo) => {
     } catch (e) {
       dispatch({
         payload: { error: e },
-        type: "success",
+        type: "error",
       });
     }
   };
