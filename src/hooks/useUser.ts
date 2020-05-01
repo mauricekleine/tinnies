@@ -14,7 +14,7 @@ const useUser = () => {
   return {
     error,
     isValidating,
-    mutate: mutate,
+    mutate,
     user,
   };
 };

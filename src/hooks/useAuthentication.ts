@@ -1,26 +1,51 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
+import { UserDocument } from "../models/user";
+import { READ_MY_PROFILE_RESOURCE } from "../utils/endpoints";
+
+import useFetch from "./useFetch";
 import useUser from "./useUser";
 
-const useAuthentication = ({
-  isPublic = false,
-  fallback = isPublic ? "/home" : "/",
-} = {}) => {
+const UNAUTHENTICATED_ROUTES = ["/", "/login", "/signup"];
+
+const useAuthentication = () => {
+  const { get, isFetching } = useFetch<UserDocument>(READ_MY_PROFILE_RESOURCE);
   const router = useRouter();
-  const { isValidating, user } = useUser();
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const { mutate, user } = useUser();
 
   useEffect(() => {
-    if (isValidating) {
-      return; // data is being loaded
-    }
+    const redirectIfNeeded = async () => {
+      const isPublicRoute = UNAUTHENTICATED_ROUTES.includes(router.route);
+      const fallback = isPublicRoute ? "/home" : "/";
 
-    if ((user && isPublic) || (!user && !isPublic)) {
-      router.replace(fallback);
-    }
+      const redirect = async () => {
+        setIsRedirecting(true);
+        await router.replace(fallback);
+        setIsRedirecting(false);
+      };
 
-    return;
-  }, [fallback, isPublic, isValidating, router, user]);
+      if (!user) {
+        try {
+          const { json } = await get();
+          await mutate(json);
+        } catch (e) {
+          if (!isPublicRoute) {
+            redirect();
+          }
+        }
+      }
+
+      if (isPublicRoute && user) {
+        redirect();
+      }
+    };
+
+    redirectIfNeeded();
+  }, [get, isRedirecting, mutate, router, user]);
+
+  return !isFetching && !isRedirecting;
 };
 
 export default useAuthentication;

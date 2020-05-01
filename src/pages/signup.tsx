@@ -7,7 +7,6 @@ import { Button } from "../components/ui/Buttons";
 import Card from "../components/ui/Card";
 import FormField from "../components/ui/FormField";
 import { Title } from "../components/ui/Typography";
-import useAuthentication from "../hooks/useAuthentication";
 import useFetch from "../hooks/useFetch";
 import useUser from "../hooks/useUser";
 import { UserDocument } from "../models/user";
@@ -19,8 +18,6 @@ const SignupSchema = yup.object().shape({
 });
 
 const SignupPage = () => {
-  useAuthentication({ isPublic: true });
-
   const { post } = useFetch<UserDocument>("/api/signup");
   const { mutate } = useUser();
 

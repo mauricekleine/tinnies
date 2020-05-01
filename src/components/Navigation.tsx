@@ -1,6 +1,7 @@
 import { faBeer, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 import useFetch from "../hooks/useFetch";
@@ -14,12 +15,13 @@ import colors from "./ui/colors";
 
 const Navigation = () => {
   const { del } = useFetch("/api/logout");
+  const router = useRouter();
   const { mutate, user } = useUser();
 
   const handleLogout = async () => {
     await del();
-
-    mutate(null);
+    await mutate(null);
+    router.replace("/");
   };
 
   return (
@@ -66,7 +68,7 @@ const Navigation = () => {
           <Dropdown>
             {({ dropdownProps, handleToggle, isOpen }) => (
               <>
-                <div className="cursor-pointer py-2" onClick={handleToggle}>
+                <div className="cursor-pointer" onClick={handleToggle}>
                   <Avatar />
                 </div>
 

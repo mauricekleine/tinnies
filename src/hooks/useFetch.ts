@@ -1,5 +1,5 @@
 import fetch from "isomorphic-unfetch";
-import { Reducer, useReducer } from "react";
+import { Reducer, useReducer, useRef } from "react";
 
 type Action = {
   type: "error" | "fetching" | "success";
@@ -108,13 +108,17 @@ const useFetch = <T>(url: RequestInfo) => {
     }
   };
 
+  const del = useRef(customFetch("DELETE")).current;
+  const get = useRef(customFetch("GET")).current;
+  const post = useRef(customFetch("POST")).current;
+
   return {
-    del: customFetch("DELETE"),
+    del,
     error,
-    get: customFetch("GET"),
+    get,
     isFetching,
     json,
-    post: customFetch("POST"),
+    post,
     status,
   };
 };
