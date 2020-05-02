@@ -3,12 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "cloudinary-react";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import React from "react";
-import { mutate } from "swr";
 
 import useFetch from "../hooks/useFetch";
-import useUser from "../hooks/useUser";
 import { BeerDocument } from "../models/beer";
-import { READ_BEERS_RESOURCE } from "../utils/endpoints";
+import { UserDocument } from "../models/user";
+import {
+  READ_BEERS_RESOURCE,
+  READ_MY_PROFILE_RESOURCE,
+} from "../utils/endpoints";
 import { canDeleteBeer } from "../utils/permissions";
 
 import Avatar from "./ui/Avatar";
@@ -22,14 +24,16 @@ type Props = {
 };
 
 const BeerCard = ({ beer }: Props) => {
-  const { del } = useFetch(`${READ_BEERS_RESOURCE}/${beer._id}`);
-  const { user } = useUser();
+  const { del } = useFetch<BeerDocument[]>(
+    `${READ_BEERS_RESOURCE}/${beer._id}`,
+    { cacheKey: READ_BEERS_RESOURCE }
+  );
+  const { data: user } = useFetch<UserDocument>(READ_MY_PROFILE_RESOURCE);
 
   const canDelete = canDeleteBeer(beer, user);
+
   const handleDelete = async () => {
     await del();
-
-    mutate(READ_BEERS_RESOURCE);
   };
 
   return (

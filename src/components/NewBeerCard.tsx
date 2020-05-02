@@ -54,7 +54,7 @@ const NewBeerCard = () => {
     const { public_id: imageId } = await cloudinaryResponse.json();
 
     const { status } = await post({
-      body: JSON.stringify({ ...values, image: imageId }),
+      body: { ...values, image: imageId },
     });
 
     setSubmitting(false);

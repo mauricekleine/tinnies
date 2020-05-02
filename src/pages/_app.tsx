@@ -7,7 +7,6 @@ import { SWRConfig } from "swr";
 import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 import useAuthentication from "../hooks/useAuthentication";
-import { READ_MY_PROFILE_RESOURCE } from "../utils/endpoints";
 import fetcher from "../utils/fetcher";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -22,12 +21,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
-        <link
-          as="fetch"
-          crossOrigin="anonymous"
-          href={READ_MY_PROFILE_RESOURCE}
-          rel="preload"
-        />
 
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />

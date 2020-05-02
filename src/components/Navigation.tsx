@@ -1,11 +1,11 @@
 import { faBeer, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import React from "react";
 
 import useFetch from "../hooks/useFetch";
-import useUser from "../hooks/useUser";
+import { UserDocument } from "../models/user";
+import { LOGOUT_RESOURCE, READ_MY_PROFILE_RESOURCE } from "../utils/endpoints";
 
 import Avatar from "./ui/Avatar";
 import { Button, ButtonLink } from "./ui/Buttons";
@@ -14,14 +14,12 @@ import { Link } from "./ui/Typography";
 import colors from "./ui/colors";
 
 const Navigation = () => {
-  const { del } = useFetch("/api/logout");
-  const router = useRouter();
-  const { mutate, user } = useUser();
+  const { data: user, del } = useFetch<UserDocument>(LOGOUT_RESOURCE, {
+    cacheKey: READ_MY_PROFILE_RESOURCE,
+  });
 
   const handleLogout = async () => {
     await del();
-    await mutate(null);
-    router.replace("/");
   };
 
   return (

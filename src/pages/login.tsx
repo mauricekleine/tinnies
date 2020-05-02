@@ -8,8 +8,8 @@ import Card from "../components/ui/Card";
 import FormField from "../components/ui/FormField";
 import { Title } from "../components/ui/Typography";
 import useFetch from "../hooks/useFetch";
-import useUser from "../hooks/useUser";
 import { UserDocument } from "../models/user";
+import { LOGIN_RESOURCE, READ_MY_PROFILE_RESOURCE } from "../utils/endpoints";
 
 const LoginSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Required"),
@@ -17,23 +17,18 @@ const LoginSchema = yup.object().shape({
 });
 
 const LoginPage = () => {
-  const { post } = useFetch<UserDocument>("/api/login");
-  const { mutate } = useUser();
+  const { post } = useFetch<UserDocument>(LOGIN_RESOURCE, {
+    cacheKey: READ_MY_PROFILE_RESOURCE,
+  });
 
   const onSubmit = async (values, { setSubmitting }) => {
     setSubmitting(true);
 
-    const { json, status } = await post({
-      body: JSON.stringify(values),
+    await post({
+      body: values,
     });
 
     setSubmitting(false);
-
-    if (status === 200) {
-      mutate(json);
-    } else {
-      // $TODO: handle error
-    }
   };
 
   return (
