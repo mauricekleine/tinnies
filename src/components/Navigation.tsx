@@ -14,9 +14,12 @@ import { Link } from "./ui/Typography";
 import colors from "./ui/colors";
 
 const Navigation = () => {
-  const { data: user, del } = useFetch<UserDocument>(LOGOUT_RESOURCE, {
-    cacheKey: READ_MY_PROFILE_RESOURCE,
-  });
+  const { data: user, del, isFetching } = useFetch<UserDocument>(
+    LOGOUT_RESOURCE,
+    {
+      cacheKey: READ_MY_PROFILE_RESOURCE,
+    }
+  );
 
   const handleLogout = async () => {
     await del();
@@ -96,13 +99,15 @@ const Navigation = () => {
             )}
           </Dropdown>
         ) : (
-          <>
-            <ButtonLink borderless href="/login">
-              Log in
-            </ButtonLink>
+          !isFetching && (
+            <>
+              <ButtonLink borderless href="/login">
+                Log in
+              </ButtonLink>
 
-            <ButtonLink href="/signup">Sign up</ButtonLink>
-          </>
+              <ButtonLink href="/signup">Sign up</ButtonLink>
+            </>
+          )
         )}
       </div>
     </nav>
