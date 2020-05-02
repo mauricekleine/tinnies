@@ -1,5 +1,6 @@
 export const LOGIN_RESOURCE = "/api/login";
 export const LOGOUT_RESOURCE = "/api/logout";
+export const SIGNUP_RESOURCE = "/api/signup";
 
 export const READ_BEERS_RESOURCE = "/api/beers";
 

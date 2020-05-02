@@ -9,7 +9,7 @@ import FormField from "../components/ui/FormField";
 import { Title } from "../components/ui/Typography";
 import useFetch from "../hooks/useFetch";
 import { UserDocument } from "../models/user";
-import { LOGIN_RESOURCE, READ_MY_PROFILE_RESOURCE } from "../utils/endpoints";
+import { LOGIN_RESOURCE, READ_MY_PROFILE_RESOURCE, SIGNUP_RESOURCE } from "../utils/endpoints";
 
 const SignupSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Required"),
@@ -18,7 +18,7 @@ const SignupSchema = yup.object().shape({
 });
 
 const SignupPage = () => {
-  const { post } = useFetch<UserDocument>(LOGIN_RESOURCE, {
+  const { post } = useFetch<UserDocument>(SIGNUP_RESOURCE, {
     cacheKey: READ_MY_PROFILE_RESOURCE,
   });
 
