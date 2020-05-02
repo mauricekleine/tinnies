@@ -43,7 +43,7 @@ const createReducer = () => <T>(state: State<T>, action: Action<T>) => {
 type UseFetchOptions = {
   cacheKey?: RequestInfo;
   getOnInit?: boolean;
-  revalidateOnFocus?: boolean;
+  getOnVisibilityChange?: boolean;
 };
 
 const useFetch = <T>(url: RequestInfo, options: UseFetchOptions = {}) => {
@@ -87,8 +87,6 @@ const useFetch = <T>(url: RequestInfo, options: UseFetchOptions = {}) => {
         type: "success",
       });
 
-      cache.sweep(cacheKey);
-
       return { status: res.status };
     }
 
@@ -123,20 +121,31 @@ const useFetch = <T>(url: RequestInfo, options: UseFetchOptions = {}) => {
   useEffect(() => {
     cache.subscribe<Action<T>>(cacheKey, dispatch);
 
-    const getOnFocus = () => get();
-
-    if (options.revalidateOnFocus) {
-      window.addEventListener("focus", getOnFocus, false);
-    }
-
     return () => {
       cache.unsubscribe<Action<T>>(cacheKey, dispatch);
-
-      if (options.revalidateOnFocus) {
-        window.removeEventListener("focus", getOnFocus, false);
-      }
     };
-  }, [cacheKey, get, options.revalidateOnFocus]);
+  }, [cacheKey]);
+
+  // Revalidate on focus
+  useEffect(() => {
+    if (options.getOnVisibilityChange) {
+      const onVisibilityChange = () => {
+        if (document.visibilityState === "visible") {
+          get();
+        }
+      };
+
+      window.addEventListener("visibilitychange", onVisibilityChange, false);
+
+      return () => {
+        window.removeEventListener(
+          "visibilitychange",
+          onVisibilityChange,
+          false
+        );
+      };
+    }
+  }, [get, options.getOnVisibilityChange]);
 
   // Fetch data on init
   useEffect(() => {

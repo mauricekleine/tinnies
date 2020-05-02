@@ -45,13 +45,6 @@ class Cache {
       return this.dispatchers.set(key, result);
     }
   };
-
-  // sweep
-
-  public sweep = (key) => {
-    this.delete(key);
-    this.dispatchers.delete(key);
-  };
 }
 
 const cache = new Cache();

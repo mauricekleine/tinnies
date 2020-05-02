@@ -5,11 +5,11 @@ type State<T> = {
   status: Response["status"];
 };
 
-export const createInitialState = <T>(cached: T) =>
+export const createInitialState = <T>(cached: T, getOnInit = false) =>
   ({
     data: cached,
     error: undefined,
-    isFetching: false,
+    isFetching: getOnInit,
     status: undefined,
   } as State<T>);
 

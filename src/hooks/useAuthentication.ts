@@ -11,7 +11,7 @@ const UNAUTHENTICATED_ROUTES = ["/", "/login", "/signup"];
 const useAuthentication = () => {
   const { data: user, get, isFetching } = useFetch<UserDocument>(
     READ_MY_PROFILE_RESOURCE,
-    { revalidateOnFocus: true }
+    { getOnInit: true, getOnVisibilityChange: true }
   );
   const router = useRouter();
   const [isRedirecting, setIsRedirecting] = useState(false);
