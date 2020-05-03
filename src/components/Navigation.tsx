@@ -14,7 +14,7 @@ import { Link } from "./ui/Typography";
 import colors from "./ui/colors";
 
 const Navigation = () => {
-  const { data: user, del, isFetching } = useFetch<UserDocument>(
+  const { data: user, del, isLoading } = useFetch<UserDocument>(
     LOGOUT_RESOURCE,
     {
       cacheKey: READ_MY_PROFILE_RESOURCE,
@@ -99,7 +99,7 @@ const Navigation = () => {
             )}
           </Dropdown>
         ) : (
-          !isFetching && (
+          !isLoading && (
             <>
               <ButtonLink borderless href="/login">
                 Log in

@@ -5,6 +5,7 @@ import React from "react";
 
 import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
+import colors from "../components/ui/colors";
 import useAuthentication from "../hooks/useAuthentication";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -24,7 +25,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      <div className="bg-gray-200 flex flex-col font-light min-h-screen">
+      <div
+        className={`bg-${colors.grayLighter} flex flex-col font-light min-h-screen`}
+      >
         <Navigation />
 
         <div className="flex-1 mx-auto mb-4 mt-8 w-4/5 md:w-3/5 lg:w-2/5">

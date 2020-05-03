@@ -3,6 +3,7 @@ const base = "indigo";
 export default {
   gray: "gray-700",
   grayLight: "gray-400",
+  grayLighter: "gray-200",
   primary: `${base}-500`,
   primaryAccent: `${base}-800`,
   red: "red-500",

@@ -14,7 +14,7 @@ const createReducer = () => <T>(state: State<T>, action: Action<T>) => {
     return {
       data: undefined,
       error: action.payload.error,
-      isFetching: false,
+      isLoading: false,
       status: undefined,
     };
   }
@@ -23,7 +23,7 @@ const createReducer = () => <T>(state: State<T>, action: Action<T>) => {
     return {
       data: undefined,
       error: undefined,
-      isFetching: true,
+      isLoading: true,
       status: undefined,
     };
   }
@@ -32,7 +32,7 @@ const createReducer = () => <T>(state: State<T>, action: Action<T>) => {
     return {
       data: action.payload.data,
       error: undefined,
-      isFetching: false,
+      isLoading: false,
       status: action.payload.status,
     };
   }
@@ -50,11 +50,11 @@ const useFetch = <T>(url: RequestInfo, options: UseFetchOptions = {}) => {
   // Create reducer and initial state based on cache
   const cacheKey = options.cacheKey || url;
   const cached = cache.get<T>(cacheKey);
-  const initialState = createInitialState(cached);
+  const initialState = createInitialState(cached, options.getOnInit);
   const reducer = createReducer();
 
   // Initialize the reducer
-  const [{ data, error, isFetching, status }, dispatch] = useReducer<
+  const [{ data, error, isLoading, status }, dispatch] = useReducer<
     Reducer<State<T>, Action<T>>
   >(reducer, initialState);
 
@@ -159,7 +159,7 @@ const useFetch = <T>(url: RequestInfo, options: UseFetchOptions = {}) => {
     del,
     error,
     get,
-    isFetching,
+    isLoading,
     post,
     status,
   };

@@ -9,7 +9,7 @@ import useFetch from "./useFetch";
 const UNAUTHENTICATED_ROUTES = ["/", "/login", "/signup"];
 
 const useAuthentication = () => {
-  const { data: user, get, isFetching } = useFetch<UserDocument>(
+  const { data: user, get, isLoading } = useFetch<UserDocument>(
     READ_MY_PROFILE_RESOURCE,
     { getOnInit: true, getOnVisibilityChange: true }
   );
@@ -43,7 +43,7 @@ const useAuthentication = () => {
     redirectIfNeeded();
   }, [get, isRedirecting, router, user]);
 
-  return !isFetching && !isRedirecting;
+  return !isLoading && !isRedirecting;
 };
 
 export default useAuthentication;

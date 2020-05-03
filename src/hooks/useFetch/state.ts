@@ -1,15 +1,15 @@
 type State<T> = {
   data: T;
   error: Error;
-  isFetching: boolean;
+  isLoading: boolean;
   status: Response["status"];
 };
 
-export const createInitialState = <T>(cached: T, getOnInit = false) =>
+export const createInitialState = <T>(cached: T, isInitialyLoading = false) =>
   ({
     data: cached,
     error: undefined,
-    isFetching: getOnInit,
+    isLoading: isInitialyLoading,
     status: undefined,
   } as State<T>);
 

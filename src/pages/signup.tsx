@@ -9,7 +9,7 @@ import FormField from "../components/ui/FormField";
 import { Title } from "../components/ui/Typography";
 import useFetch from "../hooks/useFetch";
 import { UserDocument } from "../models/user";
-import { LOGIN_RESOURCE, READ_MY_PROFILE_RESOURCE, SIGNUP_RESOURCE } from "../utils/endpoints";
+import { READ_MY_PROFILE_RESOURCE, SIGNUP_RESOURCE } from "../utils/endpoints";
 
 const SignupSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Required"),
@@ -25,11 +25,14 @@ const SignupPage = () => {
   const onSubmit = async (values, { setSubmitting }) => {
     setSubmitting(true);
 
-    await post({
-      body: values,
-    });
-
-    setSubmitting(false);
+    try {
+      await post({
+        body: values,
+      });
+    } catch (e) {
+      // $TODO: handle error
+      setSubmitting(false);
+    }
   };
 
   return (
