@@ -89,7 +89,11 @@ const Navigation = () => {
                         <Link href="/my/beers">My Beers</Link>
                       </div>
 
-                      <Button borderless onClick={handleLogout}>
+                      <Button
+                        borderless
+                        isLoading={isLoading}
+                        onClick={handleLogout}
+                      >
                         Log out
                       </Button>
                     </div>
