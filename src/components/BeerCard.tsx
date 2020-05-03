@@ -33,7 +33,11 @@ const BeerCard = ({ beer }: Props) => {
   const canDelete = canDeleteBeer(beer, user);
 
   const handleDelete = async () => {
-    await del();
+    const result = confirm("Are you sure?");
+
+    if (result) {
+      await del();
+    }
   };
 
   return (
