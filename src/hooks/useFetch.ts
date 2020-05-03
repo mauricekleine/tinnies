@@ -1,13 +1,14 @@
 import fetch from "isomorphic-unfetch";
-import { Reducer, useEffect, useReducer, useRef } from "react";
+import { Reducer, useCallback, useEffect, useReducer } from "react";
 
 import Action, {
   isErrorAction,
   isFetchAction,
   isSuccessAction,
-} from "./actions";
-import cache from "./cache";
-import State, { createInitialState } from "./state";
+} from "../utils/actions";
+import State, { createInitialState } from "../utils/state";
+
+import useCache, { UseCache } from "./useCache";
 
 const createReducer = () => <T>(state: State<T>, action: Action<T>) => {
   if (isErrorAction(action)) {
@@ -39,15 +40,74 @@ const createReducer = () => <T>(state: State<T>, action: Action<T>) => {
 };
 
 type UseFetchOptions = {
-  cacheKey?: RequestInfo;
+  cacheKey?: string;
   getOnInit?: boolean;
   getOnVisibilityChange?: boolean;
 };
 
-const useFetch = <T>(url: RequestInfo, options: UseFetchOptions = {}) => {
-  // Create reducer and initial state based on cache
+// Http request handler creator
+const createRequestHandler = <T>(
+  method: RequestInit["method"],
+  url: string,
+  cache: UseCache<T>
+) => async (options?: Omit<RequestInit, "headers" | "method">) => {
+  cache.notify({
+    type: "fetching",
+  });
+
+  const opts = {
+    ...options,
+    headers: { "Content-Type": "application/json" },
+    method,
+  };
+
+  if (options && options.body) {
+    opts.body = JSON.stringify(options.body);
+  }
+
+  const res = await fetch(url, opts);
+
+  if (method === "DELETE" && res.status === 204) {
+    cache.notify({
+      payload: {
+        data: undefined,
+        status: res.status,
+      },
+      type: "success",
+    });
+
+    return { status: res.status };
+  }
+
+  try {
+    const data: T = await res.json();
+
+    cache.notify({
+      payload: {
+        data,
+        status: res.status,
+      },
+      type: "success",
+    });
+
+    return { data, status: res.status };
+  } catch (e) {
+    cache.notify({
+      payload: { error: e, status: res.status },
+      type: "error",
+    });
+
+    return { status: res.status };
+  }
+};
+
+const useFetch = <T>(url: string, options: UseFetchOptions = {}) => {
+  // Initialize cache
   const cacheKey = options.cacheKey || url;
-  const cached = cache.get<T>(cacheKey);
+  const cache = useCache<T>(cacheKey);
+
+  // Create reducer and initial state based on cache
+  const cached = cache.get();
   const initialState = createInitialState(cached, options.getOnInit);
   const reducer = createReducer();
 
@@ -56,73 +116,19 @@ const useFetch = <T>(url: RequestInfo, options: UseFetchOptions = {}) => {
     Reducer<State<T>, Action<T>>
   >(reducer, initialState);
 
-  // Http request handler creator
-  const createRequestHandler = (method: RequestInit["method"]) => async (
-    options?: Omit<RequestInit, "headers" | "method">
-  ) => {
-    cache.notify<T>(cacheKey, {
-      type: "fetching",
-    });
-
-    const opts = {
-      ...options,
-      headers: { "Content-Type": "application/json" },
-      method,
-    };
-
-    if (options && options.body) {
-      opts.body = JSON.stringify(options.body);
-    }
-
-    const res = await fetch(url, opts);
-
-    if (method === "DELETE" && res.status === 204) {
-      cache.notify<T>(cacheKey, {
-        payload: {
-          data: undefined,
-          status: res.status,
-        },
-        type: "success",
-      });
-
-      return { status: res.status };
-    }
-
-    try {
-      const data: T = await res.json();
-
-      cache.notify<T>(cacheKey, {
-        payload: {
-          data,
-          status: res.status,
-        },
-        type: "success",
-      });
-
-      return { data, status: res.status };
-    } catch (e) {
-      cache.notify<T>(cacheKey, {
-        payload: { error: e, status: res.status },
-        type: "error",
-      });
-
-      return { status: res.status };
-    }
-  };
-
   // Http request handlers
-  const del = useRef(createRequestHandler("DELETE")).current;
-  const get = useRef(createRequestHandler("GET")).current;
-  const post = useRef(createRequestHandler("POST")).current;
+  const del = useCallback(createRequestHandler<T>("DELETE", url, cache), [url]);
+  const get = useCallback(createRequestHandler<T>("GET", url, cache), [url]);
+  const post = useCallback(createRequestHandler<T>("POST", url, cache), [url]);
 
   // Subscribe dispatch to the cache
   useEffect(() => {
-    cache.subscribe<Action<T>>(cacheKey, dispatch);
+    cache.subscribe(dispatch);
 
     return () => {
-      cache.unsubscribe<Action<T>>(cacheKey, dispatch);
+      cache.unsubscribe(dispatch);
     };
-  }, [cacheKey]);
+  }, [cache]);
 
   // Revalidate on focus
   useEffect(() => {
