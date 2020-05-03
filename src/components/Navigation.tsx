@@ -32,7 +32,7 @@ const Navigation = ({ isLoading, user }: Props) => {
       className={`bg-${colors.primary} border-b-2 border-${colors.primaryAccent} flex h-16 items-center justify-between px-6 py-3`}
     >
       <div className="flex">
-        <NextLink href="/">
+        <NextLink href={user ? "/home" : "/"}>
           <a className={`flex items-center text-${colors.white} mr-4`}>
             <FontAwesomeIcon
               className="mr-2 transform -rotate-45"
