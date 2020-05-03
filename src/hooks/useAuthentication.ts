@@ -35,7 +35,7 @@ const useAuthentication = () => {
     }
   }, [get, isRedirecting, router, status, user]);
 
-  return !isLoading && !isRedirecting;
+  return { isLoading, isRedirecting, user };
 };
 
 export default useAuthentication;

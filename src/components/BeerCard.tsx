@@ -40,7 +40,9 @@ const BeerCard = ({ beer }: Props) => {
     <Card px="0">
       <div className="flex justify-between px-6">
         <div className="flex items-center">
-          <Avatar />
+          <div className="mr-2">
+            <Avatar />
+          </div>
 
           <div className="flex flex-col leading-snug">
             <p className="truncate w-40">

@@ -13,13 +13,15 @@ import Dropdown from "./ui/Dropdown";
 import { Link } from "./ui/Typography";
 import colors from "./ui/colors";
 
-const Navigation = () => {
-  const { data: user, del, isLoading } = useFetch<UserDocument>(
-    LOGOUT_RESOURCE,
-    {
-      cacheKey: READ_MY_PROFILE_RESOURCE,
-    }
-  );
+type Props = {
+  isLoading: boolean;
+  user: UserDocument;
+};
+
+const Navigation = ({ isLoading, user }: Props) => {
+  const { del } = useFetch<UserDocument>(LOGOUT_RESOURCE, {
+    cacheKey: READ_MY_PROFILE_RESOURCE,
+  });
 
   const handleLogout = async () => {
     await del();
@@ -27,7 +29,7 @@ const Navigation = () => {
 
   return (
     <nav
-      className={`bg-${colors.primary} border-b-2 border-${colors.primaryAccent} flex items-center justify-between px-6 py-4`}
+      className={`bg-${colors.primary} border-b-2 border-${colors.primaryAccent} flex h-16 items-center justify-between px-6 py-3`}
     >
       <div className="flex">
         <NextLink href="/">
@@ -69,7 +71,7 @@ const Navigation = () => {
           <Dropdown>
             {({ dropdownProps, handleToggle, isOpen }) => (
               <>
-                <div className="cursor-pointer" onClick={handleToggle}>
+                <div className="cursor-pointer mr-2" onClick={handleToggle}>
                   <Avatar />
                 </div>
 
@@ -83,7 +85,7 @@ const Navigation = () => {
                       </span>
 
                       <div
-                        className={`border-b border-${colors.grayLight} mb-2 py-2 flex flex-col mb-1 sm:hidden`}
+                        className={`border-b border-${colors.grayLight} flex flex-col py-2 sm:hidden`}
                       >
                         <Link href="/home">Home</Link>
                         <Link href="/my/beers">My Beers</Link>
@@ -104,13 +106,13 @@ const Navigation = () => {
           </Dropdown>
         ) : (
           !isLoading && (
-            <>
+            <div className="flex">
               <ButtonLink borderless href="/login">
                 Log in
               </ButtonLink>
 
               <ButtonLink href="/signup">Sign up</ButtonLink>
-            </>
+            </div>
           )
         )}
       </div>

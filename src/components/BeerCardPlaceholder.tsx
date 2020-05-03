@@ -10,7 +10,9 @@ const BeerCardPlaceholder = () => (
     <Card px="0">
       <div className="flex justify-between px-6">
         <div className="flex items-center">
-          <Avatar />
+          <div className="mr-2">
+            <Avatar />
+          </div>
 
           <div
             className={`bg-${colors.grayLight} flex flex-col leading-snug rounded text-transparent`}

@@ -14,7 +14,8 @@ import "./styles.css";
 config.autoAddCss = false;
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const shouldRender = useAuthentication();
+  const { isLoading, isRedirecting, user } = useAuthentication();
+  const shouldRender = !isLoading && !isRedirecting;
 
   return (
     <>
@@ -28,7 +29,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <div
         className={`bg-${colors.grayLighter} flex flex-col font-light min-h-screen`}
       >
-        <Navigation />
+        <Navigation isLoading={isLoading} user={user} />
 
         <div className="flex-1 mx-auto mb-4 mt-8 w-4/5 md:w-3/5 lg:w-2/5">
           {shouldRender && <Component {...pageProps} />}
