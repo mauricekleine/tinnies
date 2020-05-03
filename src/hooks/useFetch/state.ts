@@ -2,8 +2,10 @@ type State<T> = {
   data: T;
   error: Error;
   isLoading: boolean;
-  status: Response["status"];
+  status: Status;
 };
+
+export type Status = Response["status"];
 
 export const createInitialState = <T>(cached: T, isInitialyLoading = false) =>
   ({

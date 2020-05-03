@@ -1,8 +1,9 @@
-import State from "./state";
+import State, { Status } from "./state";
 
 export type ErrorAction = {
   payload: {
     error: Error;
+    status: Status;
   };
   type: "error";
 };
@@ -14,7 +15,7 @@ export type FetchAction = {
 export type SuccessAction<T> = {
   payload: {
     data: State<T>["data"];
-    status: State<T>["status"];
+    status: Status;
   };
   type: "success";
 };

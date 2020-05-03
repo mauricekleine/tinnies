@@ -9,7 +9,7 @@ import useFetch from "./useFetch";
 const UNAUTHENTICATED_ROUTES = ["/", "/login", "/signup"];
 
 const useAuthentication = () => {
-  const { data: user, get, isLoading } = useFetch<UserDocument>(
+  const { data: user, get, isLoading, status } = useFetch<UserDocument>(
     READ_MY_PROFILE_RESOURCE,
     { getOnInit: true, getOnVisibilityChange: true }
   );
@@ -17,31 +17,23 @@ const useAuthentication = () => {
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
-    const redirectIfNeeded = async () => {
-      const isPublicRoute = UNAUTHENTICATED_ROUTES.includes(router.route);
-      const fallback = isPublicRoute ? "/home" : "/";
+    const isPublicRoute = UNAUTHENTICATED_ROUTES.includes(router.route);
+    const fallback = isPublicRoute ? "/home" : "/";
 
-      const redirect = async () => {
-        setIsRedirecting(true);
-        await router.replace(fallback);
-        setIsRedirecting(false);
-      };
-
-      if (!user) {
-        const { status } = await get();
-
-        if (status === 401 && !isPublicRoute) {
-          redirect();
-        }
-      }
-
-      if (isPublicRoute && user) {
-        redirect();
-      }
+    const redirect = async () => {
+      setIsRedirecting(true);
+      await router.replace(fallback);
+      setIsRedirecting(false);
     };
 
-    redirectIfNeeded();
-  }, [get, isRedirecting, router, user]);
+    if (!isPublicRoute && (status === 401 || !user)) {
+      redirect();
+    }
+
+    if (isPublicRoute && user) {
+      redirect();
+    }
+  }, [get, isRedirecting, router, status, user]);
 
   return !isLoading && !isRedirecting;
 };

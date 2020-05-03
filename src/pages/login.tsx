@@ -24,11 +24,14 @@ const LoginPage = () => {
   const onSubmit = async (values, { setSubmitting }) => {
     setSubmitting(true);
 
-    await post({
-      body: values,
-    });
-
-    setSubmitting(false);
+    try {
+      await post({
+        body: values,
+      });
+    } catch (e) {
+      // $TODO: handle error
+      setSubmitting(false);
+    }
   };
 
   return (

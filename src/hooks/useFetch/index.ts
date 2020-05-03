@@ -12,26 +12,24 @@ import State, { createInitialState } from "./state";
 const createReducer = () => <T>(state: State<T>, action: Action<T>) => {
   if (isErrorAction(action)) {
     return {
-      data: undefined,
+      ...state,
       error: action.payload.error,
       isLoading: false,
-      status: undefined,
+      status: action.payload.status,
     };
   }
 
   if (isFetchAction(action)) {
     return {
-      data: undefined,
-      error: undefined,
+      ...state,
       isLoading: true,
-      status: undefined,
     };
   }
 
   if (isSuccessAction(action)) {
     return {
+      ...state,
       data: action.payload.data,
-      error: undefined,
       isLoading: false,
       status: action.payload.status,
     };
@@ -104,7 +102,7 @@ const useFetch = <T>(url: RequestInfo, options: UseFetchOptions = {}) => {
       return { data, status: res.status };
     } catch (e) {
       cache.notify<T>(cacheKey, {
-        payload: { error: e },
+        payload: { error: e, status: res.status },
         type: "error",
       });
 
