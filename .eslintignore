@@ -6,4 +6,5 @@ node_modules
 .now
 
 *.css
+next.config.js
 postcss.config.js
