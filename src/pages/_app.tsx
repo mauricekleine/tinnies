@@ -1,7 +1,7 @@
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
 import Rollbar from "rollbar";
 
 import Footer from "../components/Footer";
@@ -14,17 +14,19 @@ import "./styles.css";
 
 config.autoAddCss = false;
 
-if (process.env.ROLLBAR_CLIENT_ACCESS_TOKEN) {
-  new Rollbar({
-    accessToken: process.env.ROLLBAR_CLIENT_ACCESS_TOKEN,
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-  });
-}
-
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const { isLoading, isRedirecting, user } = useAuthentication();
   const shouldRender = !isLoading && !isRedirecting;
+
+  useEffect(() => {
+    if (process.env.ROLLBAR_CLIENT_ACCESS_TOKEN) {
+      new Rollbar({
+        accessToken: process.env.ROLLBAR_CLIENT_ACCESS_TOKEN,
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+      });
+    }
+  }, []);
 
   return (
     <>
