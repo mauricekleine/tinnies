@@ -6,7 +6,7 @@ import Action, { isSuccessAction } from "../utils/actions";
 
 export type CacheKey = string;
 
-export type UseCache<T> = {
+export type Cache<T> = {
   del: () => boolean;
   get: () => T;
   notify: (action: Action<T>) => void;
@@ -22,7 +22,7 @@ export type UseCache<T> = {
 const Cache = new Map<CacheKey, unknown>();
 const Dispatchers = new Map<CacheKey, Dispatch<Action<unknown>>[]>();
 
-const useCache = <T>(key: CacheKey): UseCache<T> => {
+const useCache = <T>(key: CacheKey): Cache<T> => {
   const cache = Cache as Map<CacheKey, T>;
   const dispatchers = Dispatchers as Map<CacheKey, Dispatch<Action<T>>[]>;
 

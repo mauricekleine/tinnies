@@ -8,7 +8,7 @@ import Action, {
 } from "../utils/actions";
 import State, { createInitialState } from "../utils/state";
 
-import useCache, { UseCache } from "./useCache";
+import useCache, { Cache } from "./useCache";
 
 const createReducer = () => <T>(state: State<T>, action: Action<T>) => {
   if (isErrorAction(action)) {
@@ -49,7 +49,7 @@ type UseFetchOptions = {
 const createRequestHandler = <T>(
   method: RequestInit["method"],
   url: string,
-  cache: UseCache<T>
+  cache: Cache<T>
 ) => async (options?: Omit<RequestInit, "headers" | "method">) => {
   cache.notify({
     type: "fetching",
