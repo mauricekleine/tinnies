@@ -77,7 +77,7 @@ const Navigation = ({ isLoading, user }: Props) => {
 
                 {isOpen && (
                   <div {...dropdownProps}>
-                    <div className="flex flex-col py-2">
+                    <div className="flex flex-col px-4 py-2">
                       <span
                         className={`border-b border-${colors.grayLight} py-2`}
                       >

@@ -79,7 +79,7 @@ const BeerCard = ({ beer }: Props) => {
 
                 {isOpen && (
                   <div {...dropdownProps}>
-                    <div className="flex flex-col py-2">
+                    <div className="flex flex-col px-4 py-2">
                       {/* <span className="p-2">
                         <FontAwesomeIcon
                           className={`mr-2 text-${colors.gray}`}

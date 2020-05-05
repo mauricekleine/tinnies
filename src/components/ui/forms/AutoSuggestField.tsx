@@ -3,6 +3,7 @@ import React, { useCallback, useMemo } from "react";
 
 import Dropdown from "../Dropdown";
 import Highlighter from "../Highlighter";
+import colors from "../colors";
 
 import FormGroup from "./FormGroup";
 import { StandardInputField } from "./InputField";
@@ -52,13 +53,13 @@ const AutoSuggestField = ({
 
   return (
     <Dropdown>
-      {({ dropdownProps, handleToggle, isOpen }) => (
+      {({ dropdownProps, handleClose, handleOpen, isOpen }) => (
         <FormGroup error={meta.error} hasError={hasFieldError} label={label}>
           <StandardInputField
             field={field}
             hasError={hasFieldError}
             name={name}
-            onFocus={() => handleToggle()}
+            onFocus={() => handleOpen()}
             onKeyPress={onKeyPress}
             placeholder={label}
             type="string"
@@ -73,17 +74,14 @@ const AutoSuggestField = ({
 
                   return (
                     <div
+                      className={`hover:bg-${colors.grayLighter} px-4 py-1`}
                       key={key}
                       onClick={() => {
-                        handleToggle();
+                        handleClose();
                         helpers.setValue(value);
                       }}
                     >
-                      <Highlighter
-                        key={key}
-                        query={field.value}
-                        value={value}
-                      />
+                      <Highlighter id={key} query={field.value} value={value} />
                     </div>
                   );
                 })}
