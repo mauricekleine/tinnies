@@ -13,10 +13,15 @@ const useAuthentication = () => {
     READ_MY_PROFILE_RESOURCE,
     { getOnInit: true, getOnVisibilityChange: true }
   );
+
   const router = useRouter();
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+
     const isPublicRoute = UNAUTHENTICATED_ROUTES.includes(router.route);
     const fallback = isPublicRoute ? "/home" : "/";
 
@@ -33,7 +38,7 @@ const useAuthentication = () => {
     if (isPublicRoute && user) {
       redirect();
     }
-  }, [get, isRedirecting, router, status, user]);
+  }, [get, isLoading, isRedirecting, router, status, user]);
 
   return { isLoading, isRedirecting, user };
 };
