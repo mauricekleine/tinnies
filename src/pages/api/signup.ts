@@ -5,14 +5,27 @@ import normalizeEmail from "validator/lib/normalizeEmail";
 
 import commonMiddleware from "../../middlewares/common";
 import { NextAuthenticatedApiHandler } from "../../middlewares/passport";
-import User from "../../models/user";
+import User, { UserDocument } from "../../models/user";
 import extractUser from "../../utils/extractUser";
+import { sanitizeString } from "../../utils/sanitizers";
+
+type RequestBody = {
+  email: UserDocument["email"];
+  name: UserDocument["name"];
+  password: UserDocument["password"];
+};
 
 const handlePostRequest: NextAuthenticatedApiHandler = async (req, res) => {
-  const { email, name, password } = req.body;
-  const normalizedEmail = normalizeEmail(email);
+  const {
+    email: dirtyEmail,
+    name: dirtyName,
+    password,
+  }: RequestBody = req.body;
 
-  if (!isEmail(email)) {
+  const name = sanitizeString(dirtyName);
+  const email = normalizeEmail(dirtyEmail);
+
+  if (!isEmail(dirtyEmail) || !email) {
     res.status(400).send("The email you entered is invalid.");
     return;
   }
@@ -27,7 +40,7 @@ const handlePostRequest: NextAuthenticatedApiHandler = async (req, res) => {
     return;
   }
 
-  const results = await User.countDocuments({ email: normalizedEmail });
+  const results = await User.countDocuments({ email: email });
 
   if (results > 0) {
     res.status(403).send("The email has already been used.");

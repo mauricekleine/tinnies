@@ -1,5 +1,6 @@
 import { NextApiHandler } from "next";
 import nextConnect from "next-connect";
+import isInt from "validator/lib/isInt";
 
 import authenticationMiddleware from "../../../middlewares/authentication";
 import commonMiddleware from "../../../middlewares/common";
@@ -7,6 +8,14 @@ import { NextAuthenticatedApiHandler } from "../../../middlewares/passport";
 import Beer, { BeerDocument } from "../../../models/beer";
 import Brewery, { BreweryDocument } from "../../../models/brewery";
 import User from "../../../models/user";
+import { sanitizeString } from "../../../utils/sanitizers";
+
+type RequestBody = {
+  brewery: BreweryDocument["name"];
+  image: BeerDocument["image"];
+  name: BeerDocument["name"];
+  rating: BeerDocument["rating"];
+};
 
 const getBreweryByName = async (name: BreweryDocument["name"]) => {
   const brewery = await Brewery.findOne({ name });
@@ -20,7 +29,7 @@ const getBreweryByName = async (name: BreweryDocument["name"]) => {
 
 const handleGetRequest: NextApiHandler<BeerDocument[]> = async (req, res) => {
   const beers = await Beer.find()
-    .populate({ model: User, path: "addedBy" })
+    .populate({ model: User, path: "addedBy", select: "_id, name" })
     .populate({ model: Brewery, path: "brewery" })
     .sort({ createdAt: -1 });
 
@@ -30,10 +39,24 @@ const handleGetRequest: NextApiHandler<BeerDocument[]> = async (req, res) => {
 const handlePostRequest: NextAuthenticatedApiHandler<
   BeerDocument[] | string
 > = async (req, res) => {
-  const { brewery: breweryName, image, name, rating } = req.body;
+  const {
+    brewery: dirtyBrewery,
+    image,
+    name: dirtyName,
+    rating,
+  }: RequestBody = req.body;
+
+  const breweryName = sanitizeString(dirtyBrewery);
+  const name = sanitizeString(dirtyName);
 
   if (!breweryName || !image || !name || !rating) {
     res.status(400).send("There are missing fields");
+
+    return;
+  }
+
+  if (!isInt(rating.toString(), { max: 5, min: 1 })) {
+    res.status(400).send("Invalid rating");
 
     return;
   }
@@ -49,7 +72,7 @@ const handlePostRequest: NextAuthenticatedApiHandler<
   });
 
   const beers = await Beer.find()
-    .populate({ model: User, path: "addedBy" })
+    .populate({ model: User, path: "addedBy", select: "_id, name" })
     .populate({ model: Brewery, path: "brewery" })
     .sort({ createdAt: -1 });
 

@@ -13,7 +13,7 @@ const handleGetRequest: NextAuthenticatedApiHandler<BeerDocument[]> = async (
 ) => {
   try {
     const beers = await Beer.find({ addedBy: req.user._id })
-      .populate({ model: User, path: "addedBy" })
+      .populate({ model: User, path: "addedBy", select: "_id, name" })
       .populate({ model: Brewery, path: "brewery" })
       .sort({ createdAt: -1 });
 

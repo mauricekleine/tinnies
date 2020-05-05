@@ -30,7 +30,7 @@ const handleDeleteRequest: NextAuthenticatedApiHandler<
   await Beer.findByIdAndDelete(_id);
 
   const beers = await Beer.find()
-    .populate({ model: User, path: "addedBy" })
+    .populate({ model: User, path: "addedBy", select: "_id, name" })
     .populate({ model: Brewery, path: "brewery" })
     .sort({ createdAt: -1 });
 
