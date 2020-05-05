@@ -6,7 +6,6 @@ import normalizeEmail from "validator/lib/normalizeEmail";
 import commonMiddleware from "../../middlewares/common";
 import { NextAuthenticatedApiHandler } from "../../middlewares/passport";
 import User, { UserDocument } from "../../models/user";
-import extractUser from "../../utils/extractUser";
 import { sanitizeString } from "../../utils/sanitizers";
 
 type RequestBody = {
@@ -15,7 +14,9 @@ type RequestBody = {
   password: UserDocument["password"];
 };
 
-const handlePostRequest: NextAuthenticatedApiHandler = async (req, res) => {
+const handlePostRequest: NextAuthenticatedApiHandler<
+  UserDocument | string
+> = async (req, res) => {
   const {
     email: dirtyEmail,
     name: dirtyName,
@@ -56,7 +57,7 @@ const handlePostRequest: NextAuthenticatedApiHandler = async (req, res) => {
       throw err;
     }
 
-    res.status(201).json(extractUser(req.user));
+    res.status(201).json(req.user);
   });
 };
 

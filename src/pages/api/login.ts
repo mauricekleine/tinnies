@@ -4,15 +4,13 @@ import commonMiddleware from "../../middlewares/common";
 import passport, {
   NextAuthenticatedApiHandler,
 } from "../../middlewares/passport";
-import extractUser, { ExtractedUser } from "../../utils/extractUser";
+import { UserDocument } from "../../models/user";
 
-const handlePostRequest: NextAuthenticatedApiHandler<ExtractedUser> = (
+const handlePostRequest: NextAuthenticatedApiHandler<UserDocument | string> = (
   req,
   res
 ) => {
-  const user = extractUser(req.user);
-
-  res.json(user);
+  res.json(req.user);
 };
 
 export default nextConnect()

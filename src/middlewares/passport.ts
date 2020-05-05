@@ -29,14 +29,25 @@ passport.deserializeUser(async (req, id, done) => {
 passport.use(
   new LocalStrategy(
     { passReqToCallback: true, usernameField: "email" },
-    async (req, email, password, done) => {
-      const user = await User.findOne({ email });
+    async (req, providedEmail: string, providedPassword: string, done) => {
+      const result = await User.findOne({ email: providedEmail }, "+password");
 
-      if (user && (await bcrypt.compare(password, user.password))) {
-        done(null, user);
-      } else {
-        done(null, false);
+      if (!result) {
+        return done(null, false);
       }
+
+      const passwordMatches = await bcrypt.compare(
+        providedPassword,
+        result.password
+      );
+
+      if (!passwordMatches) {
+        return done(null, false);
+      }
+
+      const user = await User.findOne({ email: providedEmail });
+
+      return done(null, user);
     }
   )
 );

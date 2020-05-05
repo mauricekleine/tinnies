@@ -19,7 +19,7 @@ const beerSchema = new mongoose.Schema(
     brewery: { ref: "Brewery", type: ObjectId },
     image: { required: true, type: String },
     name: { required: true, type: String },
-    rating: { required: true, type: Number },
+    rating: { max: 5, min: 1, required: true, type: Number },
   },
   {
     timestamps: true,
