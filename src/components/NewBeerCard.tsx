@@ -5,13 +5,20 @@ import * as yup from "yup";
 
 import useFetch from "../hooks/useFetch";
 import { BeerDocument } from "../models/beer";
+import { BreweryDocument } from "../models/brewery";
+import {
+  READ_BEERS_RESOURCE,
+  READ_BREWERIES_RESOURCE,
+} from "../utils/endpoints";
 import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "../utils/imageConfig";
 
-import BeerRatingField from "./BeerRatingField";
 import { Button } from "./ui/Buttons";
 import Card from "./ui/Card";
-import FormField, { ImageField } from "./ui/FormField";
 import { Title } from "./ui/Typography";
+import AutoSuggestField from "./ui/forms/AutoSuggestField";
+import ImageField from "./ui/forms/ImageField";
+import FormField from "./ui/forms/InputField";
+import BeerRatingField from "./ui/forms/RatingField";
 
 const NewBeerSchema = yup.object().shape({
   brewery: yup.string().required("Required"),
@@ -33,7 +40,11 @@ const NewBeerSchema = yup.object().shape({
 });
 
 const NewBeerCard = () => {
-  const { post } = useFetch<BeerDocument[]>("/api/beers");
+  const { post } = useFetch<BeerDocument[]>(READ_BEERS_RESOURCE);
+  const { data: breweries = [] } = useFetch<BreweryDocument[]>(
+    READ_BREWERIES_RESOURCE,
+    { getOnInit: true }
+  );
   const router = useRouter();
 
   const onSubmit = async (values, { setSubmitting }) => {
@@ -57,12 +68,11 @@ const NewBeerCard = () => {
       body: { ...values, image: imageId },
     });
 
-    setSubmitting(false);
-
     if (status === 201) {
       router.replace("/home");
     } else {
-      // $TODO: handle error
+      // $TODO handle errors
+      setSubmitting(false);
     }
   };
 
@@ -77,7 +87,13 @@ const NewBeerCard = () => {
       >
         {({ isSubmitting, submitForm }) => (
           <Form className="flex flex-col">
-            <FormField label="Brewery" name="brewery" type="text" />
+            <AutoSuggestField
+              getOptionKey={(brewery: BreweryDocument) => brewery._id}
+              getOptionValue={(brewery: BreweryDocument) => brewery.name}
+              label="Brewery"
+              name="brewery"
+              options={breweries}
+            />
             <ImageField label="Image" name="image" />
             <FormField label="Name" name="name" type="text" />
             <BeerRatingField label="Rating" name="rating" />

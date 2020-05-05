@@ -68,7 +68,7 @@ const Navigation = ({ isLoading, user }: Props) => {
 
       <div>
         {user ? (
-          <Dropdown>
+          <Dropdown width={48}>
             {({ dropdownProps, handleToggle, isOpen }) => (
               <>
                 <div className="cursor-pointer mr-2" onClick={handleToggle}>
@@ -77,7 +77,7 @@ const Navigation = ({ isLoading, user }: Props) => {
 
                 {isOpen && (
                   <div {...dropdownProps}>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col py-2">
                       <span
                         className={`border-b border-${colors.grayLight} py-2`}
                       >

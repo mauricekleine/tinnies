@@ -9,7 +9,7 @@ const handleGetRequest: NextApiHandler<BreweryDocument[]> = async (
   req,
   res
 ) => {
-  const breweries = await Brewery.find().sort({ name: -1 });
+  const breweries = await Brewery.find().sort({ name: 1 });
 
   res.status(200).json(breweries);
 };

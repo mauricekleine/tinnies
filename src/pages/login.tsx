@@ -5,8 +5,8 @@ import * as yup from "yup";
 
 import { Button } from "../components/ui/Buttons";
 import Card from "../components/ui/Card";
-import FormField from "../components/ui/FormField";
 import { Title } from "../components/ui/Typography";
+import FormField from "../components/ui/forms/InputField";
 import useFetch from "../hooks/useFetch";
 import { UserDocument } from "../models/user";
 import { LOGIN_RESOURCE, READ_MY_PROFILE_RESOURCE } from "../utils/endpoints";

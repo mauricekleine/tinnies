@@ -18,9 +18,9 @@ type Props = {
 };
 
 const Rating = ({ color = colors.yellow, onClick, size = 1, value }: Props) => (
-  <div className={`flex items-center ${size > 1 && "-ml-1"}`}>
+  <div className={`flex items-center space-x-${size}`}>
     {RATING_VALUES.map((rating) => (
-      <div className={size > 1 ? "px-1" : "pr-1"} key={rating}>
+      <div key={rating}>
         <FontAwesomeIcon
           className={`text-${color}`}
           icon={rating <= value ? fasStar : farStar}

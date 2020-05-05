@@ -64,7 +64,7 @@ const BeerCard = ({ beer }: Props) => {
         </div>
 
         {canDelete && (
-          <Dropdown>
+          <Dropdown width={24}>
             {({ dropdownProps, handleToggle, isOpen }) => (
               <>
                 <div
@@ -79,7 +79,7 @@ const BeerCard = ({ beer }: Props) => {
 
                 {isOpen && (
                   <div {...dropdownProps}>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col py-2">
                       {/* <span className="p-2">
                         <FontAwesomeIcon
                           className={`mr-2 text-${colors.gray}`}
