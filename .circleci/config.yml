@@ -1,0 +1,12 @@
+version: 2.1
+orbs:
+  cypress: cypress-io/cypress@1.20.0
+workflows:
+  build:
+    jobs:
+      - cypress/run:
+          start: npm run dev
+          wait-on: 'http://localhost:3000'
+          # there are no jobs to follow this one
+          # so no need to save the workspace files (saves time)
+          no-workspace: true
