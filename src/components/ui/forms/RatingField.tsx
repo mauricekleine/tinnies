@@ -1,7 +1,7 @@
 import { useField } from "formik";
 import React from "react";
 
-import { BeerDocument } from "../../../models/beer";
+import { BeerRating } from "../../../models/beer";
 import Rating from "../Rating";
 
 import FormGroup from "./FormGroup";
@@ -13,11 +13,11 @@ type Props = {
 };
 
 const RatingField = ({ label, name }: Props) => {
-  const [field, meta, helpers] = useField<BeerDocument["rating"]>({
+  const [field, meta, helpers] = useField<BeerRating>({
     name,
     type: "number",
   });
-  const hasFieldError = hasError<BeerDocument["rating"]>(meta);
+  const hasFieldError = hasError<BeerRating>(meta);
 
   return (
     <FormGroup error={meta.error} hasError={hasFieldError} label={label}>

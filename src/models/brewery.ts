@@ -1,8 +1,11 @@
 import mongoose from "mongoose";
 
-export type BreweryDocument = {
+export type Brewery = {
+  _id: string;
   name: string;
-} & mongoose.Document;
+};
+
+export type BreweryDocument = Brewery & mongoose.Document;
 
 export const BrewerySchema = new mongoose.Schema(
   {
@@ -13,8 +16,7 @@ export const BrewerySchema = new mongoose.Schema(
   }
 );
 
-const Brewery: mongoose.Model<BreweryDocument> =
-  mongoose.models.Brewery ||
-  mongoose.model("Brewery", BrewerySchema);
+const BreweryModel: mongoose.Model<BreweryDocument> =
+  mongoose.models.Brewery || mongoose.model("Brewery", BrewerySchema);
 
-export default Brewery;
+export default BreweryModel;

@@ -4,7 +4,7 @@ import NextLink from "next/link";
 import React from "react";
 
 import useFetch from "../hooks/useFetch";
-import { UserDocument } from "../models/user";
+import { User } from "../models/user";
 import { LOGOUT_RESOURCE, READ_MY_PROFILE_RESOURCE } from "../utils/endpoints";
 
 import Avatar from "./ui/Avatar";
@@ -15,11 +15,11 @@ import colors from "./ui/colors";
 
 type Props = {
   isLoading: boolean;
-  user: UserDocument;
+  user: User;
 };
 
 const Navigation = ({ isLoading, user }: Props) => {
-  const { del } = useFetch<UserDocument>(LOGOUT_RESOURCE, {
+  const { del } = useFetch<User>(LOGOUT_RESOURCE, {
     cacheKey: READ_MY_PROFILE_RESOURCE,
   });
 

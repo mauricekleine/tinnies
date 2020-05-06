@@ -5,8 +5,8 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import React from "react";
 
 import useFetch from "../hooks/useFetch";
-import { BeerDocument } from "../models/beer";
-import { UserDocument } from "../models/user";
+import { Beer } from "../models/beer";
+import { User } from "../models/user";
 import {
   READ_BEERS_RESOURCE,
   READ_MY_PROFILE_RESOURCE,
@@ -20,15 +20,14 @@ import Rating from "./ui/Rating";
 import colors from "./ui/colors";
 
 type Props = {
-  beer: BeerDocument;
+  beer: Beer;
 };
 
 const BeerCard = ({ beer }: Props) => {
-  const { del } = useFetch<BeerDocument[]>(
-    `${READ_BEERS_RESOURCE}/${beer._id}`,
-    { cacheKey: READ_BEERS_RESOURCE }
-  );
-  const { data: user } = useFetch<UserDocument>(READ_MY_PROFILE_RESOURCE);
+  const { del } = useFetch<Beer[]>(`${READ_BEERS_RESOURCE}/${beer._id}`, {
+    cacheKey: READ_BEERS_RESOURCE,
+  });
+  const { data: user } = useFetch<User>(READ_MY_PROFILE_RESOURCE);
 
   const canDelete = canDeleteBeer(beer, user);
 

@@ -8,7 +8,7 @@ import Card from "../components/ui/Card";
 import { Title } from "../components/ui/Typography";
 import FormField from "../components/ui/forms/InputField";
 import useFetch from "../hooks/useFetch";
-import { UserDocument } from "../models/user";
+import { User } from "../models/user";
 import { LOGIN_RESOURCE, READ_MY_PROFILE_RESOURCE } from "../utils/endpoints";
 
 const LoginSchema = yup.object().shape({
@@ -17,7 +17,7 @@ const LoginSchema = yup.object().shape({
 });
 
 const LoginPage = () => {
-  const { post } = useFetch<UserDocument>(LOGIN_RESOURCE, {
+  const { post } = useFetch<User>(LOGIN_RESOURCE, {
     cacheKey: READ_MY_PROFILE_RESOURCE,
   });
 

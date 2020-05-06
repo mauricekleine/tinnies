@@ -4,16 +4,13 @@ import React from "react";
 import BeerCard from "../components/BeerCard";
 import BeerCardPlaceholder from "../components/BeerCardPlaceholder";
 import useFetch from "../hooks/useFetch";
-import { BeerDocument } from "../models/beer";
+import { Beer } from "../models/beer";
 import { READ_BEERS_RESOURCE } from "../utils/endpoints";
 
 const Home = () => {
-  const { data: beers, isLoading } = useFetch<BeerDocument[]>(
-    READ_BEERS_RESOURCE,
-    {
-      getOnInit: true,
-    }
-  );
+  const { data: beers, isLoading } = useFetch<Beer[]>(READ_BEERS_RESOURCE, {
+    getOnInit: true,
+  });
 
   return (
     <>

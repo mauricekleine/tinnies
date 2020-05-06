@@ -1,17 +1,22 @@
 import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 
-import { BreweryDocument } from "./brewery";
-import { UserDocument } from "./user";
+import { Brewery, BreweryDocument } from "./brewery";
+import { User, UserDocument } from "./user";
 
-export type BeerDocument = {
-  addedBy: UserDocument;
-  brewery: BreweryDocument;
+export type BeerRating = 1 | 2 | 3 | 4 | 5;
+
+export type Beer = {
+  _id: string;
+  addedBy: User | UserDocument;
+  brewery: Brewery | BreweryDocument;
   createdAt: string;
   image: string;
   name: string;
-  rating: 1 | 2 | 3 | 4 | 5;
-} & mongoose.Document;
+  rating: BeerRating;
+};
+
+export type BeerDocument = Beer & mongoose.Document;
 
 const beerSchema = new mongoose.Schema(
   {
@@ -26,7 +31,7 @@ const beerSchema = new mongoose.Schema(
   }
 );
 
-const Beer: mongoose.Model<BeerDocument> =
+const BeerModel: mongoose.Model<BeerDocument> =
   mongoose.models.Beer || mongoose.model("Beer", beerSchema);
 
-export default Beer;
+export default BeerModel;

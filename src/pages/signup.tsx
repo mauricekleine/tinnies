@@ -8,7 +8,7 @@ import Card from "../components/ui/Card";
 import { Title } from "../components/ui/Typography";
 import FormField from "../components/ui/forms/InputField";
 import useFetch from "../hooks/useFetch";
-import { UserDocument } from "../models/user";
+import { User } from "../models/user";
 import { READ_MY_PROFILE_RESOURCE, SIGNUP_RESOURCE } from "../utils/endpoints";
 
 const SignupSchema = yup.object().shape({
@@ -18,7 +18,7 @@ const SignupSchema = yup.object().shape({
 });
 
 const SignupPage = () => {
-  const { post } = useFetch<UserDocument>(SIGNUP_RESOURCE, {
+  const { post } = useFetch<User>(SIGNUP_RESOURCE, {
     cacheKey: READ_MY_PROFILE_RESOURCE,
   });
 

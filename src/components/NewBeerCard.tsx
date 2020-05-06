@@ -4,8 +4,8 @@ import React from "react";
 import * as yup from "yup";
 
 import useFetch from "../hooks/useFetch";
-import { BeerDocument } from "../models/beer";
-import { BreweryDocument } from "../models/brewery";
+import { Beer } from "../models/beer";
+import { Brewery } from "../models/brewery";
 import {
   READ_BEERS_RESOURCE,
   READ_BREWERIES_RESOURCE,
@@ -40,8 +40,8 @@ const NewBeerSchema = yup.object().shape({
 });
 
 const NewBeerCard = () => {
-  const { post } = useFetch<BeerDocument[]>(READ_BEERS_RESOURCE);
-  const { data: breweries = [] } = useFetch<BreweryDocument[]>(
+  const { post } = useFetch<Beer[]>(READ_BEERS_RESOURCE);
+  const { data: breweries = [] } = useFetch<Brewery[]>(
     READ_BREWERIES_RESOURCE,
     { getOnInit: true }
   );
@@ -88,8 +88,8 @@ const NewBeerCard = () => {
         {({ isSubmitting, submitForm }) => (
           <Form className="flex flex-col">
             <AutoSuggestField
-              getOptionKey={(brewery: BreweryDocument) => brewery._id}
-              getOptionValue={(brewery: BreweryDocument) => brewery.name}
+              getOptionKey={(brewery: Brewery) => brewery._id}
+              getOptionValue={(brewery: Brewery) => brewery.name}
               label="Brewery"
               name="brewery"
               options={breweries}

@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
 
-export type UserDocument = {
+export type User = {
+  _id: string;
   email: string;
   name: string;
-  password: string;
-} & mongoose.Document;
+};
+
+export type UserDocument = User & { password: string } & mongoose.Document;
 
 export const UserSchema = new mongoose.Schema(
   {
@@ -17,7 +19,7 @@ export const UserSchema = new mongoose.Schema(
   }
 );
 
-const User: mongoose.Model<UserDocument> =
+const UserModel: mongoose.Model<UserDocument> =
   mongoose.models.User || mongoose.model("User", UserSchema);
 
-export default User;
+export default UserModel;

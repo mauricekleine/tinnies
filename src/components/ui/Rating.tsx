@@ -4,17 +4,17 @@ import { faStar as fasStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-import { BeerDocument } from "../../models/beer";
+import { BeerRating } from "../../models/beer";
 
 import colors from "./colors";
 
-const RATING_VALUES: BeerDocument["rating"][] = [1, 2, 3, 4, 5];
+const RATING_VALUES: BeerRating[] = [1, 2, 3, 4, 5];
 
 type Props = {
   color?: string;
-  onClick?: (rating: BeerDocument["rating"]) => void;
+  onClick?: (rating: BeerRating) => void;
   size?: number;
-  value: BeerDocument["rating"];
+  value: BeerRating;
 };
 
 const Rating = ({ color = colors.yellow, onClick, size = 1, value }: Props) => (
