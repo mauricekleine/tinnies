@@ -1,1 +1,2 @@
-/cypress
+/cypress/*
+!cypress/selectors.ts

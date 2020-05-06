@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import nextConnect from "next-connect";
 import isEmail from "validator/lib/isEmail";
-import normalizeEmail from "validator/lib/normalizeEmail";
 
 import commonMiddleware from "../../middlewares/common";
 import { NextAuthenticatedApiHandler } from "../../middlewares/passport";
@@ -17,16 +16,11 @@ type RequestBody = {
 const handlePostRequest: NextAuthenticatedApiHandler<
   UserDocument | string
 > = async (req, res) => {
-  const {
-    email: dirtyEmail,
-    name: dirtyName,
-    password,
-  }: RequestBody = req.body;
+  const { email, name: dirtyName, password }: RequestBody = req.body;
 
   const name = sanitizeString(dirtyName);
-  const email = normalizeEmail(dirtyEmail);
 
-  if (!isEmail(dirtyEmail) || !email) {
+  if (!email || !isEmail(email)) {
     res.status(400).send("The email you entered is invalid.");
     return;
   }
@@ -50,14 +44,16 @@ const handlePostRequest: NextAuthenticatedApiHandler<
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await User.create({ email, name, password: hashedPassword });
+  const result = await User.create({ email, name, password: hashedPassword });
 
-  req.logIn(user, (err) => {
+  req.logIn(result, async (err) => {
     if (err) {
       throw err;
     }
 
-    res.status(201).json(req.user);
+    const user = await User.findById(result._id);
+
+    res.status(201).json(user);
   });
 };
 

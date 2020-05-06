@@ -3,9 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NextLink from "next/link";
 import React from "react";
 
+import {
+  NAVIGATION_LOGIN_BTN,
+  NAVIGATION_SIGNUP_BTN,
+} from "../../cypress/selectors";
 import useFetch from "../hooks/useFetch";
 import { User } from "../models/user";
-import { LOGOUT_RESOURCE, READ_MY_PROFILE_RESOURCE } from "../utils/endpoints";
+import { LOGOUT_RESOURCE, READ_MY_PROFILE_RESOURCE } from "../utils/resources";
 
 import Avatar from "./ui/Avatar";
 import { Button, ButtonLink } from "./ui/Buttons";
@@ -107,11 +111,15 @@ const Navigation = ({ isLoading, user }: Props) => {
         ) : (
           !isLoading && (
             <div className="flex">
-              <ButtonLink borderless data-cy="login-btn" href="/login">
+              <ButtonLink
+                borderless
+                data-cy={NAVIGATION_LOGIN_BTN}
+                href="/login"
+              >
                 Log in
               </ButtonLink>
 
-              <ButtonLink data-cy="signup-btn" href="/signup">
+              <ButtonLink data-cy={NAVIGATION_SIGNUP_BTN} href="/signup">
                 Sign up
               </ButtonLink>
             </div>

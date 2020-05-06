@@ -5,7 +5,7 @@ import BeerCard from "../../components/BeerCard";
 import BeerCardPlaceholder from "../../components/BeerCardPlaceholder";
 import useFetch from "../../hooks/useFetch";
 import { Beer } from "../../models/beer";
-import { READ_MY_BEERS_RESOURCE } from "../../utils/endpoints";
+import { READ_MY_BEERS_RESOURCE } from "../../utils/resources";
 
 const MyBeers = () => {
   const { data: beers, isLoading } = useFetch<Beer[]>(READ_MY_BEERS_RESOURCE, {

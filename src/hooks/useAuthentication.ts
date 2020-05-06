@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { User } from "../models/user";
-import { READ_MY_PROFILE_RESOURCE } from "../utils/endpoints";
+import { READ_MY_PROFILE_RESOURCE } from "../utils/resources";
 
 import useFetch from "./useFetch";
 
