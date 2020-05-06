@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import isEmail from "validator/lib/isEmail";
 
 import User, { UserDocument } from "../models/user";
 
@@ -30,6 +31,10 @@ passport.use(
   new LocalStrategy(
     { passReqToCallback: true, usernameField: "email" },
     async (req, providedEmail: string, providedPassword: string, done) => {
+      if (!providedEmail || !isEmail(providedEmail)) {
+        return done(null, false);
+      }
+
       const result = await User.findOne({ email: providedEmail }, "+password");
 
       if (!result) {

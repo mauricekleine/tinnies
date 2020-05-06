@@ -34,9 +34,12 @@ type InputFieldProps = {
   label: string;
   name: string;
   type: string;
-};
+} & React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+>;
 
-const InputField = ({ label, name, type }: InputFieldProps) => {
+const InputField = ({ label, name, type, ...props }: InputFieldProps) => {
   const [field, meta] = useField<string>({ name, type });
   const hasFieldError = hasError<string>(meta);
 
@@ -48,6 +51,7 @@ const InputField = ({ label, name, type }: InputFieldProps) => {
         name={name}
         placeholder={label}
         type={type}
+        {...props}
       />
     </FormGroup>
   );

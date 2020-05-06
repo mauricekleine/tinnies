@@ -6,11 +6,11 @@ import * as yup from "yup";
 import useFetch from "../hooks/useFetch";
 import { Beer } from "../models/beer";
 import { Brewery } from "../models/brewery";
+import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "../utils/imageConfig";
 import {
   READ_BEERS_RESOURCE,
   READ_BREWERIES_RESOURCE,
-} from "../utils/endpoints";
-import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "../utils/imageConfig";
+} from "../utils/resources";
 
 import { Button } from "./ui/Buttons";
 import Card from "./ui/Card";

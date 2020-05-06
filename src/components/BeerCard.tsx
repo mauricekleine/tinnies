@@ -7,11 +7,11 @@ import React from "react";
 import useFetch from "../hooks/useFetch";
 import { Beer } from "../models/beer";
 import { User } from "../models/user";
+import { canDeleteBeer } from "../utils/permissions";
 import {
   READ_BEERS_RESOURCE,
   READ_MY_PROFILE_RESOURCE,
-} from "../utils/endpoints";
-import { canDeleteBeer } from "../utils/permissions";
+} from "../utils/resources";
 
 import Avatar from "./ui/Avatar";
 import Card from "./ui/Card";

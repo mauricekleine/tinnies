@@ -3,13 +3,19 @@ import Head from "next/head";
 import React from "react";
 import * as yup from "yup";
 
+import {
+  SIGNUP_FORM_EMAIL_FIELD,
+  SIGNUP_FORM_NAME_FIELD,
+  SIGNUP_FORM_PASSWORD_FIELD,
+  SIGNUP_FORM_SUBMIT_BTN,
+} from "../../cypress/selectors";
 import { Button } from "../components/ui/Buttons";
 import Card from "../components/ui/Card";
 import { Title } from "../components/ui/Typography";
-import FormField from "../components/ui/forms/InputField";
+import InputField from "../components/ui/forms/InputField";
 import useFetch from "../hooks/useFetch";
 import { User } from "../models/user";
-import { READ_MY_PROFILE_RESOURCE, SIGNUP_RESOURCE } from "../utils/endpoints";
+import { READ_MY_PROFILE_RESOURCE, SIGNUP_RESOURCE } from "../utils/resources";
 
 const SignupSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Required"),
@@ -51,11 +57,29 @@ const SignupPage = () => {
         >
           {({ isSubmitting, submitForm }) => (
             <Form>
-              <FormField label="Name" name="name" type="text" />
-              <FormField label="Email" name="email" type="email" />
-              <FormField label="Password" name="password" type="password" />
+              <InputField
+                data-cy={SIGNUP_FORM_NAME_FIELD}
+                label="First name"
+                name="name"
+                type="text"
+              />
+
+              <InputField
+                data-cy={SIGNUP_FORM_EMAIL_FIELD}
+                label="Email"
+                name="email"
+                type="email"
+              />
+
+              <InputField
+                data-cy={SIGNUP_FORM_PASSWORD_FIELD}
+                label="Password"
+                name="password"
+                type="password"
+              />
 
               <Button
+                data-cy={SIGNUP_FORM_SUBMIT_BTN}
                 disabled={isSubmitting}
                 isLoading={isSubmitting}
                 onClick={submitForm}

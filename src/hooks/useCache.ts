@@ -1,16 +1,20 @@
-// import { Dispatch } from "react";
-
 import { Dispatch, useCallback } from "react";
 
 import Action, { isSuccessAction } from "../utils/actions";
+import isDev from "../utils/isDev";
+
+declare global {
+  interface Window {
+    Tinnies: { Cache: typeof Cache };
+  }
+}
 
 export type CacheKey = string;
 
 export type Cache<T> = {
-  del: () => boolean;
   get: () => T;
   notify: (action: Action<T>) => void;
-  set: (value: T) => Map<CacheKey, T>;
+  set: (value: T) => { [cacheKey in CacheKey]: T };
   subscribe: (
     dispatch: Dispatch<Action<T>>
   ) => Map<CacheKey, Dispatch<Action<T>>[]>;
@@ -19,16 +23,26 @@ export type Cache<T> = {
   ) => Map<CacheKey, Dispatch<Action<T>>[]>;
 };
 
-const Cache = new Map<CacheKey, unknown>();
+const Cache: { [cacheKey in CacheKey]: unknown } = {};
 const Dispatchers = new Map<CacheKey, Dispatch<Action<unknown>>[]>();
 
+if (isDev && typeof window !== "undefined") {
+  window.Tinnies = { Cache };
+}
+
 const useCache = <T>(key: CacheKey): Cache<T> => {
-  const cache = Cache as Map<CacheKey, T>;
+  const cache = Cache as { [cacheKey in CacheKey]: T };
   const dispatchers = Dispatchers as Map<CacheKey, Dispatch<Action<T>>[]>;
 
-  const del = useCallback(() => cache.delete(key), [cache, key]);
-  const get = useCallback(() => cache.get(key), [cache, key]);
-  const set = useCallback((value: T) => cache.set(key, value), [cache, key]);
+  const get = useCallback(() => cache[key], [cache, key]);
+  const set = useCallback(
+    (value: T) => {
+      cache[key] = value;
+
+      return cache;
+    },
+    [cache, key]
+  );
 
   const notify = useCallback(
     (action: Action<T>) => {
@@ -71,7 +85,7 @@ const useCache = <T>(key: CacheKey): Cache<T> => {
     [dispatchers, key]
   );
 
-  return { del, get, notify, set, subscribe, unsubscribe };
+  return { get, notify, set, subscribe, unsubscribe };
 };
 
 export default useCache;

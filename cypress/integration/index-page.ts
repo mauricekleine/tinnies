@@ -1,6 +1,7 @@
+import { NAVIGATION_LOGIN_BTN, NAVIGATION_SIGNUP_BTN } from "../selectors";
+
 describe("Index page", () => {
   beforeEach(() => {
-    cy.log(`Visiting http://localhost:3000`);
     cy.visit("/");
   });
 
@@ -9,10 +10,10 @@ describe("Index page", () => {
   });
 
   it("should have a login button", () => {
-    cy.get("[data-cy=login-btn]").should("have.length", 1);
+    cy.get(`[data-cy=${NAVIGATION_LOGIN_BTN}]`).should("have.length", 1);
   });
 
   it("should have a signup button", () => {
-    cy.get("[data-cy=signup-btn]").should("have.length", 1);
+    cy.get(`[data-cy=${NAVIGATION_SIGNUP_BTN}]`).should("have.length", 1);
   });
 });

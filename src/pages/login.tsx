@@ -3,13 +3,18 @@ import Head from "next/head";
 import React from "react";
 import * as yup from "yup";
 
+import {
+  LOGIN_FORM_EMAIL_FIELD,
+  LOGIN_FORM_PASSWORD_FIELD,
+  LOGIN_FORM_SUBMIT_BTN,
+} from "../../cypress/selectors";
 import { Button } from "../components/ui/Buttons";
 import Card from "../components/ui/Card";
 import { Title } from "../components/ui/Typography";
-import FormField from "../components/ui/forms/InputField";
+import InputField from "../components/ui/forms/InputField";
 import useFetch from "../hooks/useFetch";
 import { User } from "../models/user";
-import { LOGIN_RESOURCE, READ_MY_PROFILE_RESOURCE } from "../utils/endpoints";
+import { LOGIN_RESOURCE, READ_MY_PROFILE_RESOURCE } from "../utils/resources";
 
 const LoginSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Required"),
@@ -50,10 +55,22 @@ const LoginPage = () => {
         >
           {({ isSubmitting, submitForm }) => (
             <Form>
-              <FormField label="Email" name="email" type="email" />
-              <FormField label="Password" name="password" type="password" />
+              <InputField
+                data-cy={LOGIN_FORM_EMAIL_FIELD}
+                label="Email"
+                name="email"
+                type="email"
+              />
+
+              <InputField
+                data-cy={LOGIN_FORM_PASSWORD_FIELD}
+                label="Password"
+                name="password"
+                type="password"
+              />
 
               <Button
+                data-cy={LOGIN_FORM_SUBMIT_BTN}
                 disabled={isSubmitting}
                 isLoading={isSubmitting}
                 onClick={submitForm}
