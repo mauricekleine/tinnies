@@ -48,14 +48,20 @@ export const Button = ({
 type ButtonLinkProps = {
   borderless?: ButtonProps["borderless"];
   children: ButtonProps["children"];
+  "data-cy"?: string;
 } & LinkProps;
 
 export const ButtonLink = ({
   borderless,
   children,
+  "data-cy": dataCy,
   ...props
-}: ButtonLinkProps) => (
-  <Link {...props}>
-    <a className={getButtonClasses({ borderless })}>{children}</a>
-  </Link>
-);
+}: ButtonLinkProps) => {
+  return (
+    <Link {...props}>
+      <a className={getButtonClasses({ borderless })} data-cy={dataCy}>
+        {children}
+      </a>
+    </Link>
+  );
+};

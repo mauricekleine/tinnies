@@ -107,11 +107,13 @@ const Navigation = ({ isLoading, user }: Props) => {
         ) : (
           !isLoading && (
             <div className="flex">
-              <ButtonLink borderless href="/login">
+              <ButtonLink borderless data-cy="login-btn" href="/login">
                 Log in
               </ButtonLink>
 
-              <ButtonLink href="/signup">Sign up</ButtonLink>
+              <ButtonLink data-cy="signup-btn" href="/signup">
+                Sign up
+              </ButtonLink>
             </div>
           )
         )}
