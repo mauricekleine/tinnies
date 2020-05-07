@@ -2,8 +2,9 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "cloudinary-react";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import React from "react";
+import React, { useRef } from "react";
 
+import useDropdown from "../hooks/useDropdown";
 import useFetch from "../hooks/useFetch";
 import { Beer } from "../models/beer";
 import { User } from "../models/user";
@@ -15,7 +16,6 @@ import {
 
 import Avatar from "./ui/Avatar";
 import Card from "./ui/Card";
-import Dropdown from "./ui/Dropdown";
 import Rating from "./ui/Rating";
 import colors from "./ui/colors";
 
@@ -24,6 +24,10 @@ type Props = {
 };
 
 const BeerCard = ({ beer }: Props) => {
+  const dropdownRef = useRef();
+  const { dropdownProps, handleToggle, isOpen } = useDropdown(dropdownRef, {
+    width: "24",
+  });
   const { del } = useFetch<Beer[]>(`${READ_BEERS_RESOURCE}/${beer._id}`, {
     cacheKey: READ_BEERS_RESOURCE,
   });
@@ -63,43 +67,27 @@ const BeerCard = ({ beer }: Props) => {
         </div>
 
         {canDelete && (
-          <Dropdown width={24}>
-            {({ dropdownProps, handleToggle, isOpen }) => (
-              <>
-                <div
-                  className="cursor-pointer -mt-2 p-2"
-                  onClick={handleToggle}
-                >
-                  <FontAwesomeIcon
-                    className={`text-${colors.gray}`}
-                    icon={faEllipsisV}
-                  />
+          <div className="relative" ref={dropdownRef}>
+            <div className="cursor-pointer -mt-2 p-2" onClick={handleToggle}>
+              <FontAwesomeIcon
+                className={`text-${colors.gray}`}
+                icon={faEllipsisV}
+              />
+            </div>
+
+            {isOpen && (
+              <div {...dropdownProps}>
+                <div className="px-4 py-2">
+                  <p
+                    className={`cursor-pointer p-2 hover:text-${colors.primaryAccent}`}
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </p>
                 </div>
-
-                {isOpen && (
-                  <div {...dropdownProps}>
-                    <div className="flex flex-col px-4 py-2">
-                      {/* <span className="p-2">
-                        <FontAwesomeIcon
-                          className={`mr-2 text-${colors.gray}`}
-                          fixedWidth
-                          icon={faEdit}
-                        />
-                        Edit
-                      </span> */}
-
-                      <p
-                        className={`cursor-pointer p-2 hover:color-${colors.primaryAccent}`}
-                        onClick={handleDelete}
-                      >
-                        Delete
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </>
+              </div>
             )}
-          </Dropdown>
+          </div>
         )}
       </div>
 
@@ -118,6 +106,13 @@ const BeerCard = ({ beer }: Props) => {
         </div>
 
         <div className="font-semibold text-xl">{beer.name}</div>
+
+        {beer.style && (
+          <div className={`font-semibold text-${colors.primary} text-sm`}>
+            {beer.style.name}
+          </div>
+        )}
+
         <div className={`text-${colors.gray}`}>{beer.brewery.name}</div>
       </div>
     </Card>

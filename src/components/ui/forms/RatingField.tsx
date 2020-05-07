@@ -20,7 +20,12 @@ const RatingField = ({ label, name }: Props) => {
   const hasFieldError = hasError<BeerRating>(meta);
 
   return (
-    <FormGroup error={meta.error} hasError={hasFieldError} label={label}>
+    <FormGroup
+      error={meta.error}
+      hasError={hasFieldError}
+      label={label}
+      labelFor={name}
+    >
       <Rating
         onClick={(rating) => helpers.setValue(rating)}
         size={2}

@@ -4,10 +4,14 @@ import colors from "../colors";
 
 type FormLabelProps = {
   children: ReactNode;
+  labelFor: string;
 };
 
-const FormLabel = ({ children }: FormLabelProps) => (
-  <label className={`block font-semibold mb-1 text-${colors.gray}`}>
+const FormLabel = ({ children, labelFor }: FormLabelProps) => (
+  <label
+    className={`block font-semibold mb-1 text-${colors.gray}`}
+    htmlFor={labelFor}
+  >
     {children}
   </label>
 );

@@ -26,7 +26,12 @@ const ImageField = ({ label, name }: ImageFieldProps) => {
   const file = acceptedFiles[0];
 
   return (
-    <FormGroup error={meta.error} hasError={hasFieldError} label={label}>
+    <FormGroup
+      error={meta.error}
+      hasError={hasFieldError}
+      label={label}
+      labelFor={name}
+    >
       <div
         {...getRootProps({
           className: `border border-b-2 border-${
@@ -36,7 +41,7 @@ const ImageField = ({ label, name }: ImageFieldProps) => {
           } focus:outline-none`,
         })}
       >
-        <input name={name} {...getInputProps()} />
+        <input id={name} name={name} {...getInputProps()} />
 
         {file ? (
           <>

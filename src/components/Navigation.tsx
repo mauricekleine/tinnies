@@ -1,19 +1,19 @@
 import { faBeer, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NextLink from "next/link";
-import React from "react";
+import React, { useRef } from "react";
 
 import {
   NAVIGATION_LOGIN_BTN,
   NAVIGATION_SIGNUP_BTN,
 } from "../../cypress/selectors";
+import useDropdown from "../hooks/useDropdown";
 import useFetch from "../hooks/useFetch";
 import { User } from "../models/user";
 import { LOGOUT_RESOURCE, READ_MY_PROFILE_RESOURCE } from "../utils/resources";
 
 import Avatar from "./ui/Avatar";
 import { Button, ButtonLink } from "./ui/Buttons";
-import Dropdown from "./ui/Dropdown";
 import { Link } from "./ui/Typography";
 import colors from "./ui/colors";
 
@@ -23,6 +23,10 @@ type Props = {
 };
 
 const Navigation = ({ isLoading, user }: Props) => {
+  const dropdownRef = useRef();
+  const { dropdownProps, handleToggle, isOpen } = useDropdown(dropdownRef, {
+    width: "48",
+  });
   const { del } = useFetch<User>(LOGOUT_RESOURCE, {
     cacheKey: READ_MY_PROFILE_RESOURCE,
   });
@@ -72,42 +76,36 @@ const Navigation = ({ isLoading, user }: Props) => {
 
       <div>
         {user ? (
-          <Dropdown width={48}>
-            {({ dropdownProps, handleToggle, isOpen }) => (
-              <>
-                <div className="cursor-pointer mr-2" onClick={handleToggle}>
-                  <Avatar />
-                </div>
+          <div className="relative" ref={dropdownRef}>
+            <div className="cursor-pointer mr-2" onClick={handleToggle}>
+              <Avatar />
+            </div>
 
-                {isOpen && (
-                  <div {...dropdownProps}>
-                    <div className="flex flex-col px-4 py-2">
-                      <span
-                        className={`border-b border-${colors.grayLight} py-2`}
-                      >
-                        Cheers {user.name}!
-                      </span>
+            {isOpen && (
+              <div {...dropdownProps}>
+                <div className="flex flex-col px-4 py-2">
+                  <span className={`border-b border-${colors.grayLight} py-2`}>
+                    Cheers {user.name}!
+                  </span>
 
-                      <div
-                        className={`border-b border-${colors.grayLight} flex flex-col py-2 sm:hidden`}
-                      >
-                        <Link href="/home">Home</Link>
-                        <Link href="/my/beers">My Beers</Link>
-                      </div>
-
-                      <Button
-                        borderless
-                        isLoading={isLoading}
-                        onClick={handleLogout}
-                      >
-                        Log out
-                      </Button>
-                    </div>
+                  <div
+                    className={`border-b border-${colors.grayLight} flex flex-col py-2 sm:hidden`}
+                  >
+                    <Link href="/home">Home</Link>
+                    <Link href="/my/beers">My Beers</Link>
                   </div>
-                )}
-              </>
+
+                  <Button
+                    borderless
+                    isLoading={isLoading}
+                    onClick={handleLogout}
+                  >
+                    Log out
+                  </Button>
+                </div>
+              </div>
             )}
-          </Dropdown>
+          </div>
         ) : (
           !isLoading && (
             <div className="flex">
