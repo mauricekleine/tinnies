@@ -8,15 +8,23 @@ type FormGroup = {
   error?: string;
   hasError?: boolean;
   label: string;
+  labelFor: string;
 };
 
-const FormGroup = ({ children, error, hasError, label }: FormGroup) => (
+const FormGroup = ({
+  children,
+  error,
+  hasError,
+  label,
+  labelFor,
+}: FormGroup) => (
   <div className="mb-4">
-    <FormLabel>{label}</FormLabel>
+    <div className="flex items-center justify-between">
+      <FormLabel labelFor={labelFor}>{label}</FormLabel>
+      {hasError && <FormError>{error}</FormError>}
+    </div>
 
     {children}
-
-    {hasError && <FormError>{error}</FormError>}
   </div>
 );
 

@@ -4,9 +4,9 @@ import authenticationMiddleware from "../../../middlewares/authentication";
 import commonMiddleware from "../../../middlewares/common";
 import { NextAuthenticatedApiHandler } from "../../../middlewares/passport";
 import Beer, { BeerDocument } from "../../../models/beer";
-import Brewery from "../../../models/brewery";
-import User from "../../../models/user";
 import { canDeleteBeer } from "../../../utils/permissions";
+
+import { getBeers } from ".";
 
 const handleDeleteRequest: NextAuthenticatedApiHandler<
   BeerDocument[] | string
@@ -29,10 +29,7 @@ const handleDeleteRequest: NextAuthenticatedApiHandler<
 
   await Beer.findByIdAndDelete(_id);
 
-  const beers = await Beer.find()
-    .populate({ model: User, path: "addedBy", select: "_id, name" })
-    .populate({ model: Brewery, path: "brewery" })
-    .sort({ createdAt: -1 });
+  const beers = await getBeers();
 
   res.status(200).json(beers);
 };

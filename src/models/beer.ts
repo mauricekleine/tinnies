@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 
+import { BeerStyle, BeerStyleDocument } from "./beerStyle";
 import { Brewery, BreweryDocument } from "./brewery";
 import { User, UserDocument } from "./user";
 
@@ -14,17 +15,19 @@ export type Beer = {
   image: string;
   name: string;
   rating: BeerRating;
+  style: BeerStyle | BeerStyleDocument;
 };
 
 export type BeerDocument = Beer & mongoose.Document;
 
 const beerSchema = new mongoose.Schema(
   {
-    addedBy: { ref: "User", type: ObjectId },
-    brewery: { ref: "Brewery", type: ObjectId },
+    addedBy: { ref: "User", required: true, type: ObjectId },
+    brewery: { ref: "Brewery", required: true, type: ObjectId },
     image: { required: true, type: String },
     name: { required: true, type: String },
     rating: { max: 5, min: 1, required: true, type: Number },
+    style: { ref: "BeerStyle", required: true, type: ObjectId },
   },
   {
     timestamps: true,

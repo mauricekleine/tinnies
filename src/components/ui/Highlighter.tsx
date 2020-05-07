@@ -1,3 +1,4 @@
+import escapeStringRegexp from "escape-string-regexp";
 import React, { useMemo } from "react";
 
 type Props = {
@@ -7,7 +8,10 @@ type Props = {
 };
 
 const Highlighter = ({ id = "", query, value }: Props) => {
-  const regex = useMemo(() => new RegExp(`(${query})`, "i"), [query]);
+  const regex = useMemo(
+    () => new RegExp(`(${escapeStringRegexp(query)})`, "i"),
+    [query]
+  );
 
   if (query) {
     const substrings = value.split(regex);

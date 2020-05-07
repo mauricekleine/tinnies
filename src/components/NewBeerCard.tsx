@@ -5,20 +5,22 @@ import * as yup from "yup";
 
 import useFetch from "../hooks/useFetch";
 import { Beer } from "../models/beer";
+import { BeerStyle } from "../models/beerStyle";
 import { Brewery } from "../models/brewery";
 import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "../utils/imageConfig";
 import {
   READ_BEERS_RESOURCE,
+  READ_BEER_STYLES_RESOURCE,
   READ_BREWERIES_RESOURCE,
 } from "../utils/resources";
 
 import { Button } from "./ui/Buttons";
 import Card from "./ui/Card";
 import { Title } from "./ui/Typography";
-import AutoSuggestField from "./ui/forms/AutoSuggestField";
 import ImageField from "./ui/forms/ImageField";
 import FormField from "./ui/forms/InputField";
 import BeerRatingField from "./ui/forms/RatingField";
+import SelectField from "./ui/forms/SelectField";
 
 const NewBeerSchema = yup.object().shape({
   brewery: yup.string().required("Required"),
@@ -37,14 +39,22 @@ const NewBeerSchema = yup.object().shape({
     ),
   name: yup.string().required("Required"),
   rating: yup.number().required("Required"),
+  style: yup.string().required("Required"),
 });
 
 const NewBeerCard = () => {
   const { post } = useFetch<Beer[]>(READ_BEERS_RESOURCE);
+
   const { data: breweries = [] } = useFetch<Brewery[]>(
     READ_BREWERIES_RESOURCE,
     { getOnInit: true }
   );
+
+  const { data: beerStyles = [] } = useFetch<BeerStyle[]>(
+    READ_BEER_STYLES_RESOURCE,
+    { getOnInit: true }
+  );
+
   const router = useRouter();
 
   const onSubmit = async (values, { setSubmitting }) => {
@@ -81,21 +91,39 @@ const NewBeerCard = () => {
       <Title>Add new beer</Title>
 
       <Formik
-        initialValues={{ brewery: "", image: "", name: "", rating: "" }}
+        initialValues={{
+          brewery: "",
+          image: "",
+          name: "",
+          rating: "",
+          style: "",
+        }}
         onSubmit={onSubmit}
         validationSchema={NewBeerSchema}
       >
         {({ isSubmitting, submitForm }) => (
           <Form className="flex flex-col">
-            <AutoSuggestField
+            <FormField label="Name" name="name" type="text" />
+
+            <ImageField label="Image" name="image" />
+
+            <SelectField
+              creatable
               getOptionKey={(brewery: Brewery) => brewery._id}
               getOptionValue={(brewery: Brewery) => brewery.name}
               label="Brewery"
               name="brewery"
               options={breweries}
             />
-            <ImageField label="Image" name="image" />
-            <FormField label="Name" name="name" type="text" />
+
+            <SelectField
+              getOptionKey={(style: BeerStyle) => style._id}
+              getOptionValue={(style: BeerStyle) => style.name}
+              label="Style"
+              name="style"
+              options={beerStyles}
+            />
+
             <BeerRatingField label="Rating" name="rating" />
 
             <Button

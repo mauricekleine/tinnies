@@ -37,7 +37,7 @@ const Dropdown = ({ children, width = "full" }: Props) => {
   useOnClickOutside(dropdownRef, () => setIsOpen(false));
 
   const dropdownProps = {
-    className: `absolute bg-white border border-${colors.grayLight} border-b-2 mt-2 right-0 rounded shadow-lg w-${width} z-50`,
+    className: `absolute bg-white border border-${colors.grayLight} border-b-2 mt-1 right-0 rounded shadow-lg w-${width} z-50`,
   };
 
   return (
