@@ -6,5 +6,8 @@ export const BEERS_RESOURCE = "/api/beers";
 export const BREWERIES_RESOURCE = "/api/breweries";
 export const BEER_STYLES_RESOURCE = "/api/beers/styles";
 
+export const COLLECTIONS_RESOURCE = "/api/collections";
+
 export const MY_BEERS_RESOURCE = "/api/my/beers";
+export const MY_COLLECTIONS_RESOURCE = "/api/my/collections";
 export const MY_PROFILE_RESOURCE = "/api/my/profile";

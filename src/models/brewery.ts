@@ -7,7 +7,7 @@ export type Brewery = {
 
 export type BreweryDocument = Brewery & mongoose.Document;
 
-export const BrewerySchema = new mongoose.Schema(
+export const brewerySchema = new mongoose.Schema(
   {
     name: { required: true, type: String },
   },
@@ -17,6 +17,6 @@ export const BrewerySchema = new mongoose.Schema(
 );
 
 const BreweryModel: mongoose.Model<BreweryDocument> =
-  mongoose.models.Brewery || mongoose.model("Brewery", BrewerySchema);
+  mongoose.models.Brewery || mongoose.model("Brewery", brewerySchema);
 
 export default BreweryModel;

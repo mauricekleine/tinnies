@@ -8,7 +8,7 @@ export type User = {
 
 export type UserDocument = User & { password: string } & mongoose.Document;
 
-export const UserSchema = new mongoose.Schema(
+export const userSchema = new mongoose.Schema(
   {
     email: { required: true, type: String },
     name: { required: true, type: String },
@@ -20,6 +20,6 @@ export const UserSchema = new mongoose.Schema(
 );
 
 const UserModel: mongoose.Model<UserDocument> =
-  mongoose.models.User || mongoose.model("User", UserSchema);
+  mongoose.models.User || mongoose.model("User", userSchema);
 
 export default UserModel;

@@ -3,34 +3,35 @@ import nextConnect from "next-connect";
 import authenticationMiddleware from "../../../middlewares/authentication";
 import commonMiddleware from "../../../middlewares/common";
 import { NextAuthenticatedApiHandler } from "../../../middlewares/passport";
-import Beer, { BeerDocument } from "../../../models/beer";
-import BeerModel from "../../../models/beer";
-import { canDeleteBeer } from "../../../utils/permissions";
+import CollectionModel, {
+  CollectionDocument,
+} from "../../../models/collection";
+import { canDeleteCollection } from "../../../utils/permissions";
 
 const handleDeleteRequest: NextAuthenticatedApiHandler<
-  BeerDocument[] | string
+  CollectionDocument[] | string
 > = async (req, res) => {
   const { _id } = req.query;
 
-  const beer = await Beer.findById(_id);
+  const collection = await CollectionModel.findById(_id);
 
-  if (!beer) {
+  if (!collection) {
     res.status(400).send("Invalid id");
 
     return;
   }
 
-  if (canDeleteBeer(beer, req.user)) {
+  if (canDeleteCollection(collection, req.user)) {
     res.status(403).send("Unauthorized");
 
     return;
   }
 
-  await Beer.findByIdAndDelete(_id);
+  await CollectionModel.findByIdAndDelete(_id);
 
-  const beers = await BeerModel.find().sort({ createdAt: -1 });
+  const collections = await CollectionModel.find().sort({ createdAt: -1 });
 
-  res.status(200).json(beers);
+  res.status(200).json(collections);
 };
 
 export default nextConnect()
