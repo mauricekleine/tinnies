@@ -1,8 +1,8 @@
-import Head from "next/head";
 import React from "react";
 
 import BeerCard from "../../components/BeerCard";
 import BeerCardPlaceholder from "../../components/BeerCardPlaceholder";
+import Page from "../../components/Page";
 import useFetch from "../../hooks/useFetch";
 import { Beer } from "../../models/beer";
 import { READ_MY_BEERS_RESOURCE } from "../../utils/resources";
@@ -13,11 +13,7 @@ const MyBeers = () => {
   });
 
   return (
-    <>
-      <Head>
-        <title>My Beers | Tinnies</title>
-      </Head>
-
+    <Page title="My Beers">
       {!beers && isLoading ? (
         <>
           <BeerCardPlaceholder />
@@ -26,7 +22,7 @@ const MyBeers = () => {
       ) : (
         beers.map((beer) => <BeerCard beer={beer} key={beer._id} />)
       )}
-    </>
+    </Page>
   );
 };
 

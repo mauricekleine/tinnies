@@ -1,5 +1,4 @@
 import { Form, Formik } from "formik";
-import Head from "next/head";
 import React from "react";
 import * as yup from "yup";
 
@@ -8,6 +7,7 @@ import {
   LOGIN_FORM_PASSWORD_FIELD,
   LOGIN_FORM_SUBMIT_BTN,
 } from "../../cypress/selectors";
+import Page from "../components/Page";
 import { Button } from "../components/ui/Buttons";
 import Card from "../components/ui/Card";
 import { Title } from "../components/ui/Typography";
@@ -40,11 +40,7 @@ const LoginPage = () => {
   };
 
   return (
-    <>
-      <Head>
-        <title>Log in | Tinnies</title>
-      </Head>
-
+    <Page title="Log in">
       <Card>
         <Title>Log in</Title>
 
@@ -82,7 +78,7 @@ const LoginPage = () => {
           )}
         </Formik>
       </Card>
-    </>
+    </Page>
   );
 };
 
