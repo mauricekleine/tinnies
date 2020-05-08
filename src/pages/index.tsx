@@ -1,16 +1,20 @@
-import Head from "next/head";
 import React from "react";
 
-import { Title } from "../components/ui/Typography";
+import Page from "../components/Page";
+
+import UndrawHavingFunSVG from "./undraw_having_fun_iais.svg";
 
 const Home = () => (
-  <>
-    <Head>
-      <title>Tinnies | Beer tracking, but better</title>
-    </Head>
+  <Page title="Beer tracking, but better">
+    <div className="text-center">
+      <h1 className="font-semibold leading-none text-6xl">Tinnies</h1>
+      <h2 className="text-xl">beer tracking, but better</h2>
 
-    <Title>Tinnies | Beer tracking, but better</Title>
-  </>
+      <div className="mt-4">
+        <UndrawHavingFunSVG />
+      </div>
+    </div>
+  </Page>
 );
 
 export default Home;
