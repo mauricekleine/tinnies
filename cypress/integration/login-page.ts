@@ -22,7 +22,18 @@ describe("Login page", () => {
     cy.visit("/login");
   });
 
-  it("redirect to /home on success", () => {
+  it("redirects to /home on success", () => {
+    cy.get(`[data-cy=${LOGIN_FORM_EMAIL_FIELD}]`).should(
+      "have.attr",
+      "type",
+      "email"
+    );
+    cy.get(`[data-cy=${LOGIN_FORM_PASSWORD_FIELD}]`).should(
+      "have.attr",
+      "type",
+      "password"
+    );
+
     cy.get(`[data-cy=${LOGIN_FORM_EMAIL_FIELD}]`).type(user.email);
     cy.get(`[data-cy=${LOGIN_FORM_PASSWORD_FIELD}]`).type(user.password);
     cy.get(`[data-cy=${LOGIN_FORM_SUBMIT_BTN}]`).click();
