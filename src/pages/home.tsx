@@ -5,10 +5,10 @@ import BeerCardPlaceholder from "../components/BeerCardPlaceholder";
 import Page from "../components/Page";
 import useFetch from "../hooks/useFetch";
 import { Beer } from "../models/beer";
-import { READ_BEERS_RESOURCE } from "../utils/resources";
+import { BEERS_RESOURCE } from "../utils/resources";
 
 const Home = () => {
-  const { data: beers, isLoading } = useFetch<Beer[]>(READ_BEERS_RESOURCE, {
+  const { data: beers, isLoading } = useFetch<Beer[]>(BEERS_RESOURCE, {
     getOnInit: true,
   });
 

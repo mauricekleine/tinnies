@@ -10,7 +10,7 @@ import {
 import useDropdown from "../hooks/useDropdown";
 import useFetch from "../hooks/useFetch";
 import { User } from "../models/user";
-import { LOGOUT_RESOURCE, READ_MY_PROFILE_RESOURCE } from "../utils/resources";
+import { LOGOUT_RESOURCE, MY_PROFILE_RESOURCE } from "../utils/resources";
 
 import Avatar from "./ui/Avatar";
 import { Button, ButtonLink } from "./ui/Buttons";
@@ -28,7 +28,7 @@ const Navigation = ({ isLoading, user }: Props) => {
     width: "48",
   });
   const { del } = useFetch<User>(LOGOUT_RESOURCE, {
-    cacheKey: READ_MY_PROFILE_RESOURCE,
+    cacheKey: MY_PROFILE_RESOURCE,
   });
 
   const handleLogout = async () => {

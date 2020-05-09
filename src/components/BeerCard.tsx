@@ -10,8 +10,8 @@ import { Beer } from "../models/beer";
 import { User } from "../models/user";
 import { canDeleteBeer } from "../utils/permissions";
 import {
-  READ_BEERS_RESOURCE,
-  READ_MY_PROFILE_RESOURCE,
+  BEERS_RESOURCE,
+  MY_PROFILE_RESOURCE,
 } from "../utils/resources";
 
 import Avatar from "./ui/Avatar";
@@ -28,10 +28,10 @@ const BeerCard = ({ beer }: Props) => {
   const { dropdownProps, handleToggle, isOpen } = useDropdown(dropdownRef, {
     width: "24",
   });
-  const { del } = useFetch<Beer[]>(`${READ_BEERS_RESOURCE}/${beer._id}`, {
-    cacheKey: READ_BEERS_RESOURCE,
+  const { del } = useFetch<Beer[]>(`${BEERS_RESOURCE}/${beer._id}`, {
+    cacheKey: BEERS_RESOURCE,
   });
-  const { data: user } = useFetch<User>(READ_MY_PROFILE_RESOURCE);
+  const { data: user } = useFetch<User>(MY_PROFILE_RESOURCE);
 
   const canDelete = canDeleteBeer(beer, user);
 

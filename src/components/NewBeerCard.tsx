@@ -9,9 +9,9 @@ import { BeerStyle } from "../models/beerStyle";
 import { Brewery } from "../models/brewery";
 import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "../utils/imageConfig";
 import {
-  READ_BEERS_RESOURCE,
-  READ_BEER_STYLES_RESOURCE,
-  READ_BREWERIES_RESOURCE,
+  BEERS_RESOURCE,
+  BEER_STYLES_RESOURCE,
+  BREWERIES_RESOURCE,
 } from "../utils/resources";
 
 import { Button } from "./ui/Buttons";
@@ -43,15 +43,15 @@ const NewBeerSchema = yup.object().shape({
 });
 
 const NewBeerCard = () => {
-  const { post } = useFetch<Beer[]>(READ_BEERS_RESOURCE);
+  const { post } = useFetch<Beer[]>(BEERS_RESOURCE);
 
   const { data: breweries = [] } = useFetch<Brewery[]>(
-    READ_BREWERIES_RESOURCE,
+    BREWERIES_RESOURCE,
     { getOnInit: true }
   );
 
   const { data: beerStyles = [] } = useFetch<BeerStyle[]>(
-    READ_BEER_STYLES_RESOURCE,
+    BEER_STYLES_RESOURCE,
     { getOnInit: true }
   );
 

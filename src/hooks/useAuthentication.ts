@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { User } from "../models/user";
-import { READ_MY_PROFILE_RESOURCE } from "../utils/resources";
+import { MY_PROFILE_RESOURCE } from "../utils/resources";
 
 import useFetch from "./useFetch";
 
@@ -10,7 +10,7 @@ const UNAUTHENTICATED_ROUTES = ["/", "/login", "/signup"];
 
 const useAuthentication = () => {
   const { data: user, get, isLoading, status } = useFetch<User>(
-    READ_MY_PROFILE_RESOURCE,
+    MY_PROFILE_RESOURCE,
     { getOnInit: true, getOnVisibilityChange: true }
   );
 
