@@ -33,6 +33,7 @@ const InputField = ({ label, name, type, ...props }: InputFieldProps) => {
           colors.primary
         } focus:outline-none`}
         placeholder={label}
+        type={type}
         {...field}
         {...props}
       />
