@@ -31,7 +31,9 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# build output
 .now
+.vercel
 
 # cypress
 /cypress/videos
