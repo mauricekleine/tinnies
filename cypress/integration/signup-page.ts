@@ -1,4 +1,4 @@
-import { READ_MY_PROFILE_RESOURCE } from "../../src/utils/resources";
+import { MY_PROFILE_RESOURCE } from "../../src/utils/resources";
 import {
   createRandomUser,
   deleteRandomUserAndLogout,
@@ -27,7 +27,7 @@ describe("Signup page", () => {
     cy.url().should("include", "/home");
 
     cy.window()
-      .its("Tinnies.Cache." + READ_MY_PROFILE_RESOURCE)
+      .its("Tinnies.Cache." + MY_PROFILE_RESOURCE)
       .should(($user) => verifyUser($user, user));
   });
 

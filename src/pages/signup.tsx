@@ -15,7 +15,7 @@ import { Title } from "../components/ui/Typography";
 import InputField from "../components/ui/forms/InputField";
 import useFetch from "../hooks/useFetch";
 import { User } from "../models/user";
-import { READ_MY_PROFILE_RESOURCE, SIGNUP_RESOURCE } from "../utils/resources";
+import { MY_PROFILE_RESOURCE, SIGNUP_RESOURCE } from "../utils/resources";
 
 const SignupSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Required"),
@@ -25,7 +25,7 @@ const SignupSchema = yup.object().shape({
 
 const SignupPage = () => {
   const { post } = useFetch<User>(SIGNUP_RESOURCE, {
-    cacheKey: READ_MY_PROFILE_RESOURCE,
+    cacheKey: MY_PROFILE_RESOURCE,
   });
 
   const onSubmit = async (values, { setSubmitting }) => {

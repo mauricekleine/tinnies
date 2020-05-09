@@ -3,7 +3,7 @@ import { internet, name } from "faker";
 import {
   LOGIN_RESOURCE,
   LOGOUT_RESOURCE,
-  READ_MY_PROFILE_RESOURCE,
+  MY_PROFILE_RESOURCE,
   SIGNUP_RESOURCE,
 } from "../../src/utils/resources";
 
@@ -47,6 +47,6 @@ export const createRandomUser: () => User = () => ({
 });
 
 export const deleteRandomUserAndLogout = () => {
-  cy.request("DELETE", READ_MY_PROFILE_RESOURCE);
+  cy.request("DELETE", MY_PROFILE_RESOURCE);
   logout();
 };
