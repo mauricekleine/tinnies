@@ -55,7 +55,7 @@ export type BeerStyle = {
 
 export type BeerStyleDocument = BeerStyle & mongoose.Document;
 
-export const BeerStyleSchema = new mongoose.Schema(
+export const beerStyleSchema = new mongoose.Schema(
   {
     name: { enum: beerStyles, required: true, type: String },
   },
@@ -65,6 +65,6 @@ export const BeerStyleSchema = new mongoose.Schema(
 );
 
 const BeerStyleModel: mongoose.Model<BeerStyleDocument> =
-  mongoose.models.BeerStyle || mongoose.model("BeerStyle", BeerStyleSchema);
+  mongoose.models.BeerStyle || mongoose.model("BeerStyle", beerStyleSchema);
 
 export default BeerStyleModel;

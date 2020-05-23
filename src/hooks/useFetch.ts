@@ -50,22 +50,21 @@ const createRequestHandler = <T>(
   method: RequestInit["method"],
   url: string,
   cache: Cache<T>
-) => async (options?: Omit<RequestInit, "headers" | "method">) => {
+) => async (body?: object) => {
   cache.notify({
     type: "fetching",
   });
 
-  const opts = {
-    ...options,
+  const options: RequestInit = {
     headers: { "Content-Type": "application/json" },
     method,
   };
 
-  if (options && options.body) {
-    opts.body = JSON.stringify(options.body);
+  if (body) {
+    options.body = JSON.stringify(body);
   }
 
-  const res = await fetch(url, opts);
+  const res = await fetch(url, options);
 
   if (method === "DELETE" && res.status === 204) {
     cache.notify({

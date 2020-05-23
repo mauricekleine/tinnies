@@ -62,13 +62,15 @@ const Navigation = ({ isLoading, user }: Props) => {
               <ButtonLink borderless href="/my/beers">
                 My Beers
               </ButtonLink>
+
+              <ButtonLink borderless href="/my/collections">
+                My Collections
+              </ButtonLink>
             </div>
 
             <ButtonLink href="/new/beer">
-              <div className="flex items-center">
-                <FontAwesomeIcon className="h-4 mr-2 w-4" icon={faPlus} />
-                Add a beer
-              </div>
+              <FontAwesomeIcon className="h-4 mr-2 w-4" icon={faPlus} />
+              Add a beer
             </ButtonLink>
           </div>
         )}
@@ -93,13 +95,10 @@ const Navigation = ({ isLoading, user }: Props) => {
                   >
                     <Link href="/home">Home</Link>
                     <Link href="/my/beers">My Beers</Link>
+                    <Link href="/my/collections">My Collections</Link>
                   </div>
 
-                  <Button
-                    borderless
-                    isLoading={isLoading}
-                    onClick={handleLogout}
-                  >
+                  <Button isLoading={isLoading} onClick={handleLogout}>
                     Log out
                   </Button>
                 </div>

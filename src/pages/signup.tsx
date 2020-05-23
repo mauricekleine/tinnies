@@ -32,9 +32,7 @@ const SignupPage = () => {
     setSubmitting(true);
 
     try {
-      await post({
-        body: values,
-      });
+      await post(values);
     } catch (e) {
       // $TODO: handle error
       setSubmitting(false);
