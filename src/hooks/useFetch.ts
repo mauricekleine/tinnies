@@ -39,45 +39,7 @@ const createReducer = () => <T>(state: State<T>, action: Action<T>) => {
   return state;
 };
 
-type UseFetchOptions = {
-  cacheKey?: string;
-  getOnInit?: boolean;
-  getOnVisibilityChange?: boolean;
-};
-
-// Http request handler creator
-const createRequestHandler = <T>(
-  method: RequestInit["method"],
-  url: string,
-  cache: Cache<T>
-) => async (body?: object) => {
-  cache.notify({
-    type: "fetching",
-  });
-
-  const options: RequestInit = {
-    headers: { "Content-Type": "application/json" },
-    method,
-  };
-
-  if (body) {
-    options.body = JSON.stringify(body);
-  }
-
-  const res = await fetch(url, options);
-
-  if (method === "DELETE" && res.status === 204) {
-    cache.notify({
-      payload: {
-        data: undefined,
-        status: res.status,
-      },
-      type: "success",
-    });
-
-    return { status: res.status };
-  }
-
+const getJson = async <T>(res: Response, cache: Cache<T>) => {
   try {
     const data: T = await res.json();
 
@@ -100,6 +62,12 @@ const createRequestHandler = <T>(
   }
 };
 
+type UseFetchOptions = {
+  cacheKey?: string;
+  getOnInit?: boolean;
+  getOnVisibilityChange?: boolean;
+};
+
 const useFetch = <T>(url: string, options: UseFetchOptions = {}) => {
   // Initialize cache
   const cacheKey = options.cacheKey || url;
@@ -115,10 +83,98 @@ const useFetch = <T>(url: string, options: UseFetchOptions = {}) => {
     Reducer<State<T>, Action<T>>
   >(reducer, initialState);
 
-  // Http request handlers
-  const del = useCallback(createRequestHandler<T>("DELETE", url, cache), [url]);
-  const get = useCallback(createRequestHandler<T>("GET", url, cache), [url]);
-  const post = useCallback(createRequestHandler<T>("POST", url, cache), [url]);
+  // Delete request handler
+  const del = useCallback(
+    (id?: string) => {
+      const deleteRequestHandler = async () => {
+        if (id && Array.isArray(data)) {
+          const optimisticData = (data.filter(
+            ({ _id }) => _id !== id
+          ) as unknown) as T;
+
+          cache.notify({
+            payload: {
+              data: optimisticData,
+              status: 200,
+            },
+            type: "success",
+          });
+        }
+
+        cache.notify({
+          type: "fetching",
+        });
+
+        const options: RequestInit = {
+          headers: { "Content-Type": "application/json" },
+          method: "DELETE",
+        };
+
+        const res = await fetch(`${url}/${id}`, options);
+
+        if (res.status === 204) {
+          cache.notify({
+            payload: {
+              data: undefined,
+              status: res.status,
+            },
+            type: "success",
+          });
+
+          return { status: res.status };
+        }
+
+        return getJson<T>(res, cache);
+      };
+
+      return deleteRequestHandler();
+    },
+    [data, url]
+  );
+
+  // GET request handler
+  const get = useCallback(() => {
+    const getRequestHandler = async () => {
+      cache.notify({
+        type: "fetching",
+      });
+
+      const options: RequestInit = {
+        headers: { "Content-Type": "application/json" },
+        method: "GET",
+      };
+
+      const res = await fetch(url, options);
+
+      return getJson<T>(res, cache);
+    };
+
+    return getRequestHandler();
+  }, [url]);
+
+  // POST request handler
+  const post = useCallback(
+    (body: object) => {
+      const postRequestHandler = async () => {
+        cache.notify({
+          type: "fetching",
+        });
+
+        const options: RequestInit = {
+          body: JSON.stringify(body),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        };
+
+        const res = await fetch(url, options);
+
+        return getJson<T>(res, cache);
+      };
+
+      return postRequestHandler();
+    },
+    [url]
+  );
 
   // Subscribe dispatch to the cache
   useEffect(() => {

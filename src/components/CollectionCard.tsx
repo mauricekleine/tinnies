@@ -25,12 +25,9 @@ const CollectionCard = ({ collection }: Props) => {
   const { dropdownProps, handleToggle, isOpen } = useDropdown(dropdownRef, {
     width: "24",
   });
-  const { del } = useFetch<Collection[]>(
-    `${COLLECTIONS_RESOURCE}/${collection._id}`,
-    {
-      cacheKey: MY_COLLECTIONS_RESOURCE,
-    }
-  );
+  const { del } = useFetch<Collection[]>(COLLECTIONS_RESOURCE, {
+    cacheKey: MY_COLLECTIONS_RESOURCE,
+  });
   const { data: user } = useFetch<User>(MY_PROFILE_RESOURCE);
 
   const canDelete = canDeleteCollection(collection, user);
@@ -39,7 +36,7 @@ const CollectionCard = ({ collection }: Props) => {
     const result = confirm("Are you sure?");
 
     if (result) {
-      del();
+      del(collection._id);
     }
   };
 
