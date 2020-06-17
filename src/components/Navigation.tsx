@@ -13,8 +13,8 @@ import { User } from "../models/user";
 import { LOGOUT_RESOURCE, MY_PROFILE_RESOURCE } from "../utils/resources";
 
 import Avatar from "./ui/Avatar";
-import { Button, ButtonLink } from "./ui/Buttons";
 import { Link } from "./ui/Typography";
+import { Button, SecondaryButton } from "./ui/buttons";
 import colors from "./ui/colors";
 
 type Props = {
@@ -55,23 +55,23 @@ const Navigation = ({ isLoading, user }: Props) => {
         {user && (
           <div className="flex">
             <div className="hidden sm:flex">
-              <ButtonLink borderless href="/home">
+              <SecondaryButton borderless href="/home">
                 Home
-              </ButtonLink>
+              </SecondaryButton>
 
-              <ButtonLink borderless href="/my/beers">
+              <SecondaryButton borderless href="/my/beers">
                 My Beers
-              </ButtonLink>
+              </SecondaryButton>
 
-              <ButtonLink borderless href="/my/collections">
+              <SecondaryButton borderless href="/my/collections">
                 My Collections
-              </ButtonLink>
+              </SecondaryButton>
             </div>
 
-            <ButtonLink href="/new/beer">
+            <SecondaryButton href="/new/beer">
               <FontAwesomeIcon className="h-4 mr-2 w-4" icon={faPlus} />
               Add a beer
-            </ButtonLink>
+            </SecondaryButton>
           </div>
         )}
       </div>
@@ -108,17 +108,17 @@ const Navigation = ({ isLoading, user }: Props) => {
         ) : (
           !isLoading && (
             <div className="flex">
-              <ButtonLink
+              <SecondaryButton
                 borderless
                 data-cy={NAVIGATION_LOGIN_BTN}
                 href="/login"
               >
                 Log in
-              </ButtonLink>
+              </SecondaryButton>
 
-              <ButtonLink data-cy={NAVIGATION_SIGNUP_BTN} href="/signup">
+              <SecondaryButton data-cy={NAVIGATION_SIGNUP_BTN} href="/signup">
                 Sign up
-              </ButtonLink>
+              </SecondaryButton>
             </div>
           )
         )}

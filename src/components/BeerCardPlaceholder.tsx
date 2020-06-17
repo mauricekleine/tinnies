@@ -31,7 +31,7 @@ const BeerCardPlaceholder = () => (
 
       <div className="px-6">
         <div className="mb-1">
-          <Rating color={colors.grayLight} value={5} />
+          <Rating disabled value={5} />
         </div>
 
         <div className={`bg-${colors.grayLight} rounded text-transparent`}>

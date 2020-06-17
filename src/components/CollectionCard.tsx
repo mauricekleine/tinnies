@@ -1,5 +1,4 @@
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useRef } from "react";
 
 import useDropdown from "../hooks/useDropdown";
@@ -14,7 +13,8 @@ import {
 } from "../utils/resources";
 
 import Card from "./ui/Card";
-import colors from "./ui/colors";
+import { Icon } from "./ui/Icon";
+import { ButtonLink } from "./ui/buttons";
 
 type Props = {
   collection: Collection;
@@ -51,21 +51,13 @@ const CollectionCard = ({ collection }: Props) => {
         {canDelete && (
           <div className="relative" ref={dropdownRef}>
             <div className="cursor-pointer -mt-2 p-2" onClick={handleToggle}>
-              <FontAwesomeIcon
-                className={`text-${colors.gray}`}
-                icon={faEllipsisV}
-              />
+              <Icon icon={faEllipsisV} />
             </div>
 
             {isOpen && (
               <div {...dropdownProps}>
                 <div className="px-4 py-2">
-                  <p
-                    className={`cursor-pointer p-2 hover:text-${colors.primaryAccent}`}
-                    onClick={handleDelete}
-                  >
-                    Delete
-                  </p>
+                  <ButtonLink onClick={handleDelete}>Delete</ButtonLink>
                 </div>
               </div>
             )}

@@ -11,18 +11,18 @@ import colors from "./colors";
 const RATING_VALUES: BeerRating[] = [1, 2, 3, 4, 5];
 
 type Props = {
-  color?: string;
+  disabled?: boolean;
   onClick?: (rating: BeerRating) => void;
   size?: number;
   value: BeerRating;
 };
 
-const Rating = ({ color = colors.yellow, onClick, size = 1, value }: Props) => (
+const Rating = ({ disabled = false, onClick, size = 1, value }: Props) => (
   <div className={`flex items-center space-x-${size}`}>
     {RATING_VALUES.map((rating) => (
       <div key={rating}>
         <FontAwesomeIcon
-          className={`text-${color}`}
+          className={`text-${disabled ? colors.grayLight : colors.yellow}`}
           icon={rating <= value ? fasStar : farStar}
           onClick={() => onClick && onClick(rating)}
           size={`${size}x` as SizeProp}

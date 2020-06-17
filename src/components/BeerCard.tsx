@@ -1,5 +1,4 @@
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "cloudinary-react";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import React, { useRef } from "react";
@@ -13,8 +12,10 @@ import { BEERS_RESOURCE, MY_PROFILE_RESOURCE } from "../utils/resources";
 
 import Avatar from "./ui/Avatar";
 import Card from "./ui/Card";
+import { Icon } from "./ui/Icon";
 import Rating from "./ui/Rating";
-import colors from "./ui/colors";
+import { FinePrint, HeadingOne, Muted, UserName } from "./ui/Typography";
+import { ButtonLink } from "./ui/buttons";
 
 type Props = {
   beer: Beer;
@@ -48,37 +49,27 @@ const BeerCard = ({ beer }: Props) => {
 
           <div className="flex flex-col leading-snug">
             <p className="truncate w-40">
-              <span className={`font-semibold text-${colors.primaryAccent}`}>
-                {`${beer.addedBy.name} `}
-              </span>
+              <UserName>{beer.addedBy.name}</UserName>
 
-              <span className="">rated a beer</span>
+              <span> rated a beer</span>
             </p>
 
-            <span className={`text-${colors.gray} text-sm`}>
+            <FinePrint>
               {formatDistanceToNow(new Date(beer.createdAt))} ago
-            </span>
+            </FinePrint>
           </div>
         </div>
 
         {canDelete && (
           <div className="relative" ref={dropdownRef}>
             <div className="cursor-pointer -mt-2 p-2" onClick={handleToggle}>
-              <FontAwesomeIcon
-                className={`text-${colors.gray}`}
-                icon={faEllipsisV}
-              />
+              <Icon icon={faEllipsisV} />
             </div>
 
             {isOpen && (
               <div {...dropdownProps}>
                 <div className="px-4 py-2">
-                  <p
-                    className={`cursor-pointer p-2 hover:text-${colors.primaryAccent}`}
-                    onClick={handleDelete}
-                  >
-                    Delete
-                  </p>
+                  <ButtonLink onClick={handleDelete}>Delete</ButtonLink>
                 </div>
               </div>
             )}
@@ -100,15 +91,15 @@ const BeerCard = ({ beer }: Props) => {
           <Rating value={beer.rating} />
         </div>
 
-        <div className="font-semibold text-xl">{beer.name}</div>
+        <HeadingOne>{beer.name}</HeadingOne>
 
         {beer.style && (
-          <div className={`font-semibold text-${colors.primary} text-sm`}>
-            {beer.style.name}
-          </div>
+          <p>
+            <Muted>{beer.style.name}</Muted>
+          </p>
         )}
 
-        <div className={`text-${colors.gray}`}>{beer.brewery.name}</div>
+        <Muted>{beer.brewery.name}</Muted>
       </div>
     </Card>
   );

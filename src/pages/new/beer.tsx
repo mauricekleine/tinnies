@@ -4,13 +4,10 @@ import React from "react";
 import * as yup from "yup";
 
 import Page from "../../components/Page";
-import { Button } from "../../components/ui/Buttons";
 import Card from "../../components/ui/Card";
 import { Title } from "../../components/ui/Typography";
-import ImageField from "../../components/ui/forms/ImageField";
-import FormField from "../../components/ui/forms/InputField";
-import BeerRatingField from "../../components/ui/forms/RatingField";
-import SelectField from "../../components/ui/forms/SelectField";
+import { Button } from "../../components/ui/buttons";
+import { ImageField, InputField, RatingField, SelectField } from "../../components/ui/forms";
 import useFetch from "../../hooks/useFetch";
 import { Beer } from "../../models/beer";
 import { BeerStyle } from "../../models/beerStyle";
@@ -45,10 +42,9 @@ const NewBeerSchema = yup.object().shape({
 const NewBeer = () => {
   const { post } = useFetch<Beer[]>(MY_BEERS_RESOURCE);
 
-  const { data: breweries = [] } = useFetch<Brewery[]>(
-    BREWERIES_RESOURCE,
-    { getOnInit: true }
-  );
+  const { data: breweries = [] } = useFetch<Brewery[]>(BREWERIES_RESOURCE, {
+    getOnInit: true,
+  });
 
   const { data: beerStyles = [] } = useFetch<BeerStyle[]>(
     BEER_STYLES_RESOURCE,
@@ -105,7 +101,7 @@ const NewBeer = () => {
         >
           {({ isSubmitting, submitForm }) => (
             <Form className="flex flex-col">
-              <FormField label="Name" name="name" type="text" />
+              <InputField label="Name" name="name" type="text" />
 
               <ImageField label="Image" name="image" />
 
@@ -126,7 +122,7 @@ const NewBeer = () => {
                 options={beerStyles}
               />
 
-              <BeerRatingField label="Rating" name="rating" />
+              <RatingField label="Rating" name="rating" />
 
               <Button
                 disabled={isSubmitting}

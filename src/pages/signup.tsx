@@ -9,10 +9,10 @@ import {
   SIGNUP_FORM_SUBMIT_BTN,
 } from "../../cypress/selectors";
 import Page from "../components/Page";
-import { Button } from "../components/ui/Buttons";
 import Card from "../components/ui/Card";
 import { Title } from "../components/ui/Typography";
-import InputField from "../components/ui/forms/InputField";
+import { Button } from "../components/ui/buttons";
+import { InputField } from "../components/ui/forms";
 import useFetch from "../hooks/useFetch";
 import { User } from "../models/user";
 import { MY_PROFILE_RESOURCE, SIGNUP_RESOURCE } from "../utils/resources";
