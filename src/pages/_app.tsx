@@ -5,8 +5,8 @@ import React, { useEffect } from "react";
 import Rollbar from "rollbar";
 
 import Footer from "../components/Footer";
-import Navigation from "../components/Navigation";
-import colors from "../components/ui/colors";
+import Navbar from "../components/ui/navbar";
+import Theme, { ThemeProvider, theme } from "../components/ui/theme";
 import useAuthentication from "../hooks/useAuthentication";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -37,17 +37,23 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      <div
-        className={`bg-${colors.grayLighter} flex flex-col font-light min-h-screen`}
-      >
-        <Navigation isLoading={isLoading} user={user} />
+      <ThemeProvider value={theme}>
+        <Theme>
+          {({ colors }) => (
+            <div
+              className={`bg-${colors.grayLighter} flex flex-col font-light min-h-screen`}
+            >
+              <Navbar isLoading={isLoading} user={user} />
 
-        <div className="flex-1 mx-auto mb-4 mt-8 w-4/5 md:w-3/5 lg:w-2/5">
-          {shouldRender && <Component {...pageProps} />}
-        </div>
+              <div className="flex-1 mx-auto mb-4 mt-8 w-4/5 md:w-3/5 lg:w-2/5">
+                {shouldRender && <Component {...pageProps} />}
+              </div>
 
-        <Footer />
-      </div>
+              <Footer />
+            </div>
+          )}
+        </Theme>
+      </ThemeProvider>
     </>
   );
 };

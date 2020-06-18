@@ -1,9 +1,11 @@
+import classNames from "classnames";
 import { useField } from "formik";
 import React from "react";
 import { useDropzone } from "react-dropzone";
 
 import { ALLOWED_IMAGE_TYPES } from "../../../utils/imageConfig";
-import colors from "../colors";
+import Theme from "../theme";
+import { FinePrint } from "../typography";
 
 import FormGroup from "./FormGroup";
 import { hasError } from "./utils";
@@ -26,37 +28,50 @@ const ImageField = ({ label, name }: ImageFieldProps) => {
   const file = acceptedFiles[0];
 
   return (
-    <FormGroup
-      error={meta.error}
-      hasError={hasFieldError}
-      label={label}
-      labelFor={name}
-    >
-      <div
-        {...getRootProps({
-          className: `border border-b-2 border-${
-            meta.touched && meta.error ? colors.red : colors.grayLight
-          } cursor-pointer flex flex-col h-64 items-center justify-center p-4 overflow-hidden rounded text-center focus:border-${
-            colors.primary
-          } focus:outline-none`,
-        })}
-      >
-        <input id={name} name={name} {...getInputProps()} />
+    <Theme>
+      {({ colors }) => (
+        <FormGroup
+          error={meta.error}
+          hasError={hasFieldError}
+          label={label}
+          labelFor={name}
+        >
+          <div
+            {...getRootProps({
+              className: classNames(
+                "border border-b-2",
+                {
+                  [`border-${colors.red}`]: hasFieldError,
+                  [`border-${colors.grayLight}`]: !hasFieldError,
+                },
+                "cursor-pointer flex flex-col h-64 items-center justify-center p-4 overflow-hidden rounded text-center",
+                `focus:border-${colors.primary}`,
+                "focus:outline-none"
+              ),
+            })}
+          >
+            <input id={name} name={name} {...getInputProps()} />
 
-        {file ? (
-          <>
-            <img className="h-full rounded" src={URL.createObjectURL(file)} />
-          </>
-        ) : (
-          <>
-            <span>Click to select files</span>
-            <span className={`text-${colors.gray} text-xs`}>
-              Only *.jpeg and *.png images will be accepted
-            </span>
-          </>
-        )}
-      </div>
-    </FormGroup>
+            {file ? (
+              <>
+                <img
+                  className="h-full rounded"
+                  src={URL.createObjectURL(file)}
+                />
+              </>
+            ) : (
+              <>
+                <span>Click to select files</span>
+
+                <FinePrint>
+                  Only *.jpeg and *.png images will be accepted
+                </FinePrint>
+              </>
+            )}
+          </div>
+        </FormGroup>
+      )}
+    </Theme>
   );
 };
 

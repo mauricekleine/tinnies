@@ -1,5 +1,6 @@
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames";
 import escapeStringRegexp from "escape-string-regexp";
 import { useField } from "formik";
 import React, {
@@ -13,7 +14,7 @@ import React, {
 
 import useDropdown from "../../../hooks/useDropdown";
 import Highlighter from "../Highlighter";
-import colors from "../colors";
+import Theme from "../theme";
 
 import FormGroup from "./FormGroup";
 import { hasError } from "./utils";
@@ -108,84 +109,95 @@ const SelectField = ({
   const shouldShowAddOption = creatable && field.value && !hasExactMatch;
   const shouldShowDropdown = isOpen && (creatable || matches.length > 0);
 
-  const getColor = () => {
-    if (hasFocus) {
-      return colors.primary;
-    }
-
-    if (hasFieldError) {
-      return colors.red;
-    }
-
-    return colors.grayLight;
-  };
-
   return (
-    <FormGroup
-      error={meta.error}
-      hasError={hasFieldError}
-      label={label}
-      labelFor={name}
-    >
-      <div
-        className={`border border-b-2 border-${getColor()} flex rounded`}
-        onClick={() => handleOpen()}
-      >
-        <input
-          {...field}
-          className={`appearance-none px-3 py-2 rounded text-${colors.gray} w-full focus:outline-none`}
-          id={name}
-          onFocus={() => setHasFocus(true)}
-          onBlur={handleBlur}
-          onKeyPress={handleKeyPres}
-          placeholder={label}
-          type="string"
-        />
+    <Theme>
+      {({ colors }) => (
+        <FormGroup
+          error={meta.error}
+          hasError={hasFieldError}
+          label={label}
+          labelFor={name}
+        >
+          <div
+            className={classNames(
+              "border border-b-2",
+              {
+                [`border-${colors.grayLight}`]: !hasFieldError && !hasFocus,
+                [`border-${colors.primary}`]: !hasFieldError && hasFocus,
+                [`border-${colors.red}`]: hasFieldError && !hasFocus,
+              },
+              "flex rounded"
+            )}
+            onClick={() => handleOpen()}
+          >
+            <input
+              {...field}
+              className={`appearance-none px-3 py-2 rounded text-${colors.gray} w-full focus:outline-none`}
+              id={name}
+              onFocus={() => setHasFocus(true)}
+              onBlur={handleBlur}
+              onKeyPress={handleKeyPres}
+              placeholder={label}
+              type="string"
+            />
 
-        <div className="px-3 py-2">
-          <FontAwesomeIcon
-            className={`text-${getColor()}`}
-            icon={faCaretDown}
-          />
-        </div>
-      </div>
-
-      {shouldShowDropdown && (
-        <div className="relative" ref={dropdownRef}>
-          <div {...dropdownProps}>
-            <div className="max-h-sm overflow-scroll py-1">
-              {matches.map((option) => {
-                const key = getOptionKey(option);
-                const value = getOptionValue(option);
-
-                return (
-                  <div
-                    className={`cursor-pointer px-4 py-1 hover:bg-${colors.grayLighter}`}
-                    key={key}
-                    onClick={() => handleOptionClick(value)}
-                  >
-                    <Highlighter id={key} query={field.value} value={value} />
-                  </div>
-                );
-              })}
-
-              {shouldShowAddOption && (
-                <div
-                  className={`${
-                    matches.length > 0 && `border-t border-${colors.grayLight}`
-                  } cursor-pointer px-4 py-1 hover:bg-${colors.grayLighter}`}
-                  onClick={handleClose}
-                >
-                  <span>Add &quot;</span>
-                  <span className="font-semibold">{field.value}</span>
-                  <span>&quot;</span>
-                </div>
-              )}
+            <div className="px-3 py-2">
+              <FontAwesomeIcon
+                className={classNames({
+                  [`border-${colors.grayLight}`]: !hasFieldError && !hasFocus,
+                  [`border-${colors.primary}`]: !hasFieldError && hasFocus,
+                  [`border-${colors.red}`]: hasFieldError && !hasFocus,
+                })}
+                icon={faCaretDown}
+              />
             </div>
           </div>
-        </div>
+
+          {shouldShowDropdown && (
+            <div className="relative" ref={dropdownRef}>
+              <div {...dropdownProps}>
+                <div className="max-h-sm overflow-scroll py-1">
+                  {matches.map((option) => {
+                    const key = getOptionKey(option);
+                    const value = getOptionValue(option);
+
+                    return (
+                      <div
+                        className={`cursor-pointer px-4 py-1 hover:bg-${colors.grayLighter}`}
+                        key={key}
+                        onClick={() => handleOptionClick(value)}
+                      >
+                        <Highlighter
+                          id={key}
+                          query={field.value}
+                          value={value}
+                        />
+                      </div>
+                    );
+                  })}
+
+                  {shouldShowAddOption && (
+                    <div
+                      className={`${
+                        matches.length > 0 &&
+                        `border-t border-${colors.grayLight}`
+                      } cursor-pointer px-4 py-1 hover:bg-${
+                        colors.grayLighter
+                      }`}
+                      onClick={handleClose}
+                    >
+                      <span>Add &quot;</span>
+                      <span className="font-semibold">{field.value}</span>
+                      <span>&quot;</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </FormGroup>
       )}
-    </FormGroup>
+    </Theme>
   );
 };
 

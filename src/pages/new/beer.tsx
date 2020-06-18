@@ -5,9 +5,9 @@ import * as yup from "yup";
 
 import Page from "../../components/Page";
 import Card from "../../components/ui/Card";
-import { Title } from "../../components/ui/Typography";
-import { Button } from "../../components/ui/buttons";
+import Button from "../../components/ui/buttons";
 import { ImageField, InputField, RatingField, SelectField } from "../../components/ui/forms";
+import { Lead } from "../../components/ui/typography";
 import useFetch from "../../hooks/useFetch";
 import { Beer } from "../../models/beer";
 import { BeerStyle } from "../../models/beerStyle";
@@ -86,7 +86,7 @@ const NewBeer = () => {
   return (
     <Page title="Add new beer">
       <Card>
-        <Title>Add new beer</Title>
+        <Lead>Add new beer</Lead>
 
         <Formik
           initialValues={{

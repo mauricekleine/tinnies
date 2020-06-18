@@ -5,8 +5,8 @@ import React from "react";
 import CollectionCard from "../../components/CollectionCard";
 import Page from "../../components/Page";
 import CollectionsBlankSlate from "../../components/blank-slates/CollectionsBlankSlate";
-import { Title } from "../../components/ui/Typography";
-import { Button } from "../../components/ui/buttons";
+import Button from "../../components/ui/buttons";
+import { Lead } from "../../components/ui/typography";
 import useFetch from "../../hooks/useFetch";
 import { Collection } from "../../models/collection";
 import { MY_COLLECTIONS_RESOURCE } from "../../utils/resources";
@@ -38,7 +38,7 @@ const MyCollections = () => {
   return (
     <Page title="My Collection">
       <div className="flex justify-between mb-4">
-        <Title>My Collections</Title>
+        <Lead>My Collections</Lead>
 
         <Button onClick={addNewCollection}>
           <FontAwesomeIcon className="h-4 mr-2 w-4" icon={faPlus} />

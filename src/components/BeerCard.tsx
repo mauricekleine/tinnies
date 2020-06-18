@@ -14,8 +14,8 @@ import Avatar from "./ui/Avatar";
 import Card from "./ui/Card";
 import { Icon } from "./ui/Icon";
 import Rating from "./ui/Rating";
-import { FinePrint, HeadingOne, Muted, UserName } from "./ui/Typography";
-import { ButtonLink } from "./ui/buttons";
+import Button from "./ui/buttons";
+import { Bold, FinePrint, Heading, Muted } from "./ui/typography";
 
 type Props = {
   beer: Beer;
@@ -49,7 +49,7 @@ const BeerCard = ({ beer }: Props) => {
 
           <div className="flex flex-col leading-snug">
             <p className="truncate w-40">
-              <UserName>{beer.addedBy.name}</UserName>
+              <Bold>{beer.addedBy.name}</Bold>
 
               <span> rated a beer</span>
             </p>
@@ -69,7 +69,9 @@ const BeerCard = ({ beer }: Props) => {
             {isOpen && (
               <div {...dropdownProps}>
                 <div className="px-4 py-2">
-                  <ButtonLink onClick={handleDelete}>Delete</ButtonLink>
+                  <Button isTransparent onClick={handleDelete}>
+                    Delete
+                  </Button>
                 </div>
               </div>
             )}
@@ -91,7 +93,7 @@ const BeerCard = ({ beer }: Props) => {
           <Rating value={beer.rating} />
         </div>
 
-        <HeadingOne>{beer.name}</HeadingOne>
+        <Heading>{beer.name}</Heading>
 
         {beer.style && (
           <p>

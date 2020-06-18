@@ -4,8 +4,12 @@ import {
 } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-import colors from "./colors";
+import Theme from "./theme";
 
 export const Icon = ({ icon }: { icon: FontAwesomeIconProps["icon"] }) => (
-  <FontAwesomeIcon className={`text-${colors.gray}`} icon={icon} />
+  <Theme>
+    {({ colors }) => (
+      <FontAwesomeIcon className={`text-${colors.gray}`} icon={icon} />
+    )}
+  </Theme>
 );

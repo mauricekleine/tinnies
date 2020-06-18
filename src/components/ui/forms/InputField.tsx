@@ -1,7 +1,8 @@
+import classNames from "classnames";
 import { useField } from "formik";
 import React from "react";
 
-import colors from "../colors";
+import Theme from "../theme";
 
 import FormGroup from "./FormGroup";
 import { hasError } from "./utils";
@@ -20,24 +21,35 @@ const InputField = ({ label, name, type, ...props }: InputFieldProps) => {
   const hasFieldError = hasError<string>(meta);
 
   return (
-    <FormGroup
-      error={meta.error}
-      hasError={hasFieldError}
-      label={label}
-      labelFor={name}
-    >
-      <input
-        className={`appearance-none border border-b-2 border-${
-          hasFieldError ? colors.red : colors.grayLight
-        } px-3 py-2 rounded text-${colors.gray} w-full focus:border-${
-          colors.primary
-        } focus:outline-none`}
-        placeholder={label}
-        type={type}
-        {...field}
-        {...props}
-      />
-    </FormGroup>
+    <Theme>
+      {({ colors }) => (
+        <FormGroup
+          error={meta.error}
+          hasError={hasFieldError}
+          label={label}
+          labelFor={name}
+        >
+          <input
+            className={classNames(
+              "appearance-none border border-b-2",
+              {
+                [`border-${colors.red}`]: hasFieldError,
+                [`border-${colors.grayLight}`]: !hasFieldError,
+              },
+              "px-3 py-2 rounded",
+              `text-${colors.gray}`,
+              "w-full",
+              `focus:border-${colors.primary}`,
+              "focus:outline-none"
+            )}
+            placeholder={label}
+            type={type}
+            {...field}
+            {...props}
+          />
+        </FormGroup>
+      )}
+    </Theme>
   );
 };
 

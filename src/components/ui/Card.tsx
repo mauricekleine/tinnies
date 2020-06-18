@@ -1,6 +1,6 @@
 import React from "react";
 
-import colors from "./colors";
+import Theme from "./theme";
 
 type Props = {
   children: React.ReactNode;
@@ -8,11 +8,15 @@ type Props = {
 };
 
 const Card = ({ children, px = "6" }: Props) => (
-  <section
-    className={`bg-${colors.white} border border-b-4 border-${colors.grayLight} mb-8 px-${px} py-6 rounded-lg`}
-  >
-    {children}
-  </section>
+  <Theme>
+    {({ colors }) => (
+      <section
+        className={`bg-${colors.white} border border-b-4 border-${colors.grayLight} mb-8 px-${px} py-6 rounded-lg`}
+      >
+        {children}
+      </section>
+    )}
+  </Theme>
 );
 
 export default Card;

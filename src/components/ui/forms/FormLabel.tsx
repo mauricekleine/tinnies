@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 
-import colors from "../colors";
+import Theme from "../theme";
 
 type FormLabelProps = {
   children: ReactNode;
@@ -8,12 +8,16 @@ type FormLabelProps = {
 };
 
 const FormLabel = ({ children, labelFor }: FormLabelProps) => (
-  <label
-    className={`block font-semibold mb-1 text-${colors.gray}`}
-    htmlFor={labelFor}
-  >
-    {children}
-  </label>
+  <Theme>
+    {({ colors }) => (
+      <label
+        className={`block font-semibold mb-1 text-${colors.gray}`}
+        htmlFor={labelFor}
+      >
+        {children}
+      </label>
+    )}
+  </Theme>
 );
 
 export default FormLabel;

@@ -14,7 +14,7 @@ import {
 
 import Card from "./ui/Card";
 import { Icon } from "./ui/Icon";
-import { ButtonLink } from "./ui/buttons";
+import Button from "./ui/buttons";
 
 type Props = {
   collection: Collection;
@@ -57,7 +57,9 @@ const CollectionCard = ({ collection }: Props) => {
             {isOpen && (
               <div {...dropdownProps}>
                 <div className="px-4 py-2">
-                  <ButtonLink onClick={handleDelete}>Delete</ButtonLink>
+                  <Button isTransparent onClick={handleDelete}>
+                    Delete
+                  </Button>
                 </div>
               </div>
             )}

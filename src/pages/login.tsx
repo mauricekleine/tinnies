@@ -9,9 +9,9 @@ import {
 } from "../../cypress/selectors";
 import Page from "../components/Page";
 import Card from "../components/ui/Card";
-import { Title } from "../components/ui/Typography";
-import { Button } from "../components/ui/buttons";
+import Button from "../components/ui/buttons";
 import { InputField } from "../components/ui/forms";
+import { Lead } from "../components/ui/typography";
 import useFetch from "../hooks/useFetch";
 import { User } from "../models/user";
 import { LOGIN_RESOURCE, MY_PROFILE_RESOURCE } from "../utils/resources";
@@ -40,7 +40,7 @@ const LoginPage = () => {
   return (
     <Page title="Log in">
       <Card>
-        <Title>Log in</Title>
+        <Lead>Log in</Lead>
 
         <Formik
           initialValues={{ email: "", password: "" }}
