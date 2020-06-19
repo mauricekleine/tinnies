@@ -116,13 +116,13 @@ const Navbar = ({ isLoading, user }: Props) => {
                 <div className="flex">
                   <NavbarLink
                     isBorderless
-                    data-cy={NAVIGATION_LOGIN_BTN}
+                    dataCy={NAVIGATION_LOGIN_BTN}
                     href="/login"
                   >
                     Log in
                   </NavbarLink>
 
-                  <NavbarLink data-cy={NAVIGATION_SIGNUP_BTN} href="/signup">
+                  <NavbarLink dataCy={NAVIGATION_SIGNUP_BTN} href="/signup">
                     Sign up
                   </NavbarLink>
                 </div>

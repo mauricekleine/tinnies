@@ -1,20 +1,20 @@
 import classNames from "classnames";
 import Link, { LinkProps } from "next/link";
 import { useRouter } from "next/router";
-import React, { ReactNode, useRef } from "react";
+import React, { ReactNode } from "react";
 
 import Theme from "../theme";
 
 type NavbarLinkProps = {
   children: ReactNode;
-  "data-cy"?: string;
+  dataCy?: string;
   href: LinkProps["href"];
   isBorderless?: boolean;
 };
 
 const NavbarLink = ({
   children,
-  "data-cy": dataCy,
+  dataCy,
   href,
   isBorderless,
 }: NavbarLinkProps) => {
