@@ -9,7 +9,11 @@ const Link = ({ children, href }: LinkProps) => (
   <Theme>
     {({ colors }) => (
       <NextLink href={href}>
-        <a className={`duration-100 ease-in-out py-1 transition hover:text-${colors.primary} hover:underline`}>{children}</a>
+        <a
+          className={`duration-100 ease-in-out py-1 transition hover:text-${colors.primary} hover:underline`}
+        >
+          {children}
+        </a>
       </NextLink>
     )}
   </Theme>

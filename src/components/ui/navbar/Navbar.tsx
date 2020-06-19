@@ -8,7 +8,10 @@ import {
   NAVIGATION_SIGNUP_BTN,
 } from "../../../../cypress/selectors";
 import { User } from "../../../models/user";
-import { CURRENT_USER_RESOURCE, LOGOUT_RESOURCE } from "../../../utils/resources";
+import {
+  CURRENT_USER_RESOURCE,
+  LOGOUT_RESOURCE,
+} from "../../../utils/resources";
 import useFetch from "../../../utils/useFetch";
 import Avatar from "../Avatar";
 import Button from "../buttons";

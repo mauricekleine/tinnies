@@ -11,7 +11,7 @@
     "build": "next build",
     "cypress:open": "cypress open",
     "dev": "next dev",
-    "lint": "eslint \"./src/**/*.{ts,tsx}\" --quiet --fix",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --fix --quiet",
     "start": "next start"
   },
   "dependencies": {
@@ -79,6 +79,6 @@
     }
   },
   "lint-staged": {
-    "*.{ts,tsx}": "npm run lint"
+    "*.{js,ts,tsx}": "eslint --fix"
   }
 }

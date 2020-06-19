@@ -7,7 +7,7 @@ import Rollbar from "rollbar";
 import Footer from "../components/Footer";
 import Navbar from "../components/ui/navbar";
 import Theme, { ThemeProvider, theme } from "../components/ui/theme";
-import useAuthentication from "../hooks/useAuthentication";
+import useAuthentication from "../utils/useAuthentication";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "./styles.css";
