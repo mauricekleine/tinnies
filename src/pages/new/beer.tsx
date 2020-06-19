@@ -1,4 +1,3 @@
-import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
@@ -6,7 +5,14 @@ import * as yup from "yup";
 import Page from "../../components/Page";
 import Card from "../../components/ui/Card";
 import Button from "../../components/ui/buttons";
-import { ImageField, InputField, RatingField, SelectField } from "../../components/ui/forms";
+import {
+  Form,
+  Formik,
+  ImageField,
+  InputField,
+  RatingField,
+  SelectField,
+} from "../../components/ui/forms";
 import { Lead } from "../../components/ui/typography";
 import useFetch from "../../hooks/useFetch";
 import { Beer } from "../../models/beer";

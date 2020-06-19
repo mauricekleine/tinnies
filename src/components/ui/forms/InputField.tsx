@@ -22,7 +22,7 @@ const InputField = ({ label, name, type, ...props }: InputFieldProps) => {
 
   return (
     <Theme>
-      {({ colors }) => (
+      {({ animations, colors }) => (
         <FormGroup
           error={meta.error}
           hasError={hasFieldError}
@@ -31,6 +31,7 @@ const InputField = ({ label, name, type, ...props }: InputFieldProps) => {
         >
           <input
             className={classNames(
+              animations.default,
               "appearance-none border border-b-2",
               {
                 [`border-${colors.red}`]: hasFieldError,

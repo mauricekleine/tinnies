@@ -12,6 +12,7 @@ import { BEERS_RESOURCE, MY_PROFILE_RESOURCE } from "../utils/resources";
 
 import Avatar from "./ui/Avatar";
 import Card from "./ui/Card";
+import Dropdown from "./ui/Dropdown";
 import { Icon } from "./ui/Icon";
 import Rating from "./ui/Rating";
 import Button from "./ui/buttons";
@@ -23,7 +24,7 @@ type Props = {
 
 const BeerCard = ({ beer }: Props) => {
   const dropdownRef = useRef();
-  const { dropdownProps, handleToggle, isOpen } = useDropdown(dropdownRef, {
+  const { dropdownProps, handleToggle } = useDropdown(dropdownRef, {
     width: "24",
   });
   const { del } = useFetch<Beer[]>(BEERS_RESOURCE);
@@ -62,19 +63,19 @@ const BeerCard = ({ beer }: Props) => {
 
         {canDelete && (
           <div className="relative" ref={dropdownRef}>
-            <div className="cursor-pointer -mt-2 p-2" onClick={handleToggle}>
-              <Icon icon={faEllipsisV} />
+            <div className="-mt-2">
+              <Button isTransparent onClick={handleToggle}>
+                <Icon icon={faEllipsisV} />
+              </Button>
             </div>
 
-            {isOpen && (
-              <div {...dropdownProps}>
-                <div className="px-4 py-2">
-                  <Button isTransparent onClick={handleDelete}>
-                    Delete
-                  </Button>
-                </div>
+            <Dropdown {...dropdownProps}>
+              <div className="flex justify-center px-4 py-2">
+                <Button isTransparent onClick={handleDelete}>
+                  Delete
+                </Button>
               </div>
-            )}
+            </Dropdown>
           </div>
         )}
       </div>

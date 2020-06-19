@@ -3,6 +3,10 @@ import { createContext } from "react";
 const base = "indigo";
 
 export const theme = {
+  animations: {
+    default: "duration-300 ease-in-out transition",
+    fast: "duration-100 ease-in-out transition",
+  },
   colors: {
     gray: "gray-700",
     grayDark: "gray-800",

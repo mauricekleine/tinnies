@@ -41,7 +41,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <Theme>
           {({ colors }) => (
             <div
-              className={`bg-${colors.grayLighter} flex flex-col font-light min-h-screen`}
+              className={`bg-${colors.grayLighter} flex flex-col font-light min-h-screen text-${colors.grayDark}`}
             >
               <Navbar isLoading={isLoading} user={user} />
 

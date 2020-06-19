@@ -13,6 +13,7 @@ import {
 } from "../utils/resources";
 
 import Card from "./ui/Card";
+import Dropdown from "./ui/Dropdown";
 import { Icon } from "./ui/Icon";
 import Button from "./ui/buttons";
 
@@ -22,7 +23,7 @@ type Props = {
 
 const CollectionCard = ({ collection }: Props) => {
   const dropdownRef = useRef();
-  const { dropdownProps, handleToggle, isOpen } = useDropdown(dropdownRef, {
+  const { dropdownProps, handleToggle } = useDropdown(dropdownRef, {
     width: "24",
   });
   const { del } = useFetch<Collection[]>(COLLECTIONS_RESOURCE, {
@@ -50,19 +51,19 @@ const CollectionCard = ({ collection }: Props) => {
 
         {canDelete && (
           <div className="relative" ref={dropdownRef}>
-            <div className="cursor-pointer -mt-2 p-2" onClick={handleToggle}>
-              <Icon icon={faEllipsisV} />
+            <div className="-mt-2">
+              <Button onClick={handleToggle}>
+                <Icon icon={faEllipsisV} />
+              </Button>
             </div>
 
-            {isOpen && (
-              <div {...dropdownProps}>
-                <div className="px-4 py-2">
-                  <Button isTransparent onClick={handleDelete}>
-                    Delete
-                  </Button>
-                </div>
+            <Dropdown {...dropdownProps}>
+              <div className="flex justify-center px-4 py-2">
+                <Button isTransparent onClick={handleDelete}>
+                  Delete
+                </Button>
               </div>
-            )}
+            </Dropdown>
           </div>
         )}
       </div>

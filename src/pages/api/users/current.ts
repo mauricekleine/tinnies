@@ -18,5 +18,5 @@ const handleGetRequest: NextAuthenticatedApiHandler = async (req, res) =>
 export default nextConnect()
   .use(commonMiddleware)
   .use(authenticationMiddleware)
-  .delete(handleDeleteRequest) // DELETE api/my/profile => null
-  .get(handleGetRequest); // GET api/my/profile => currently logged in user
+  .delete(handleDeleteRequest)
+  .get(handleGetRequest);

@@ -27,7 +27,7 @@ const Rating = ({ disabled = false, onClick, size = 1, value }: Props) => (
             <FontAwesomeIcon
               className={classNames({
                 [`text-${colors.grayLight}`]: disabled,
-                [`text-${colors.yellow}`]: disabled,
+                [`text-${colors.yellow}`]: !disabled,
               })}
               icon={rating <= value ? fasStar : farStar}
               onClick={() => onClick && onClick(rating)}

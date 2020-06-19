@@ -1,6 +1,7 @@
 import React from "react";
 
 import Page from "../components/Page";
+import Rating from "../components/ui/Rating";
 import Button from "../components/ui/buttons";
 import {
   Bold,
@@ -29,7 +30,12 @@ const StyleGuide = () => (
     </p>
 
     <Button onClick={() => console.log("Button")}>Button</Button>
-    <Button isTransparent onClick={() => console.log("Button")}>Button</Button>
+    <Button isTransparent onClick={() => console.log("Button")}>
+      Button
+    </Button>
+
+    <Rating value={3} />
+    <Rating disabled value={3} />
   </Page>
 );
 

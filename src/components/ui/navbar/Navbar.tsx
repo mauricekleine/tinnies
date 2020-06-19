@@ -12,6 +12,7 @@ import useFetch from "../../../hooks/useFetch";
 import { User } from "../../../models/user";
 import { LOGOUT_RESOURCE, MY_PROFILE_RESOURCE } from "../../../utils/resources";
 import Avatar from "../Avatar";
+import Dropdown from "../Dropdown";
 import Button from "../buttons";
 import Theme from "../theme";
 import { Link } from "../typography";
@@ -25,7 +26,7 @@ type Props = {
 
 const Navbar = ({ isLoading, user }: Props) => {
   const dropdownRef = useRef();
-  const { dropdownProps, handleToggle, isOpen } = useDropdown(dropdownRef, {
+  const { dropdownProps, handleToggle } = useDropdown(dropdownRef, {
     width: "48",
   });
   const { del } = useFetch<User>(LOGOUT_RESOURCE, {
@@ -86,29 +87,27 @@ const Navbar = ({ isLoading, user }: Props) => {
                   <Avatar />
                 </div>
 
-                {isOpen && (
-                  <div {...dropdownProps}>
-                    <div className="flex flex-col px-4 py-2">
-                      <span
-                        className={`border-b border-${colors.grayLight} py-2`}
-                      >
-                        Cheers {user.name}!
-                      </span>
+                <Dropdown {...dropdownProps}>
+                  <div className="flex flex-col px-4 py-2">
+                    <span
+                      className={`border-b border-${colors.grayLight} sm:mb-2 py-2`}
+                    >
+                      Cheers {user.name}!
+                    </span>
 
-                      <div
-                        className={`border-b border-${colors.grayLight} flex flex-col py-2 sm:hidden`}
-                      >
-                        <Link href="/home">Home</Link>
-                        <Link href="/my/beers">My Beers</Link>
-                        <Link href="/my/collections">My Collections</Link>
-                      </div>
-
-                      <Button isLoading={isLoading} onClick={handleLogout}>
-                        Log out
-                      </Button>
+                    <div
+                      className={`border-b border-${colors.grayLight} flex flex-col mb-2 py-2 sm:hidden`}
+                    >
+                      <Link href="/home">Home</Link>
+                      <Link href="/my/beers">My Beers</Link>
+                      <Link href="/my/collections">My Collections</Link>
                     </div>
+
+                    <Button isLoading={isLoading} onClick={handleLogout}>
+                      Log out
+                    </Button>
                   </div>
-                )}
+                </Dropdown>
               </div>
             ) : (
               !isLoading && (

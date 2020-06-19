@@ -13,6 +13,7 @@ import React, {
 } from "react";
 
 import useDropdown from "../../../hooks/useDropdown";
+import Dropdown from "../Dropdown";
 import Highlighter from "../Highlighter";
 import Theme from "../theme";
 
@@ -111,7 +112,7 @@ const SelectField = ({
 
   return (
     <Theme>
-      {({ colors }) => (
+      {({ animations, colors }) => (
         <FormGroup
           error={meta.error}
           hasError={hasFieldError}
@@ -120,6 +121,7 @@ const SelectField = ({
         >
           <div
             className={classNames(
+              animations.default,
               "border border-b-2",
               {
                 [`border-${colors.grayLight}`]: !hasFieldError && !hasFocus,
@@ -155,7 +157,7 @@ const SelectField = ({
 
           {shouldShowDropdown && (
             <div className="relative" ref={dropdownRef}>
-              <div {...dropdownProps}>
+              <Dropdown {...dropdownProps}>
                 <div className="max-h-sm overflow-scroll py-1">
                   {matches.map((option) => {
                     const key = getOptionKey(option);
@@ -192,7 +194,7 @@ const SelectField = ({
                     </div>
                   )}
                 </div>
-              </div>
+              </Dropdown>
             </div>
           )}
         </FormGroup>

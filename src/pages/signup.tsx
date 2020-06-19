@@ -1,4 +1,3 @@
-import { Form, Formik } from "formik";
 import React from "react";
 import * as yup from "yup";
 
@@ -11,7 +10,7 @@ import {
 import Page from "../components/Page";
 import Card from "../components/ui/Card";
 import Button from "../components/ui/buttons";
-import { InputField } from "../components/ui/forms";
+import { Form, Formik, InputField } from "../components/ui/forms";
 import { Lead } from "../components/ui/typography";
 import useFetch from "../hooks/useFetch";
 import { User } from "../models/user";

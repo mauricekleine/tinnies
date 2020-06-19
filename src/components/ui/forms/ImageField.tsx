@@ -29,7 +29,7 @@ const ImageField = ({ label, name }: ImageFieldProps) => {
 
   return (
     <Theme>
-      {({ colors }) => (
+      {({ animations, colors }) => (
         <FormGroup
           error={meta.error}
           hasError={hasFieldError}
@@ -39,6 +39,7 @@ const ImageField = ({ label, name }: ImageFieldProps) => {
           <div
             {...getRootProps({
               className: classNames(
+                animations.default,
                 "border border-b-2",
                 {
                   [`border-${colors.red}`]: hasFieldError,

@@ -2,10 +2,10 @@ import bcrypt from "bcryptjs";
 import nextConnect from "next-connect";
 import isEmail from "validator/lib/isEmail";
 
-import commonMiddleware from "../../middlewares/common";
-import { NextAuthenticatedApiHandler } from "../../middlewares/passport";
-import User, { UserDocument } from "../../models/user";
-import { sanitizeString } from "../../utils/sanitizers";
+import commonMiddleware from "../../../middlewares/common";
+import { NextAuthenticatedApiHandler } from "../../../middlewares/passport";
+import User, { UserDocument } from "../../../models/user";
+import { sanitizeString } from "../../../utils/sanitizers";
 
 type RequestBody = {
   email: UserDocument["email"];
@@ -57,4 +57,4 @@ const handlePostRequest: NextAuthenticatedApiHandler<
   });
 };
 
-export default nextConnect().use(commonMiddleware).post(handlePostRequest); // POST api/signup; => sign in
+export default nextConnect().use(commonMiddleware).post(handlePostRequest);
