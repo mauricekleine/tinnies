@@ -8,7 +8,7 @@ import UserModel, { User, UserDocument } from "./user";
 export type Collection = {
   _id: string;
   addedBy: User | UserDocument;
-  beers: Beer[];
+  beers?: Beer[];
   name: string;
 };
 
