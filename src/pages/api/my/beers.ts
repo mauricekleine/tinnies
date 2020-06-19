@@ -4,8 +4,7 @@ import isInt from "validator/lib/isInt";
 import authenticationMiddleware from "../../../middlewares/authentication";
 import commonMiddleware from "../../../middlewares/common";
 import { NextAuthenticatedApiHandler } from "../../../middlewares/passport";
-import Beer, { BeerDocument } from "../../../models/beer";
-import BeerModel from "../../../models/beer";
+import BeerModel, { BeerDocument } from "../../../models/beer";
 import BeerStyleModel, { BeerStyleDocument } from "../../../models/beerStyle";
 import BreweryModel, { BreweryDocument } from "../../../models/brewery";
 import { sanitizeString } from "../../../utils/sanitizers";
@@ -33,7 +32,7 @@ const handleGetRequest: NextAuthenticatedApiHandler<BeerDocument[]> = async (
   res
 ) => {
   try {
-    const beers = await Beer.find({ addedBy: req.user._id }).sort({
+    const beers = await BeerModel.find({ addedBy: req.user._id }).sort({
       createdAt: -1,
     });
 

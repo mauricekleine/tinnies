@@ -12,8 +12,7 @@ export type Beer = {
   _id: string;
   addedBy: User | UserDocument;
   brewery: Brewery | BreweryDocument;
-  collections: [{ autopopulate: true; ref: "Collection"; type: ObjectId }];
-  createdAt: string;
+  createdAt?: string;
   image: string;
   name: string;
   rating: BeerRating;
