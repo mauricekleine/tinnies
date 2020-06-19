@@ -15,7 +15,7 @@ import {
 import useFetch from "../../../utils/useFetch";
 import Avatar from "../Avatar";
 import Button from "../buttons";
-import Dropdown, { useDropdown } from "../dropdown";
+import Dropdown, { useDropdown } from "../dropdowns";
 import Theme from "../theme";
 import { Link } from "../typography";
 

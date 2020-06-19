@@ -37,23 +37,27 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      <ThemeProvider value={theme}>
-        <Theme>
-          {({ colors }) => (
-            <div
-              className={`bg-${colors.grayLighter} flex flex-col font-light min-h-screen text-${colors.grayDark}`}
-            >
-              <Navbar isLoading={isLoading} user={user} />
+      <>
+        <ThemeProvider value={theme}>
+          <Theme>
+            {({ colors }) => (
+              <div
+                className={`bg-${colors.grayLighter} flex flex-col font-light min-h-screen text-${colors.grayDark}`}
+              >
+                <Navbar isLoading={isLoading} user={user} />
 
-              <div className="flex-1 mx-auto mb-4 mt-8 w-4/5 md:w-3/5 lg:w-2/5">
-                {shouldRender && <Component {...pageProps} />}
+                <div className="flex-1 mx-auto mb-4 mt-8 w-4/5 md:w-3/5 lg:w-2/5">
+                  {shouldRender && <Component {...pageProps} />}
+                </div>
+
+                <Footer />
               </div>
+            )}
+          </Theme>
+        </ThemeProvider>
+      </>
 
-              <Footer />
-            </div>
-          )}
-        </Theme>
-      </ThemeProvider>
+      <div className="relative z-50" id="modal-root"></div>
     </>
   );
 };

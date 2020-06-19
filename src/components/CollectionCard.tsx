@@ -14,7 +14,7 @@ import useFetch from "../utils/useFetch";
 import Card from "./ui/Card";
 import { Icon } from "./ui/Icon";
 import Button from "./ui/buttons";
-import Dropdown, { useDropdown } from "./ui/dropdown";
+import Dropdown, { useDropdown } from "./ui/dropdowns";
 
 type Props = {
   collection: Collection;
@@ -51,7 +51,7 @@ const CollectionCard = ({ collection }: Props) => {
         {canDelete && (
           <div className="relative" ref={dropdownRef}>
             <div className="-mt-2">
-              <Button onClick={handleToggle}>
+              <Button isTransparent onClick={handleToggle}>
                 <Icon icon={faEllipsisV} />
               </Button>
             </div>

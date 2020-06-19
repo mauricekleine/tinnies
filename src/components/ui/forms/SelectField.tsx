@@ -13,7 +13,7 @@ import React, {
 } from "react";
 
 import Highlighter from "../Highlighter";
-import Dropdown, { useDropdown } from "../dropdown";
+import Dropdown, { useDropdown } from "../dropdowns";
 import Theme from "../theme";
 
 import FormGroup from "./FormGroup";

@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import Page from "../components/Page";
+import Card from "../components/ui/Card";
 import Rating from "../components/ui/Rating";
 import Button from "../components/ui/buttons";
+import Dropdown, { useDropdown } from "../components/ui/dropdowns";
+import Modal, { useModal } from "../components/ui/modals";
+import Theme from "../components/ui/theme";
 import {
   Bold,
   FinePrint,
@@ -12,31 +16,84 @@ import {
   Muted,
 } from "../components/ui/typography";
 
-const StyleGuide = () => (
-  <Page title="Styleguide">
-    <Lead>Typography</Lead>
-    <Heading>Heading</Heading>
-    <p>
-      <Bold>Bold</Bold>
-    </p>
-    <p>
-      <Link href="/styleguide">Link</Link>
-    </p>
-    <p>
-      <Muted>Muted</Muted>
-    </p>
-    <p>
-      <FinePrint>Fine print</FinePrint>
-    </p>
+const StyleGuide = () => {
+  const dropdownRef = useRef();
+  const modalRef = useRef();
+  const { dropdownProps } = useDropdown(dropdownRef);
+  const { handleToggle: handleModalToggle, isOpen: isModalOpen } = useModal(
+    modalRef
+  );
 
-    <Button onClick={() => console.log("Button")}>Button</Button>
-    <Button isTransparent onClick={() => console.log("Button")}>
-      Button
-    </Button>
+  return (
+    <Theme>
+      {({ colors }) => (
+        <Page title="Styleguide">
+          <Lead>Typography</Lead>
+          <Heading>Heading</Heading>
+          <p>
+            <Bold>Bold</Bold>
+          </p>
+          <p>
+            <Link href="/styleguide">Link</Link>
+          </p>
+          <p>
+            <Muted>Muted</Muted>
+          </p>
+          <p>
+            <FinePrint>Fine print</FinePrint>
+          </p>
 
-    <Rating value={3} />
-    <Rating disabled value={3} />
-  </Page>
-);
+          <Button onClick={() => console.log("Button")}>Button</Button>
+          <Button isTransparent onClick={() => console.log("Button")}>
+            Button
+          </Button>
+
+          <Rating value={3} />
+          <Rating disabled value={3} />
+
+          <div className="relative mb-32">
+            <Dropdown {...dropdownProps} isOpen>
+              <div className="flex flex-col px-4 py-2">
+                <span
+                  className={`border-b border-${colors.grayLight} sm:mb-2 py-2`}
+                >
+                  Dropdown with button
+                </span>
+
+                <Button onClick={() => console.log("Button")}>Button</Button>
+              </div>
+            </Dropdown>
+          </div>
+
+          <Card px="4">
+            <div className="flex flex-col">
+              <span
+                className={`border-b border-${colors.grayLight} sm:mb-2 py-2`}
+              >
+                Card with button
+              </span>
+
+              <Button onClick={() => console.log("Button")}>Button</Button>
+            </div>
+          </Card>
+
+          <Button onClick={handleModalToggle}>Trigger modal</Button>
+
+          <Modal isOpen={isModalOpen} ref={modalRef}>
+            <div className="flex flex-col">
+              <span
+                className={`border-b border-${colors.grayLight} sm:mb-2 py-2`}
+              >
+                Modal with button
+              </span>
+
+              <Button onClick={handleModalToggle}>Close modal</Button>
+            </div>
+          </Modal>
+        </Page>
+      )}
+    </Theme>
+  );
+};
 
 export default StyleGuide;

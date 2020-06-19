@@ -14,7 +14,8 @@ import Card from "./ui/Card";
 import { Icon } from "./ui/Icon";
 import Rating from "./ui/Rating";
 import Button from "./ui/buttons";
-import Dropdown, { useDropdown } from "./ui/dropdown";
+import Dropdown, { useDropdown } from "./ui/dropdowns";
+import Modal, { useModal } from "./ui/modals";
 import { Bold, FinePrint, Heading, Muted } from "./ui/typography";
 
 type Props = {
@@ -23,20 +24,25 @@ type Props = {
 
 const BeerCard = ({ beer }: Props) => {
   const dropdownRef = useRef();
-  const { dropdownProps, handleToggle } = useDropdown(dropdownRef, {
-    width: "24",
-  });
+  const modalRef = useRef();
+
+  const { dropdownProps, handleToggle: handleDropdownToggle } = useDropdown(
+    dropdownRef,
+    {
+      width: "24",
+    }
+  );
+  const { handleToggle: handleModalToggle, isOpen: isModalOpen } = useModal(
+    modalRef
+  );
+
   const { del } = useFetch<Beer[]>(BEERS_RESOURCE);
   const { data: user } = useFetch<User>(CURRENT_USER_RESOURCE);
 
   const canDelete = canDeleteBeer(beer, user);
 
-  const handleDelete = async () => {
-    const result = confirm("Are you sure?");
-
-    if (result) {
-      del(beer._id);
-    }
+  const handleDelete = () => {
+    del(beer._id);
   };
 
   return (
@@ -61,21 +67,43 @@ const BeerCard = ({ beer }: Props) => {
         </div>
 
         {canDelete && (
-          <div className="relative" ref={dropdownRef}>
-            <div className="-mt-2">
-              <Button isTransparent onClick={handleToggle}>
-                <Icon icon={faEllipsisV} />
-              </Button>
-            </div>
-
-            <Dropdown {...dropdownProps}>
-              <div className="flex justify-center px-4 py-2">
-                <Button isTransparent onClick={handleDelete}>
-                  Delete
+          <>
+            <div className="relative" ref={dropdownRef}>
+              <div className="-mt-2">
+                <Button isTransparent onClick={handleDropdownToggle}>
+                  <Icon icon={faEllipsisV} />
                 </Button>
               </div>
-            </Dropdown>
-          </div>
+
+              <Dropdown {...dropdownProps}>
+                <div className="flex justify-center px-4 py-2">
+                  <Button
+                    isTransparent
+                    onClick={() => {
+                      handleDropdownToggle();
+                      handleModalToggle();
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </Dropdown>
+            </div>
+
+            <Modal isOpen={isModalOpen} ref={modalRef}>
+              <div className="flex flex-col text-center">
+                <span className="mb-2">Are you sure?</span>
+
+                <div className="flex flex-row justify-between">
+                  <Button isTransparent onClick={handleModalToggle}>
+                    No
+                  </Button>
+
+                  <Button onClick={handleDelete}>Yes</Button>
+                </div>
+              </div>
+            </Modal>
+          </>
         )}
       </div>
 
