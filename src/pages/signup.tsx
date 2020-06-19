@@ -12,9 +12,9 @@ import Card from "../components/ui/Card";
 import Button from "../components/ui/buttons";
 import { Form, Formik, InputField } from "../components/ui/forms";
 import { Lead } from "../components/ui/typography";
-import useFetch from "../hooks/useFetch";
 import { User } from "../models/user";
-import { MY_PROFILE_RESOURCE, SIGNUP_RESOURCE } from "../utils/resources";
+import { CURRENT_USER_RESOURCE, SIGNUP_RESOURCE } from "../utils/resources";
+import useFetch from "../utils/useFetch";
 
 const SignupSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Required"),
@@ -24,7 +24,7 @@ const SignupSchema = yup.object().shape({
 
 const SignupPage = () => {
   const { post } = useFetch<User>(SIGNUP_RESOURCE, {
-    cacheKey: MY_PROFILE_RESOURCE,
+    cacheKey: CURRENT_USER_RESOURCE,
   });
 
   const onSubmit = async (values, { setSubmitting }) => {

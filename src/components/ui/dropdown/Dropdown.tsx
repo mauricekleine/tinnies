@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { ReactNode } from "react";
 
-import Theme from "./theme";
+import Theme from "../theme";
 
 type DropdownProps = {
   children: ReactNode;

@@ -5,9 +5,8 @@ import Action, {
   isErrorAction,
   isFetchAction,
   isSuccessAction,
-} from "../utils/actions";
-import State, { createInitialState } from "../utils/state";
-
+} from "./actions";
+import State, { createInitialState } from "./state";
 import useCache, { Cache } from "./useCache";
 
 const createReducer = () => <T>(state: State<T>, action: Action<T>) => {

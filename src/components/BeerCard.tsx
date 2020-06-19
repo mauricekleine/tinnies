@@ -3,19 +3,18 @@ import { Image } from "cloudinary-react";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import React, { useRef } from "react";
 
-import useDropdown from "../hooks/useDropdown";
-import useFetch from "../hooks/useFetch";
 import { Beer } from "../models/beer";
 import { User } from "../models/user";
 import { canDeleteBeer } from "../utils/permissions";
-import { BEERS_RESOURCE, MY_PROFILE_RESOURCE } from "../utils/resources";
+import { BEERS_RESOURCE, CURRENT_USER_RESOURCE } from "../utils/resources";
+import useFetch from "../utils/useFetch";
 
 import Avatar from "./ui/Avatar";
 import Card from "./ui/Card";
-import Dropdown from "./ui/Dropdown";
 import { Icon } from "./ui/Icon";
 import Rating from "./ui/Rating";
 import Button from "./ui/buttons";
+import Dropdown, { useDropdown } from "./ui/dropdown";
 import { Bold, FinePrint, Heading, Muted } from "./ui/typography";
 
 type Props = {
@@ -28,7 +27,7 @@ const BeerCard = ({ beer }: Props) => {
     width: "24",
   });
   const { del } = useFetch<Beer[]>(BEERS_RESOURCE);
-  const { data: user } = useFetch<User>(MY_PROFILE_RESOURCE);
+  const { data: user } = useFetch<User>(CURRENT_USER_RESOURCE);
 
   const canDelete = canDeleteBeer(beer, user);
 

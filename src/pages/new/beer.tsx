@@ -14,7 +14,6 @@ import {
   SelectField,
 } from "../../components/ui/forms";
 import { Lead } from "../../components/ui/typography";
-import useFetch from "../../hooks/useFetch";
 import { Beer } from "../../models/beer";
 import { BeerStyle } from "../../models/beerStyle";
 import { Brewery } from "../../models/brewery";
@@ -24,6 +23,7 @@ import {
   BREWERIES_RESOURCE,
   MY_BEERS_RESOURCE,
 } from "../../utils/resources";
+import useFetch from "../../utils/useFetch";
 
 const NewBeerSchema = yup.object().shape({
   brewery: yup.string().required("Required"),

@@ -7,9 +7,9 @@ import Page from "../../components/Page";
 import CollectionsBlankSlate from "../../components/blank-slates/CollectionsBlankSlate";
 import Button from "../../components/ui/buttons";
 import { Lead } from "../../components/ui/typography";
-import useFetch from "../../hooks/useFetch";
 import { Collection } from "../../models/collection";
 import { MY_COLLECTIONS_RESOURCE } from "../../utils/resources";
+import useFetch from "../../utils/useFetch";
 
 const MyCollections = () => {
   const { data: collections = [], post } = useFetch<Collection[]>(

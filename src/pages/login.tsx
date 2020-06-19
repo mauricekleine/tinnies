@@ -11,9 +11,9 @@ import Card from "../components/ui/Card";
 import Button from "../components/ui/buttons";
 import { Form, Formik, InputField } from "../components/ui/forms";
 import { Lead } from "../components/ui/typography";
-import useFetch from "../hooks/useFetch";
 import { User } from "../models/user";
-import { LOGIN_RESOURCE, MY_PROFILE_RESOURCE } from "../utils/resources";
+import { CURRENT_USER_RESOURCE, LOGIN_RESOURCE } from "../utils/resources";
+import useFetch from "../utils/useFetch";
 
 const LoginSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Required"),
@@ -22,7 +22,7 @@ const LoginSchema = yup.object().shape({
 
 const LoginPage = () => {
   const { post } = useFetch<User>(LOGIN_RESOURCE, {
-    cacheKey: MY_PROFILE_RESOURCE,
+    cacheKey: CURRENT_USER_RESOURCE,
   });
 
   const onSubmit = async (values, { setSubmitting }) => {

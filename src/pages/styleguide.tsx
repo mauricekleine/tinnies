@@ -20,7 +20,7 @@ const StyleGuide = () => (
       <Bold>Bold</Bold>
     </p>
     <p>
-      <Link href="/styleguid">Link</Link>
+      <Link href="/styleguide">Link</Link>
     </p>
     <p>
       <Muted>Muted</Muted>

@@ -1,7 +1,6 @@
 import { Dispatch, useCallback } from "react";
 
-import Action, { isSuccessAction } from "../utils/actions";
-import isDev from "../utils/isDev";
+import Action, { isSuccessAction } from "./actions";
 
 declare global {
   interface Window {
@@ -26,7 +25,7 @@ export type Cache<T> = {
 const Cache: { [cacheKey in CacheKey]: unknown } = {};
 const Dispatchers = new Map<CacheKey, Dispatch<Action<unknown>>[]>();
 
-if (isDev && typeof window !== "undefined") {
+if (typeof window !== "undefined") {
   window.Tinnies = { Cache };
 }
 

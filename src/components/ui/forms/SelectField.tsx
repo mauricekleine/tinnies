@@ -12,9 +12,8 @@ import React, {
   useState,
 } from "react";
 
-import useDropdown from "../../../hooks/useDropdown";
-import Dropdown from "../Dropdown";
 import Highlighter from "../Highlighter";
+import Dropdown, { useDropdown } from "../dropdown";
 import Theme from "../theme";
 
 import FormGroup from "./FormGroup";

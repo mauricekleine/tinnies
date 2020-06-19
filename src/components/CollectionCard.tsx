@@ -1,21 +1,20 @@
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import React, { useRef } from "react";
 
-import useDropdown from "../hooks/useDropdown";
-import useFetch from "../hooks/useFetch";
 import { Collection } from "../models/collection";
 import { User } from "../models/user";
 import { canDeleteCollection } from "../utils/permissions";
 import {
   COLLECTIONS_RESOURCE,
+  CURRENT_USER_RESOURCE,
   MY_COLLECTIONS_RESOURCE,
-  MY_PROFILE_RESOURCE,
 } from "../utils/resources";
+import useFetch from "../utils/useFetch";
 
 import Card from "./ui/Card";
-import Dropdown from "./ui/Dropdown";
 import { Icon } from "./ui/Icon";
 import Button from "./ui/buttons";
+import Dropdown, { useDropdown } from "./ui/dropdown";
 
 type Props = {
   collection: Collection;
@@ -29,7 +28,7 @@ const CollectionCard = ({ collection }: Props) => {
   const { del } = useFetch<Collection[]>(COLLECTIONS_RESOURCE, {
     cacheKey: MY_COLLECTIONS_RESOURCE,
   });
-  const { data: user } = useFetch<User>(MY_PROFILE_RESOURCE);
+  const { data: user } = useFetch<User>(CURRENT_USER_RESOURCE);
 
   const canDelete = canDeleteCollection(collection, user);
 

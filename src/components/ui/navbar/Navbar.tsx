@@ -7,13 +7,12 @@ import {
   NAVIGATION_LOGIN_BTN,
   NAVIGATION_SIGNUP_BTN,
 } from "../../../../cypress/selectors";
-import useDropdown from "../../../hooks/useDropdown";
-import useFetch from "../../../hooks/useFetch";
 import { User } from "../../../models/user";
-import { LOGOUT_RESOURCE, MY_PROFILE_RESOURCE } from "../../../utils/resources";
+import { CURRENT_USER_RESOURCE, LOGOUT_RESOURCE } from "../../../utils/resources";
+import useFetch from "../../../utils/useFetch";
 import Avatar from "../Avatar";
-import Dropdown from "../Dropdown";
 import Button from "../buttons";
+import Dropdown, { useDropdown } from "../dropdown";
 import Theme from "../theme";
 import { Link } from "../typography";
 
@@ -30,7 +29,7 @@ const Navbar = ({ isLoading, user }: Props) => {
     width: "48",
   });
   const { del } = useFetch<User>(LOGOUT_RESOURCE, {
-    cacheKey: MY_PROFILE_RESOURCE,
+    cacheKey: CURRENT_USER_RESOURCE,
   });
 
   const handleLogout = async () => {

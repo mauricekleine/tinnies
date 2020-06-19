@@ -2,7 +2,7 @@
 export const LOGIN_RESOURCE = "/api/users/login";
 export const LOGOUT_RESOURCE = "/api/users/logout";
 export const SIGNUP_RESOURCE = "/api/users/signup";
-export const MY_PROFILE_RESOURCE = "/api/users/current";
+export const CURRENT_USER_RESOURCE = "/api/users/current";
 
 // General resources
 export const BEERS_RESOURCE = "/api/beers";
