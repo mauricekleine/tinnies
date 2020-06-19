@@ -110,7 +110,8 @@ const useFetch = <T>(url: string, options: UseFetchOptions = {}) => {
           method: "DELETE",
         };
 
-        const res = await fetch(`${url}/${id}`, options);
+        const resource = id ? `${url}/${id}` : url;
+        const res = await fetch(resource, options);
 
         if (res.status === 204) {
           cache.notify({
