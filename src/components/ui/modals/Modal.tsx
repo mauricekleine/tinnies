@@ -2,6 +2,7 @@ import classNames from "classnames";
 import React, { ReactNode, forwardRef, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
+import Animate from "../Animate";
 import Theme from "../theme";
 
 type ModalProps = {
@@ -21,19 +22,15 @@ const Modal = ({ children, isOpen }: ModalProps, ref) => {
     };
   });
 
-  if (!isOpen) {
-    return null;
-  }
-
-  const Wrapper = () => (
+  return createPortal(
     <Theme>
-      {({ animations, colors }) => (
-        <div
+      {({ colors }) => (
+        <Animate
           className={classNames(
-            animations.default,
             `bg-${colors.grayDark}`,
             "bg-opacity-75 fixed flex h-full items-center justify-center left-0 top-0 w-full"
           )}
+          isVisible={isOpen}
         >
           <div
             className={`bg-${colors.white} border border-${colors.grayLight} border-b-2 p-4 rounded-md shadow-lg`}
@@ -41,12 +38,11 @@ const Modal = ({ children, isOpen }: ModalProps, ref) => {
           >
             {children}
           </div>
-        </div>
+        </Animate>
       )}
-    </Theme>
+    </Theme>,
+    element.current
   );
-
-  return createPortal(<Wrapper />, element.current);
 };
 
 export default forwardRef(Modal);
