@@ -7,11 +7,21 @@ import CollectionCard from "../../components/CollectionCard";
 import Page from "../../components/Page";
 import CollectionsBlankSlate from "../../components/blank-slates/CollectionsBlankSlate";
 import Button from "../../components/ui/buttons";
-import { Form, Formik, InputField } from "../../components/ui/forms";
+import {
+  Form,
+  Formik,
+  InputField,
+  MultiSelectField,
+} from "../../components/ui/forms";
 import Modal, { useModal } from "../../components/ui/modals";
 import { Lead } from "../../components/ui/typography";
+import { Beer } from "../../models/beer";
 import { Collection } from "../../models/collection";
-import { MY_COLLECTIONS_RESOURCE } from "../../utils/resources";
+import {
+  MY_BEERS_RESOURCE,
+  MY_COLLECTIONS_RESOURCE,
+} from "../../utils/resources";
+import { sortByProperty } from "../../utils/sort";
 import useFetch from "../../utils/useFetch";
 
 const NewCollectionSchema = yup.object().shape({
@@ -23,6 +33,12 @@ const MyCollections = () => {
   const { handleToggle: handleModalToggle, isOpen: isModalOpen } = useModal(
     modalRef
   );
+
+  const { data: beers = [] } = useFetch<Beer[]>(MY_BEERS_RESOURCE, {
+    getOnInit: true,
+  });
+
+  const sortedBeers = sortByProperty(beers, "name");
 
   const { data: collections = [], post } = useFetch<Collection[]>(
     MY_COLLECTIONS_RESOURCE,
@@ -61,13 +77,21 @@ const MyCollections = () => {
           <span className="mb-2">Create a new collection</span>
 
           <Formik
-            initialValues={{ name: "" }}
+            initialValues={{ beers: [], name: "" }}
             onSubmit={onSubmit}
             validationSchema={NewCollectionSchema}
           >
             {({ isSubmitting, submitForm }) => (
               <Form>
                 <InputField label="Name" name="name" type="text" />
+
+                <MultiSelectField
+                  label="Beers"
+                  name="beers"
+                  optionKey="_id"
+                  optionValue="name"
+                  options={sortedBeers}
+                />
 
                 <Button isLoading={isSubmitting} onClick={submitForm}>
                   Save

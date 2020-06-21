@@ -1,6 +1,7 @@
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import React, { useRef } from "react";
 
+import { Beer } from "../models/beer";
 import { Collection } from "../models/collection";
 import { User } from "../models/user";
 import { canDeleteCollection } from "../utils/permissions";
@@ -40,13 +41,19 @@ const CollectionCard = ({ collection }: Props) => {
     }
   };
 
+  const beerNames = (collection.beers as Beer[]).map((beer) => beer.name);
+
   return (
     <Card px="6">
       <div className="flex flex-row justify-between">
-        <div
-          className="font-semibold text-xl"
-          dangerouslySetInnerHTML={{ __html: collection.name }}
-        />
+        <div className="">
+          <div
+            className="font-semibold text-xl"
+            dangerouslySetInnerHTML={{ __html: collection.name }}
+          />
+
+          <p>{beerNames.join(", ")}</p>
+        </div>
 
         {canDelete && (
           <div className="relative" ref={dropdownRef}>

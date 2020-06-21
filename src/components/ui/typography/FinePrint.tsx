@@ -5,7 +5,9 @@ import Theme from "../theme";
 const FinePrint = ({ children }: { children: ReactNode }) => (
   <Theme>
     {({ colors }) => (
-      <span className={`text-${colors.gray} text-sm`}>{children}</span>
+      <span className={`font-normal text-${colors.gray} text-sm`}>
+        {children}
+      </span>
     )}
   </Theme>
 );

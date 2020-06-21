@@ -9,6 +9,7 @@ import CollectionModel, {
 import { sanitizeString } from "../../../utils/sanitizers";
 
 type RequestBody = {
+  beers: CollectionDocument["beers"];
   name: CollectionDocument["name"];
 };
 
@@ -31,7 +32,7 @@ const handleGetRequest: NextAuthenticatedApiHandler<
 const handlePostRequest: NextAuthenticatedApiHandler<
   CollectionDocument[] | string
 > = async (req, res) => {
-  const { name: dirtyName }: RequestBody = req.body;
+  const { beers, name: dirtyName }: RequestBody = req.body;
 
   const name = sanitizeString(dirtyName);
 
@@ -41,8 +42,15 @@ const handlePostRequest: NextAuthenticatedApiHandler<
     return;
   }
 
+  if (!Array.isArray(beers)) {
+    res.status(400).send("Invalid beers object");
+
+    return;
+  }
+
   await CollectionModel.create({
     addedBy: req.user.id,
+    beers,
     name,
   });
 

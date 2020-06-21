@@ -5,6 +5,7 @@ import FormGroup from "./FormGroup";
 import FormLabel from "./FormLabel";
 import ImageField from "./ImageField";
 import InputField from "./InputField";
+import MultiSelectField from "./MultiSelectField";
 import RatingField from "./RatingField";
 import SelectField from "./SelectField";
 
@@ -16,6 +17,7 @@ export {
   Formik,
   ImageField,
   InputField,
+  MultiSelectField,
   RatingField,
   SelectField,
 };

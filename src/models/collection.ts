@@ -2,13 +2,13 @@ import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 import autopopulate from "mongoose-autopopulate";
 
-import BeerModel, { Beer } from "./beer";
+import BeerModel, { Beer, BeerDocument } from "./beer";
 import UserModel, { User, UserDocument } from "./user";
 
 export type Collection = {
   _id: string;
   addedBy: User | UserDocument;
-  beers?: Beer[];
+  beers: Beer[] | BeerDocument[];
   name: string;
 };
 

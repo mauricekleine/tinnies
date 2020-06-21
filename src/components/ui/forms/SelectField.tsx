@@ -57,7 +57,11 @@ const SelectField = ({
   }, [field.value, getOptionValue, options]);
 
   const matches = useMemo(() => {
-    const regex = new RegExp(`${escapeStringRegexp(field.value)}`, "gi");
+    if (!field.value) {
+      return options;
+    }
+
+    const regex = new RegExp(escapeStringRegexp(field.value), "gi");
 
     return options.filter((option) => {
       const value = getOptionValue(option);
@@ -157,7 +161,7 @@ const SelectField = ({
           {shouldShowDropdown && (
             <div className="relative" ref={dropdownRef}>
               <Dropdown {...dropdownProps}>
-                <div className="max-h-sm overflow-scroll py-1">
+                <div className="max-h-sm overflow-scroll py-1 text-left">
                   {matches.map((option) => {
                     const key = getOptionKey(option);
                     const value = getOptionValue(option);
