@@ -1,5 +1,5 @@
 export const sortByProperty = <T>(array: T[], key, ascending = true) =>
-  array.sort((a, b) => {
+  [...array].sort((a, b) => {
     if (a[key] < b[key]) {
       return ascending ? -1 : 1;
     }
