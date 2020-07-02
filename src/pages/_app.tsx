@@ -78,6 +78,6 @@ export default withApollo(({ initialState }) => {
         isLoggedIn: Boolean!
       }
     `,
-    uri: "http://localhost:3000/api/graphql",
+    uri: process.env.GRAPHQL_URI,
   });
 })(App);
