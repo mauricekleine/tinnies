@@ -1,13 +1,14 @@
-import { Beer, BeerDocument } from "../models/beer";
-import { Collection, CollectionDocument } from "../models/collection";
-import { User, UserDocument } from "../models/user";
+import { Collection } from "../types/graphql";
+import { Beer } from "../types/graphql";
+import { User } from "../types/graphql";
 
-export const canDeleteBeer = (
-  beer: Beer | BeerDocument,
-  user: User | UserDocument
-) => user && beer.addedBy._id === user._id;
+export const canDeleteBeer = (beer: Beer, user: User): boolean =>
+  beer.addedBy.id === user.id;
 
 export const canDeleteCollection = (
-  collection: Collection | CollectionDocument,
-  user: User | UserDocument
-) => user && collection.addedBy._id === user._id;
+  collection: Collection,
+  user: User
+): boolean => collection.addedBy.id === user.id;
+
+export const canDeleteUser = (userToBeDelete: User, user: User): boolean =>
+  userToBeDelete.id === user.id;

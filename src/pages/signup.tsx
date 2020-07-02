@@ -1,4 +1,8 @@
-import React from "react";
+/** @jsx createElement */
+import { useApolloClient, useMutation } from "@apollo/react-hooks";
+import { ApolloClient, gql } from "apollo-boost";
+import { FormikHelpers } from "formik";
+import { createElement } from "react";
 import * as yup from "yup";
 
 import {
@@ -8,30 +12,55 @@ import {
   SIGNUP_FORM_SUBMIT_BTN,
 } from "../../cypress/selectors";
 import Page from "../components/Page";
+import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
-import Button from "../components/ui/buttons";
 import { Form, Formik, InputField } from "../components/ui/forms";
 import { Lead } from "../components/ui/typography";
-import { User } from "../models/user";
-import { CURRENT_USER_RESOURCE, SIGNUP_RESOURCE } from "../utils/resources";
-import useFetch from "../utils/useFetch";
+import { Mutation, MutationSignupArgs } from "../types/graphql";
 
-const SignupSchema = yup.object().shape({
+export const SIGNUP_USER = gql`
+  mutation signup($email: String!, $name: String!, $password: String!) {
+    signup(email: $email, name: $name, password: $password) {
+      token
+    }
+  }
+`;
+
+const SignupSchema = yup.object<MutationSignupArgs>().shape({
   email: yup.string().email("Invalid email").required("Required"),
   name: yup.string().min(2, "Too Short!").required("Required"),
   password: yup.string().min(8, "Too Short!").required("Required"),
 });
 
 const SignupPage = () => {
-  const { post } = useFetch<User>(SIGNUP_RESOURCE, {
-    cacheKey: CURRENT_USER_RESOURCE,
+  const client: ApolloClient<any> = useApolloClient();
+
+  const [signup] = useMutation<
+    { signup: Mutation["signup"] },
+    MutationSignupArgs
+  >(SIGNUP_USER, {
+    onCompleted: (data) => {
+      if (data && data.signup) {
+        localStorage.setItem("token", data.signup.token);
+        client.writeData({ data: { isLoggedIn: true } });
+      }
+    },
   });
 
-  const onSubmit = async (values, { setSubmitting }) => {
+  const initialValues: MutationSignupArgs = {
+    email: "",
+    name: "",
+    password: "",
+  };
+
+  const handleSubmit = (
+    values: MutationSignupArgs,
+    { setSubmitting }: FormikHelpers<MutationSignupArgs>
+  ) => {
     setSubmitting(true);
 
     try {
-      await post(values);
+      signup({ variables: values });
     } catch (e) {
       // $TODO: handle error
       setSubmitting(false);
@@ -44,35 +73,35 @@ const SignupPage = () => {
         <Lead>Sign up</Lead>
 
         <Formik
-          initialValues={{ email: "", name: "", password: "" }}
-          onSubmit={onSubmit}
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
           validationSchema={SignupSchema}
         >
           {({ isSubmitting, submitForm }) => (
             <Form>
               <InputField
-                data-cy={SIGNUP_FORM_NAME_FIELD}
+                dataCy={SIGNUP_FORM_NAME_FIELD}
                 label="First name"
                 name="name"
                 type="text"
               />
 
               <InputField
-                data-cy={SIGNUP_FORM_EMAIL_FIELD}
+                dataCy={SIGNUP_FORM_EMAIL_FIELD}
                 label="Email"
                 name="email"
                 type="email"
               />
 
               <InputField
-                data-cy={SIGNUP_FORM_PASSWORD_FIELD}
+                dataCy={SIGNUP_FORM_PASSWORD_FIELD}
                 label="Password"
                 name="password"
                 type="password"
               />
 
               <Button
-                data-cy={SIGNUP_FORM_SUBMIT_BTN}
+                dataCy={SIGNUP_FORM_SUBMIT_BTN}
                 disabled={isSubmitting}
                 isLoading={isSubmitting}
                 onClick={submitForm}

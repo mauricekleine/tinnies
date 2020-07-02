@@ -8,3 +8,6 @@
 
 *.css
 *.config.js
+
+# generated
+/src/types/graphql.ts

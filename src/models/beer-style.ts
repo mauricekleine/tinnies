@@ -1,6 +1,8 @@
-import mongoose from "mongoose";
+import { Document, Model, Schema, model, models } from "mongoose";
 
-export const beerStyles = [
+import { BeerStyle, User } from "../types/graphql";
+
+const beerStyles = [
   "Altbier",
   "Amber Ale",
   "Barley Wine",
@@ -48,14 +50,9 @@ export const beerStyles = [
   "Weizenbock",
 ] as const;
 
-export type BeerStyle = {
-  _id: string;
-  name: typeof beerStyles[number];
-};
+export type BeerStyleDocument = BeerStyle & Document;
 
-export type BeerStyleDocument = BeerStyle & mongoose.Document;
-
-export const beerStyleSchema = new mongoose.Schema(
+export const beerStyleSchema = new Schema(
   {
     name: { enum: beerStyles, required: true, type: String },
   },
@@ -64,7 +61,17 @@ export const beerStyleSchema = new mongoose.Schema(
   }
 );
 
-const BeerStyleModel: mongoose.Model<BeerStyleDocument> =
-  mongoose.models.BeerStyle || mongoose.model("BeerStyle", beerStyleSchema);
+const BeerStyleModel: Model<BeerStyleDocument> =
+  models.BeerStyle || model("BeerStyle", beerStyleSchema);
+
+export const generateBeerStyleModel = ({ user }: { user: User }) => ({
+  getAll: async () => {
+    if (!user) {
+      return null;
+    }
+
+    return await BeerStyleModel.find().sort({ name: 1 });
+  },
+});
 
 export default BeerStyleModel;

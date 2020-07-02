@@ -1,9 +1,13 @@
+/** @jsx createElement */
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
-import React, { ReactNode } from "react";
+import { ReactNode, createElement } from "react";
 
 import Theme from "../theme";
 
-type LinkProps = { children: ReactNode; href: NextLinkProps["href"] };
+type LinkProps = {
+  children: ReactNode | ReactNode[];
+  href: NextLinkProps["href"];
+};
 
 const Link = ({ children, href }: LinkProps) => (
   <Theme>

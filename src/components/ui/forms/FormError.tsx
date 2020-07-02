@@ -1,4 +1,5 @@
-import React, { ReactNode } from "react";
+/** @jsx createElement */
+import { ReactNode, createElement } from "react";
 
 import Theme from "../theme";
 
@@ -9,7 +10,7 @@ type FormErrorProps = {
 const FormError = ({ children }: FormErrorProps) => (
   <Theme>
     {({ colors }) => (
-      <div className={`italic px-1 text-${colors.red} text-xs`}>{children}</div>
+      <p className={`italic px-1 text-${colors.red} text-xs`}>{children}</p>
     )}
   </Theme>
 );

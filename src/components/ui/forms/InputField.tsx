@@ -1,6 +1,7 @@
+/** @jsx createElement */
 import classNames from "classnames";
 import { useField } from "formik";
-import React from "react";
+import { DetailedHTMLProps, InputHTMLAttributes, createElement } from "react";
 
 import Theme from "../theme";
 
@@ -8,15 +9,19 @@ import FormGroup from "./FormGroup";
 import { hasError } from "./utils";
 
 type InputFieldProps = {
+  dataCy?: string;
   label: string;
   name: string;
   type: string;
-} & React.DetailedHTMLProps<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
->;
+} & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
-const InputField = ({ label, name, type, ...props }: InputFieldProps) => {
+const InputField = ({
+  dataCy,
+  label,
+  name,
+  type,
+  ...props
+}: InputFieldProps) => {
   const [field, meta] = useField<string>({ name, type });
   const hasFieldError = hasError<string>(meta);
 
@@ -43,6 +48,7 @@ const InputField = ({ label, name, type, ...props }: InputFieldProps) => {
               `focus:border-${colors.primary}`,
               "focus:outline-none"
             )}
+            data-cy={dataCy}
             placeholder={label}
             type={type}
             {...field}

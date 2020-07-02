@@ -1,26 +1,31 @@
+/** @jsx createElement */
 import classNames from "classnames";
-import React, { ReactNode, forwardRef, useEffect, useRef } from "react";
+import { ReactNode, createElement, forwardRef, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
-import Animate from "../Animate";
-import Theme from "../theme";
+import Animate from "./Animate";
+import Theme from "./theme";
 
 type ModalProps = {
-  children: ReactNode;
+  children: ReactNode | ReactNode[];
   isOpen: boolean;
 };
 
 const Modal = ({ children, isOpen }: ModalProps, ref) => {
-  const element = useRef(document.createElement("div"));
+  const element = useRef(null);
 
   useEffect(() => {
-    const currentElement = element.current;
-    document.getElementById("modal-root").appendChild(currentElement);
+    element.current = document.createElement("div");
+    document.getElementById("modal-root").appendChild(element.current);
 
     return () => {
-      document.getElementById("modal-root").removeChild(currentElement);
+      document.getElementById("modal-root").removeChild(element.current);
     };
-  });
+  }, []);
+
+  if (!element.current) {
+    return null;
+  }
 
   return createPortal(
     <Theme>

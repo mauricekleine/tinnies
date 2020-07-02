@@ -1,52 +1,50 @@
 import { internet, name } from "faker";
+import { print } from "graphql/language/printer";
 
+import { SIGNUP_USER } from "../../src/pages/signup";
+import { User } from "../../src/types/graphql";
 import {
-  CURRENT_USER_RESOURCE,
-  LOGIN_RESOURCE,
-  LOGOUT_RESOURCE,
-  SIGNUP_RESOURCE,
-} from "../../src/utils/resources";
+  NAVIGATION_AVATAR,
+  NAVIGATION_LOGIN_BTN,
+  NAVIGATION_LOGOUT_BTN,
+} from "../selectors";
 
-type User = {
-  email: string;
-  name: string;
+type UserWithPassword = Omit<User, "id"> & {
   password: string;
 };
 
-export const login = (user: User) => {
-  cy.request("POST", LOGIN_RESOURCE, user).its("body").as("currentUser");
-};
-
-export const logout = () => {
-  cy.request("DELETE", LOGOUT_RESOURCE);
-};
-
-export const signup = (user: User) => {
-  cy.request("POST", SIGNUP_RESOURCE, user).its("body").as("currentUser");
-};
-
-export const signupAndLogout = (user: User) => {
-  signup(user);
-  logout();
-};
-
-export const verifyUser = ($user: User, user: User) => {
-  expect($user).to.include({
-    email: user.email,
-    name: user.name,
+export const signup = (user: UserWithPassword): void => {
+  cy.request("POST", "/api/graphql", {
+    query: print(SIGNUP_USER),
+    variables: user,
+  }).then((response) => {
+    const token = response.body.data.signup.token;
+    expect(token).to.exist;
   });
-
-  expect($user).to.have.property("_id");
-  expect($user).to.not.have.property("password");
 };
 
-export const createRandomUser: () => User = () => ({
+export const createRandomUser: () => UserWithPassword = () => ({
   email: internet.email(),
   name: name.firstName(),
   password: internet.password(),
 });
 
-export const deleteRandomUserAndLogout = () => {
-  cy.request("DELETE", CURRENT_USER_RESOURCE);
-  logout();
+export const deleteRandomUserAndLogout = (): void => {
+  cy.get(`[data-cy=${NAVIGATION_AVATAR}]`).click();
+  cy.get(`[data-cy=${NAVIGATION_LOGOUT_BTN}]`).click();
+
+  cy.request({
+    body: {
+      query: `
+      {
+        deleteCurrentUser
+      }
+    `,
+    },
+    headers: {
+      authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    method: "POST",
+    url: "/api/graphql",
+  });
 };

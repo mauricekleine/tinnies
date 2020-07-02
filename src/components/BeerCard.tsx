@@ -1,48 +1,73 @@
+/** @jsx createElement */
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { gql } from "apollo-boost";
 import { Image } from "cloudinary-react";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import React, { useRef } from "react";
+import { createElement, useRef } from "react";
 
-import { Beer } from "../models/beer";
-import { User } from "../models/user";
+import { ALL_BEERS } from "../pages/home";
+import { MY_BEERS } from "../pages/my/beers";
+import { Beer, Mutation, MutationDeleteBeerArgs, User } from "../types/graphql";
 import { canDeleteBeer } from "../utils/permissions";
-import { BEERS_RESOURCE, CURRENT_USER_RESOURCE } from "../utils/resources";
-import useFetch from "../utils/useFetch";
 
 import Avatar from "./ui/Avatar";
+import Button from "./ui/Button";
 import Card from "./ui/Card";
-import { Icon } from "./ui/Icon";
+import Dropdown from "./ui/Dropdown";
+import Icon from "./ui/Icon";
+import Modal from "./ui/Modal";
 import Rating from "./ui/Rating";
-import Button from "./ui/buttons";
-import Dropdown, { useDropdown } from "./ui/dropdowns";
-import Modal, { useModal } from "./ui/modals";
 import { Bold, FinePrint, Heading, Muted } from "./ui/typography";
+import { useOpenHandler } from "./ui/utils";
+
+const DELETE_BEER = gql`
+  mutation deleteBeer($id: ID!) {
+    deleteBeer(id: $id)
+  }
+`;
+
+const USER = gql`
+  query getBeerUser {
+    currentUser {
+      id
+    }
+  }
+`;
 
 type Props = {
   beer: Beer;
 };
 
 const BeerCard = ({ beer }: Props) => {
+  const { data } = useQuery<{ currentUser: User }>(USER);
+
+  const [deleteMyBeer] = useMutation<
+    { deleteBeer: Mutation["deleteBeer"] },
+    MutationDeleteBeerArgs
+  >(DELETE_BEER);
+
   const dropdownRef = useRef();
+  const {
+    handleToggle: handleDropdownToggle,
+    isOpen: isDropdownOpen,
+  } = useOpenHandler(dropdownRef);
+
   const modalRef = useRef();
+  const {
+    handleClose: handleModalClose,
+    handleToggle: handleModalToggle,
+    isOpen: isModalOpen,
+  } = useOpenHandler(modalRef);
 
-  const { dropdownProps, handleToggle: handleDropdownToggle } = useDropdown(
-    dropdownRef,
-    {
-      width: "24",
-    }
-  );
-  const { handleToggle: handleModalToggle, isOpen: isModalOpen } = useModal(
-    modalRef
-  );
-
-  const { del } = useFetch<Beer[]>(BEERS_RESOURCE);
-  const { data: user } = useFetch<User>(CURRENT_USER_RESOURCE);
-
-  const canDelete = canDeleteBeer(beer, user);
+  const canDelete = canDeleteBeer(beer, data && data.currentUser);
 
   const handleDelete = () => {
-    del(beer._id);
+    deleteMyBeer({
+      refetchQueries: [{ query: ALL_BEERS }, { query: MY_BEERS }],
+      variables: { id: beer.id },
+    });
+    handleModalClose();
   };
 
   return (
@@ -61,7 +86,7 @@ const BeerCard = ({ beer }: Props) => {
             </p>
 
             <FinePrint>
-              {formatDistanceToNow(new Date(beer.createdAt))} ago
+              <>{formatDistanceToNow(new Date(beer.createdAt))} ago</>
             </FinePrint>
           </div>
         </div>
@@ -75,7 +100,7 @@ const BeerCard = ({ beer }: Props) => {
                 </Button>
               </div>
 
-              <Dropdown {...dropdownProps}>
+              <Dropdown isOpen={isDropdownOpen} width="24">
                 <div className="flex justify-center px-4 py-2">
                   <Button
                     isTransparent

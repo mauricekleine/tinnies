@@ -9,6 +9,7 @@ class MyDocument extends Document {
 
         <body>
           <Main />
+          <div className="relative z-50" id="modal-root"></div>
           <NextScript />
         </body>
       </Html>

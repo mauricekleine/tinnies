@@ -1,8 +1,6 @@
-import { CURRENT_USER_RESOURCE } from "../../src/utils/resources";
 import {
   createRandomUser,
   deleteRandomUserAndLogout,
-  verifyUser,
 } from "../libs/authentication";
 import {
   SIGNUP_FORM_EMAIL_FIELD,
@@ -25,10 +23,6 @@ describe("Signup page", () => {
     cy.get(`[data-cy=${SIGNUP_FORM_SUBMIT_BTN}]`).click();
 
     cy.url().should("include", "/home");
-
-    cy.window()
-      .its("Tinnies.Cache." + CURRENT_USER_RESOURCE)
-      .should(($user) => verifyUser($user, user));
   });
 
   after(() => {

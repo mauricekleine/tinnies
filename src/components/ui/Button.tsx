@@ -1,10 +1,12 @@
+/** @jsx createElement */
 import classNames from "classnames";
-import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import { ButtonHTMLAttributes, DetailedHTMLProps, createElement } from "react";
 
-import Spinner from "../Spinner";
-import Theme from "../theme";
+import Spinner from "./Spinner";
+import Theme from "./theme";
 
 type ButtonProps = {
+  dataCy?: string;
   isLoading?: boolean;
   isTransparent?: boolean;
 } & DetailedHTMLProps<
@@ -14,16 +16,17 @@ type ButtonProps = {
 
 const Button = ({
   children,
+  dataCy,
   isLoading,
   isTransparent,
   onClick,
   ...props
 }: ButtonProps) => (
   <Theme>
-    {({ animations, colors }) => (
+    {({ colors }) => (
       <button
         className={classNames(
-          `${animations.fast} border border-b-2 font-light h-10 px-3 md:px-4 rounded focus:outline-none`,
+          "border border-b-2 font-light h-10 px-3 md:px-4 rounded focus:outline-none",
           {
             [`bg-${colors.primary}`]: !isTransparent,
             [`border-${colors.primaryAccent}`]: !isTransparent,
@@ -36,6 +39,7 @@ const Button = ({
             [`hover:text-${colors.primary}`]: isTransparent,
           }
         )}
+        data-cy={dataCy}
         onClick={onClick}
         {...props}
       >

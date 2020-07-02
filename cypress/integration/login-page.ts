@@ -1,9 +1,7 @@
-import { CURRENT_USER_RESOURCE } from "../../src/utils/resources";
 import {
   createRandomUser,
   deleteRandomUserAndLogout,
-  signupAndLogout,
-  verifyUser,
+  signup,
 } from "../libs/authentication";
 import {
   LOGIN_FORM_EMAIL_FIELD,
@@ -15,7 +13,7 @@ const user = createRandomUser();
 
 describe("Login page", () => {
   before(() => {
-    signupAndLogout(user);
+    signup(user);
   });
 
   beforeEach(() => {
@@ -39,10 +37,6 @@ describe("Login page", () => {
     cy.get(`[data-cy=${LOGIN_FORM_SUBMIT_BTN}]`).click();
 
     cy.url().should("include", "/home");
-
-    cy.window()
-      .its("Tinnies.Cache." + CURRENT_USER_RESOURCE)
-      .should(($user) => verifyUser($user, user));
   });
 
   after(() => {

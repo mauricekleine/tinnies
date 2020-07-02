@@ -1,7 +1,7 @@
+/** @jsx createElement */
 import { useField } from "formik";
-import React from "react";
+import { createElement } from "react";
 
-import { BeerRating } from "../../../models/beer";
 import Rating from "../Rating";
 
 import FormGroup from "./FormGroup";
@@ -13,11 +13,11 @@ type Props = {
 };
 
 const RatingField = ({ label, name }: Props) => {
-  const [field, meta, helpers] = useField<BeerRating>({
+  const [field, meta, helpers] = useField<number>({
     name,
     type: "number",
   });
-  const hasFieldError = hasError<BeerRating>(meta);
+  const hasFieldError = hasError<number>(meta);
 
   return (
     <FormGroup

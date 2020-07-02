@@ -1,13 +1,10 @@
-import mongoose from "mongoose";
+import { Document, Model, Schema, model, models } from "mongoose";
 
-export type Brewery = {
-  _id: string;
-  name: string;
-};
+import { Brewery, User } from "../types/graphql";
 
-export type BreweryDocument = Brewery & mongoose.Document;
+export type BreweryDocument = Brewery & Document;
 
-export const brewerySchema = new mongoose.Schema(
+export const brewerySchema = new Schema(
   {
     name: { required: true, type: String },
   },
@@ -16,7 +13,17 @@ export const brewerySchema = new mongoose.Schema(
   }
 );
 
-const BreweryModel: mongoose.Model<BreweryDocument> =
-  mongoose.models.Brewery || mongoose.model("Brewery", brewerySchema);
+const BreweryModel: Model<BreweryDocument> =
+  models.Brewery || model("Brewery", brewerySchema);
+
+export const generateBreweryModel = ({ user }: { user: User }) => ({
+  getAll: async () => {
+    if (!user) {
+      return null;
+    }
+
+    return await BreweryModel.find().sort({ name: 1 });
+  },
+});
 
 export default BreweryModel;

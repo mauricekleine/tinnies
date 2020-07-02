@@ -1,4 +1,5 @@
-import React from "react";
+/** @jsx createElement */
+import { createElement } from "react";
 
 import Avatar from "./ui/Avatar";
 import Card from "./ui/Card";
