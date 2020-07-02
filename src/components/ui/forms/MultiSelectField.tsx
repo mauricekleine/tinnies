@@ -1,19 +1,22 @@
+/** @jsx createElement */
 import { faCaretDown, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import escapeStringRegexp from "escape-string-regexp";
 import { useField } from "formik";
-import React, {
+import {
   ChangeEvent,
+  createElement,
   useCallback,
   useMemo,
   useRef,
   useState,
 } from "react";
 
+import Dropdown from "../Dropdown";
 import Highlighter from "../Highlighter";
-import Dropdown, { useDropdown } from "../dropdowns";
 import Theme from "../theme";
+import { useOpenHandler } from "../utils";
 
 import FormGroup from "./FormGroup";
 import { hasError } from "./utils";
@@ -34,7 +37,7 @@ const MultiSelectField = ({
   optionValue,
 }: MultiSelectFieldProps) => {
   const dropdownRef = useRef();
-  const { dropdownProps, handleOpen, isOpen } = useDropdown(dropdownRef);
+  const { handleOpen, isOpen } = useOpenHandler(dropdownRef);
   const [field, meta, helpers] = useField<Array<unknown>>({
     name,
   });
@@ -109,6 +112,7 @@ const MultiSelectField = ({
               className={`appearance-none cursor-pointer px-3 py-2 rounded text-${colors.gray} truncate w-full focus:outline-none`}
               id={name}
               placeholder={label}
+              readOnly
               type="string"
               value={displayValue}
             />
@@ -126,7 +130,7 @@ const MultiSelectField = ({
           </div>
 
           <div className="relative" ref={dropdownRef}>
-            <Dropdown {...dropdownProps}>
+            <Dropdown isOpen={isOpen}>
               <div className="max-h-sm overflow-scroll pb-1 text-left">
                 <div className={classNames(animations.default, "border-b-2")}>
                   <input

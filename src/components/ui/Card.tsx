@@ -1,9 +1,10 @@
-import React from "react";
+/** @jsx createElement */
+import { ReactNode, createElement } from "react";
 
 import Theme from "./theme";
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode | ReactNode[];
   px?: string;
 };
 

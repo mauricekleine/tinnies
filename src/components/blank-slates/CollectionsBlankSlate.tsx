@@ -1,11 +1,8 @@
-import React from "react";
+/** @jsx createElement */
+import { createElement } from "react";
 
-import UndrawCollectionSVG from "./undraw_collection_u2np.svg";
+import UndrawCollectionSVG from "./svg/undraw_collection_u2np.svg";
 
-const CollectionsBlankSlate = () => (
-  <div>
-    <UndrawCollectionSVG />
-  </div>
-);
+const CollectionsBlankSlate = () => <UndrawCollectionSVG />;
 
 export default CollectionsBlankSlate;

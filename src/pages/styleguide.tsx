@@ -1,11 +1,12 @@
-import React, { useRef } from "react";
+/** @jsx createElement */
+import { createElement, useRef } from "react";
 
 import Page from "../components/Page";
+import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
+import Dropdown from "../components/ui/Dropdown";
+import Modal from "../components/ui/Modal";
 import Rating from "../components/ui/Rating";
-import Button from "../components/ui/buttons";
-import Dropdown, { useDropdown } from "../components/ui/dropdowns";
-import Modal, { useModal } from "../components/ui/modals";
 import Theme from "../components/ui/theme";
 import {
   Bold,
@@ -15,12 +16,11 @@ import {
   Link,
   Muted,
 } from "../components/ui/typography";
+import useToggle from "../components/ui/utils/useToggle";
 
 const StyleGuide = () => {
-  const dropdownRef = useRef();
   const modalRef = useRef();
-  const { dropdownProps } = useDropdown(dropdownRef);
-  const { handleToggle: handleModalToggle, isOpen: isModalOpen } = useModal(
+  const { handleToggle: handleModalToggle, isOpen: isModalOpen } = useToggle(
     modalRef
   );
 
@@ -52,7 +52,7 @@ const StyleGuide = () => {
           <Rating disabled value={3} />
 
           <div className="relative mb-32">
-            <Dropdown {...dropdownProps} isOpen>
+            <Dropdown isOpen width="full">
               <div className="flex flex-col px-4 py-2">
                 <span
                   className={`border-b border-${colors.grayLight} sm:mb-2 py-2`}

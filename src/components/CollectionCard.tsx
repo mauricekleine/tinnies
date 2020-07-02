@@ -1,53 +1,86 @@
+/** @jsx createElement */
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import React, { useRef } from "react";
+import { gql } from "apollo-boost";
+import { createElement, useRef } from "react";
 
-import { Beer } from "../models/beer";
-import { Collection } from "../models/collection";
-import { User } from "../models/user";
-import { canDeleteCollection } from "../utils/permissions";
+import { MY_COLLECTIONS } from "../pages/my/collections";
 import {
-  COLLECTIONS_RESOURCE,
-  CURRENT_USER_RESOURCE,
-  MY_COLLECTIONS_RESOURCE,
-} from "../utils/resources";
-import useFetch from "../utils/useFetch";
+  Collection,
+  Mutation,
+  MutationDeleteCollectionArgs,
+  User,
+} from "../types/graphql";
+import { canDeleteCollection } from "../utils/permissions";
 
+import Button from "./ui/Button";
 import Card from "./ui/Card";
-import { Icon } from "./ui/Icon";
-import Button from "./ui/buttons";
-import Dropdown, { useDropdown } from "./ui/dropdowns";
-import Modal, { useModal } from "./ui/modals";
+import Dropdown from "./ui/Dropdown";
+import Icon from "./ui/Icon";
+import Modal from "./ui/Modal";
+import { useOpenHandler } from "./ui/utils";
+
+const DELETE_COLLECTION = gql`
+  mutation deleteCollection($id: ID!) {
+    deleteCollection(id: $id) {
+      addedBy {
+        id
+        name
+      }
+      beers {
+        name
+      }
+      id
+      name
+    }
+  }
+`;
+
+const USER = gql`
+  query getCollectionUser {
+    currentUser {
+      id
+    }
+  }
+`;
 
 type Props = {
   collection: Collection;
 };
 
 const CollectionCard = ({ collection }: Props) => {
+  const { data } = useQuery<{ currentUser: User }>(USER);
+
+  const [deleteMyCollection] = useMutation<
+    { deleteCollection: Mutation["deleteCollection"] },
+    MutationDeleteCollectionArgs
+  >(DELETE_COLLECTION);
+
   const dropdownRef = useRef();
+  const {
+    handleToggle: handleDropdownToggle,
+    isOpen: isDropdownOpen,
+  } = useOpenHandler(dropdownRef);
+
   const modalRef = useRef();
+  const {
+    handleClose: handleModalClose,
+    handleToggle: handleModalToggle,
+    isOpen: isModalOpen,
+  } = useOpenHandler(modalRef);
 
-  const { dropdownProps, handleToggle: handleDropdownToggle } = useDropdown(
-    dropdownRef,
-    {
-      width: "24",
-    }
-  );
-  const { handleToggle: handleModalToggle, isOpen: isModalOpen } = useModal(
-    modalRef
-  );
-
-  const { del } = useFetch<Collection[]>(COLLECTIONS_RESOURCE, {
-    cacheKey: MY_COLLECTIONS_RESOURCE,
-  });
-  const { data: user } = useFetch<User>(CURRENT_USER_RESOURCE);
-
-  const canDelete = canDeleteCollection(collection, user);
+  const canDelete = canDeleteCollection(collection, data && data.currentUser);
 
   const handleDelete = () => {
-    del(collection._id);
+    deleteMyCollection({
+      refetchQueries: [{ query: MY_COLLECTIONS }],
+      variables: { id: collection.id },
+    });
+
+    handleModalClose();
   };
 
-  const beerNames = (collection.beers as Beer[]).map((beer) => beer.name);
+  const beerNames = collection.beers.map((beer) => beer.name);
 
   return (
     <Card px="6">
@@ -68,8 +101,7 @@ const CollectionCard = ({ collection }: Props) => {
                 <Icon icon={faEllipsisV} />
               </Button>
             </div>
-
-            <Dropdown {...dropdownProps}>
+            <Dropdown isOpen={isDropdownOpen} width="24">
               <div className="flex justify-center px-4 py-2">
                 <Button
                   isTransparent

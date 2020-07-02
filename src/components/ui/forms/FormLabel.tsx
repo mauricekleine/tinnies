@@ -1,9 +1,10 @@
-import React, { ReactNode } from "react";
+/** @jsx createElement */
+import { ReactNode, createElement } from "react";
 
 import Theme from "../theme";
 
 type FormLabelProps = {
-  children: ReactNode;
+  children: ReactNode | ReactNode[];
   labelFor: string;
 };
 

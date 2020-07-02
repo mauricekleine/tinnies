@@ -1,42 +1,37 @@
+/** @jsx createElement */
 import { faBeer, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NextLink from "next/link";
-import React, { useRef } from "react";
+import { createElement, useRef } from "react";
 
 import {
+  NAVIGATION_AVATAR,
   NAVIGATION_LOGIN_BTN,
+  NAVIGATION_LOGOUT_BTN,
   NAVIGATION_SIGNUP_BTN,
 } from "../../../../cypress/selectors";
-import { User } from "../../../models/user";
-import {
-  CURRENT_USER_RESOURCE,
-  LOGOUT_RESOURCE,
-} from "../../../utils/resources";
-import useFetch from "../../../utils/useFetch";
+import { User } from "../../../types/graphql";
 import Avatar from "../Avatar";
-import Button from "../buttons";
-import Dropdown, { useDropdown } from "../dropdowns";
+import Button from "../Button";
+import Dropdown from "../Dropdown";
 import Theme from "../theme";
 import { Link } from "../typography";
+import { useOpenHandler } from "../utils";
 
 import NavbarLink from "./NavbarLink";
 
 type Props = {
-  isLoading: boolean;
+  onLogout: () => void;
   user: User;
 };
 
-const Navbar = ({ isLoading, user }: Props) => {
+const Navbar = ({ onLogout, user }: Props) => {
   const dropdownRef = useRef();
-  const { dropdownProps, handleToggle } = useDropdown(dropdownRef, {
-    width: "48",
-  });
-  const { del } = useFetch<User>(LOGOUT_RESOURCE, {
-    cacheKey: CURRENT_USER_RESOURCE,
-  });
+  const { handleClose, handleToggle, isOpen } = useOpenHandler(dropdownRef);
 
   const handleLogout = async () => {
-    await del();
+    handleClose();
+    onLogout();
   };
 
   return (
@@ -82,14 +77,19 @@ const Navbar = ({ isLoading, user }: Props) => {
             )}
           </div>
 
-          <div>
+          <div className="flex">
             {user ? (
               <div className="relative" ref={dropdownRef}>
-                <div className="cursor-pointer mr-2" onClick={handleToggle}>
+                <button
+                  className="cursor-pointer mr-2 focus:outline-none"
+                  data-cy={NAVIGATION_AVATAR}
+                  onClick={handleToggle}
+                  type="button"
+                >
                   <Avatar />
-                </div>
+                </button>
 
-                <Dropdown {...dropdownProps}>
+                <Dropdown isOpen={isOpen} width="48">
                   <div className="flex flex-col px-4 py-2">
                     <span
                       className={`border-b border-${colors.grayLight} sm:mb-2 py-2`}
@@ -105,28 +105,29 @@ const Navbar = ({ isLoading, user }: Props) => {
                       <Link href="/my/collections">My Collections</Link>
                     </div>
 
-                    <Button isLoading={isLoading} onClick={handleLogout}>
+                    <Button
+                      dataCy={NAVIGATION_LOGOUT_BTN}
+                      onClick={handleLogout}
+                    >
                       Log out
                     </Button>
                   </div>
                 </Dropdown>
               </div>
             ) : (
-              !isLoading && (
-                <div className="flex">
-                  <NavbarLink
-                    isBorderless
-                    dataCy={NAVIGATION_LOGIN_BTN}
-                    href="/login"
-                  >
-                    Log in
-                  </NavbarLink>
+              <>
+                <NavbarLink
+                  isBorderless
+                  dataCy={NAVIGATION_LOGIN_BTN}
+                  href="/login"
+                >
+                  Log in
+                </NavbarLink>
 
-                  <NavbarLink dataCy={NAVIGATION_SIGNUP_BTN} href="/signup">
-                    Sign up
-                  </NavbarLink>
-                </div>
-              )
+                <NavbarLink dataCy={NAVIGATION_SIGNUP_BTN} href="/signup">
+                  Sign up
+                </NavbarLink>
+              </>
             )}
           </div>
         </nav>

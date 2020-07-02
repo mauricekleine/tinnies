@@ -1,4 +1,8 @@
-import React from "react";
+/** @jsx createElement */
+import { useApolloClient, useMutation } from "@apollo/react-hooks";
+import { ApolloClient } from "apollo-boost";
+import gql from "graphql-tag";
+import { createElement } from "react";
 import * as yup from "yup";
 
 import {
@@ -7,34 +11,52 @@ import {
   LOGIN_FORM_SUBMIT_BTN,
 } from "../../cypress/selectors";
 import Page from "../components/Page";
+import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
-import Button from "../components/ui/buttons";
-import { Form, Formik, InputField } from "../components/ui/forms";
+import { Form, FormError, Formik, InputField } from "../components/ui/forms";
 import { Lead } from "../components/ui/typography";
-import { User } from "../models/user";
-import { CURRENT_USER_RESOURCE, LOGIN_RESOURCE } from "../utils/resources";
-import useFetch from "../utils/useFetch";
+import { Mutation, MutationLoginArgs } from "../types/graphql";
 
-const LoginSchema = yup.object().shape({
+const LOGIN_USER = gql`
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+    }
+  }
+`;
+
+const LoginSchema = yup.object<MutationLoginArgs>().shape({
   email: yup.string().email("Invalid email").required("Required"),
   password: yup.string().min(8, "Too Short!").required("Required"),
 });
 
+type MutationLoginData = {
+  login: Mutation["login"];
+};
+
 const LoginPage = () => {
-  const { post } = useFetch<User>(LOGIN_RESOURCE, {
-    cacheKey: CURRENT_USER_RESOURCE,
+  const client: ApolloClient<any> = useApolloClient();
+  const [login, { error, loading }] = useMutation<
+    MutationLoginData,
+    MutationLoginArgs
+  >(LOGIN_USER, {
+    errorPolicy: "all",
+    onCompleted: (data) => {
+      if (data && data.login) {
+        localStorage.setItem("token", data.login.token);
+        client.writeData({ data: { isLoggedIn: true } });
+      }
+    },
+    onError: () => {
+      // error message is being handled below
+    },
   });
 
-  const onSubmit = async (values, { setSubmitting }) => {
-    setSubmitting(true);
-
-    try {
-      await post(values);
-    } catch (e) {
-      // $TODO: handle error
-      setSubmitting(false);
-    }
+  const handleSubmit = (values: MutationLoginArgs) => {
+    login({ variables: values });
   };
+
+  const initialValues: MutationLoginArgs = { email: "", password: "" };
 
   return (
     <Page title="Log in">
@@ -42,35 +64,41 @@ const LoginPage = () => {
         <Lead>Log in</Lead>
 
         <Formik
-          initialValues={{ email: "", password: "" }}
-          onSubmit={onSubmit}
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
           validationSchema={LoginSchema}
         >
-          {({ isSubmitting, submitForm }) => (
+          {({ submitForm }) => (
             <Form>
               <InputField
-                data-cy={LOGIN_FORM_EMAIL_FIELD}
+                dataCy={LOGIN_FORM_EMAIL_FIELD}
                 label="Email"
                 name="email"
                 type="email"
               />
 
               <InputField
-                data-cy={LOGIN_FORM_PASSWORD_FIELD}
+                dataCy={LOGIN_FORM_PASSWORD_FIELD}
                 label="Password"
                 name="password"
                 type="password"
               />
 
-              <Button
-                data-cy={LOGIN_FORM_SUBMIT_BTN}
-                disabled={isSubmitting}
-                isLoading={isSubmitting}
-                onClick={submitForm}
-                type="submit"
-              >
-                Log in
-              </Button>
+              <div className="flex flex-row items-center justify-between">
+                <Button
+                  dataCy={LOGIN_FORM_SUBMIT_BTN}
+                  disabled={loading}
+                  isLoading={loading}
+                  onClick={submitForm}
+                  type="submit"
+                >
+                  Log in
+                </Button>
+
+                {error && (
+                  <FormError>{error.graphQLErrors[0].message}</FormError>
+                )}
+              </div>
             </Form>
           )}
         </Formik>

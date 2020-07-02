@@ -1,4 +1,5 @@
-import React, { ReactNode } from "react";
+/** @jsx createElement */
+import { ReactNode, createElement } from "react";
 
 import Theme from "../theme";
 

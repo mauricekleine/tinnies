@@ -1,6 +1,7 @@
-import React, { ReactNode } from "react";
+/** @jsx createElement */
+import { ReactNode, createElement } from "react";
 
-const Heading = ({ children }: { children: ReactNode }) => (
+const Heading = ({ children }: { children: ReactNode | ReactNode[] }) => (
   <p className="font-semibold text-xl">{children}</p>
 );
 

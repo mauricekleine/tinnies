@@ -3,7 +3,9 @@
 */
 
 // Navigation
+export const NAVIGATION_AVATAR = "navigation-avatar";
 export const NAVIGATION_LOGIN_BTN = "navigation-login-btn";
+export const NAVIGATION_LOGOUT_BTN = "navigation-logout-btn";
 export const NAVIGATION_SIGNUP_BTN = "navigation-signup-btn";
 
 /*

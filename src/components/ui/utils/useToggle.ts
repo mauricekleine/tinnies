@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import { MutableRefObject, useState } from "react";
 
-import { useOnClickOutside } from "../utils";
+import useOnClickOutside from "./useOnClickOutside";
 
-const useModal = (modalRef: React.MutableRefObject<HTMLDivElement>) => {
+const useToggle = (ref: MutableRefObject<HTMLDivElement>) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => setIsOpen(false);
   const handleOpen = () => setIsOpen(true);
   const handleToggle = () => setIsOpen(!isOpen);
 
-  useOnClickOutside(modalRef, handleClose);
+  useOnClickOutside(ref, handleClose);
 
   return {
     handleClose,
@@ -19,4 +19,4 @@ const useModal = (modalRef: React.MutableRefObject<HTMLDivElement>) => {
   };
 };
 
-export default useModal;
+export default useToggle;

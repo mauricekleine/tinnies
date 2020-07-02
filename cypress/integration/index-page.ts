@@ -6,7 +6,7 @@ describe("Index page", () => {
   });
 
   it("should have a indigo navigation bar", () => {
-    cy.get(".bg-indigo-500").should("have.length", 1);
+    cy.get("nav.bg-indigo-500").should("have.length", 1);
   });
 
   it("should have a login button", () => {

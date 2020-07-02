@@ -1,21 +1,16 @@
+/** @jsx createElement */
 import classNames from "classnames";
-import React, { ReactNode, useEffect, useState } from "react";
+import { ReactNode, createElement, useEffect, useState } from "react";
 
 import Theme from "./theme";
 
 type AnimateProps = {
-  children: ReactNode;
+  children: ReactNode | ReactNode[];
   className: string;
   isVisible: boolean;
-  speed?: "default" | "fast";
 };
 
-const Animate = ({
-  children,
-  className,
-  isVisible,
-  speed = "default",
-}: AnimateProps) => {
+const Animate = ({ children, className, isVisible }: AnimateProps) => {
   const [isEntering, setIsEntering] = useState(true);
 
   useEffect(() => {
@@ -41,7 +36,7 @@ const Animate = ({
     <Theme>
       {({ animations }) => (
         <div
-          className={classNames(animations[speed], className, {
+          className={classNames(animations.fast, className, {
             "opacity-0": isEntering,
             "opacity-100": !isEntering,
           })}

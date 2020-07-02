@@ -1,4 +1,5 @@
-import React, { ReactNode } from "react";
+/** @jsx createElement */
+import { ReactNode, createElement } from "react";
 
 import { FinePrint } from "../typography";
 
@@ -6,7 +7,7 @@ import FormError from "./FormError";
 import FormLabel from "./FormLabel";
 
 type FormGroup = {
-  children: ReactNode;
+  children: ReactNode | ReactNode[];
   error?: string;
   hasError?: boolean;
   hintText?: string;
@@ -27,6 +28,7 @@ const FormGroup = ({
       <FormLabel labelFor={labelFor}>
         {label} {hintText && <FinePrint>{hintText}</FinePrint>}
       </FormLabel>
+
       {hasError && <FormError>{error}</FormError>}
     </div>
 

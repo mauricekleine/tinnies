@@ -1,10 +1,14 @@
+/** @jsx createElement */
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+import { FormikHelpers } from "formik";
 import { useRouter } from "next/router";
-import React from "react";
+import { createElement } from "react";
 import * as yup from "yup";
 
 import Page from "../../components/Page";
+import Button from "../../components/ui/Button";
 import Card from "../../components/ui/Card";
-import Button from "../../components/ui/buttons";
 import {
   Form,
   Formik,
@@ -14,18 +18,67 @@ import {
   SelectField,
 } from "../../components/ui/forms";
 import { Lead } from "../../components/ui/typography";
-import { Beer } from "../../models/beer";
-import { BeerStyle } from "../../models/beerStyle";
-import { Brewery } from "../../models/brewery";
-import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "../../utils/imageConfig";
 import {
-  BEER_STYLES_RESOURCE,
-  BREWERIES_RESOURCE,
-  MY_BEERS_RESOURCE,
-} from "../../utils/resources";
-import useFetch from "../../utils/useFetch";
+  Beer,
+  BeerStyle,
+  Brewery,
+  Mutation,
+  MutationCreateBeerArgs,
+} from "../../types/graphql";
+import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "../../utils/imageConfig";
+import { ALL_BEERS } from "../home";
+import { MY_BEERS } from "../my/beers";
 
-const NewBeerSchema = yup.object().shape({
+const CREATE_BEER = gql`
+  mutation createBeer(
+    $brewery: String!
+    $image: String!
+    $name: String!
+    $rating: Int!
+    $styleId: ID!
+  ) {
+    createBeer(
+      brewery: $brewery
+      image: $image
+      name: $name
+      rating: $rating
+      styleId: $styleId
+    ) {
+      addedBy {
+        id
+        name
+      }
+      brewery {
+        id
+        name
+      }
+      createdAt
+      id
+      image
+      name
+      rating
+      style {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const BREWERIES_AND_BEERSTYLES = gql`
+  query getBreweriesAndBeerStyles {
+    breweries {
+      id
+      name
+    }
+    beerStyles {
+      id
+      name
+    }
+  }
+`;
+
+const NewBeerSchema = yup.object<MutationCreateBeerArgs>().shape({
   brewery: yup.string().required("Required"),
   image: yup
     .mixed()
@@ -41,25 +94,35 @@ const NewBeerSchema = yup.object().shape({
       (value) => value && ALLOWED_IMAGE_TYPES.includes(value.type)
     ),
   name: yup.string().required("Required"),
-  rating: yup.number().required("Required"),
-  style: yup.string().required("Required"),
+  rating: yup.number().min(1).max(5).required("Required"),
+  styleId: yup.string().required("Required"),
 });
 
 const NewBeer = () => {
-  const { post } = useFetch<Beer[]>(MY_BEERS_RESOURCE);
+  const [createMyBeer] = useMutation<
+    { createBeer: Mutation["createBeer"] },
+    MutationCreateBeerArgs
+  >(CREATE_BEER);
 
-  const { data: breweries = [] } = useFetch<Brewery[]>(BREWERIES_RESOURCE, {
-    getOnInit: true,
-  });
-
-  const { data: beerStyles = [] } = useFetch<BeerStyle[]>(
-    BEER_STYLES_RESOURCE,
-    { getOnInit: true }
-  );
+  const { data } = useQuery<{
+    beerStyles: BeerStyle[];
+    breweries: Brewery[];
+  }>(BREWERIES_AND_BEERSTYLES);
 
   const router = useRouter();
 
-  const onSubmit = async (values, { setSubmitting }) => {
+  const initialValues: MutationCreateBeerArgs = {
+    brewery: "",
+    image: "",
+    name: "",
+    rating: 0,
+    styleId: "",
+  };
+
+  const onSubmit = async (
+    values: MutationCreateBeerArgs,
+    { setSubmitting }: FormikHelpers<MutationCreateBeerArgs>
+  ) => {
     setSubmitting(true);
 
     const formData = new FormData();
@@ -76,14 +139,47 @@ const NewBeer = () => {
 
     const { public_id: imageId } = await cloudinaryResponse.json();
 
-    const { status } = await post({
-      ...values,
-      image: imageId,
-    });
+    try {
+      await createMyBeer({
+        update: (cache, { data: { createBeer } }) => {
+          try {
+            const { beers } = cache.readQuery<{
+              beers: Beer[];
+            }>({
+              query: ALL_BEERS,
+            });
 
-    if (status === 201) {
-      router.replace("/home");
-    } else {
+            cache.writeQuery({
+              data: { beers: [createBeer, ...beers] },
+              query: ALL_BEERS,
+            });
+          } catch {
+            // https://github.com/apollographql/apollo-feature-requests/issues/1
+          }
+
+          try {
+            const { myBeers } = cache.readQuery<{
+              myBeers: Beer[];
+            }>({
+              query: MY_BEERS,
+            });
+
+            cache.writeQuery({
+              data: { myBeers: [createBeer, ...myBeers] },
+              query: MY_BEERS,
+            });
+          } catch {
+            // https://github.com/apollographql/apollo-feature-requests/issues/1
+          }
+        },
+        variables: {
+          ...values,
+          image: imageId,
+        },
+      });
+
+      router.replace("/my/beers");
+    } catch {
       // $TODO handle errors
       setSubmitting(false);
     }
@@ -95,13 +191,7 @@ const NewBeer = () => {
         <Lead>Add new beer</Lead>
 
         <Formik
-          initialValues={{
-            brewery: "",
-            image: "",
-            name: "",
-            rating: "",
-            style: "",
-          }}
+          initialValues={initialValues}
           onSubmit={onSubmit}
           validationSchema={NewBeerSchema}
         >
@@ -113,19 +203,19 @@ const NewBeer = () => {
 
               <SelectField
                 creatable
-                getOptionKey={(brewery: Brewery) => brewery._id}
-                getOptionValue={(brewery: Brewery) => brewery.name}
+                optionKey="id"
+                optionValue="name"
                 label="Brewery"
                 name="brewery"
-                options={breweries}
+                options={data ? data.breweries : []}
               />
 
               <SelectField
-                getOptionKey={(style: BeerStyle) => style._id}
-                getOptionValue={(style: BeerStyle) => style.name}
+                optionKey="id"
+                optionValue="name"
                 label="Style"
-                name="style"
-                options={beerStyles}
+                name="styleId"
+                options={data ? data.beerStyles : []}
               />
 
               <RatingField label="Rating" name="rating" />

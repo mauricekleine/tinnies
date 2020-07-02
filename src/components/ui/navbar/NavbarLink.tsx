@@ -1,12 +1,13 @@
+/** @jsx createElement */
 import classNames from "classnames";
 import Link, { LinkProps } from "next/link";
 import { useRouter } from "next/router";
-import React, { ReactNode } from "react";
+import { ReactNode, createElement } from "react";
 
 import Theme from "../theme";
 
 type NavbarLinkProps = {
-  children: ReactNode;
+  children: ReactNode | ReactNode[];
   dataCy?: string;
   href: LinkProps["href"];
   isBorderless?: boolean;
@@ -23,11 +24,10 @@ const NavbarLink = ({
 
   return (
     <Theme>
-      {({ animations, colors }) => (
+      {({ colors }) => (
         <Link href={href}>
           <a
             className={classNames(
-              animations.fast,
               `bg-${colors.primary} border border-b-2 border-transparent flex font-light h-10 items-center px-3 md:px-4 rounded text-${colors.white} focus:outline-none hover:bg-${colors.white} hover:border-${colors.primaryAccent} hover:text-${colors.primaryAccent}`,
               {
                 [`border-${colors.primaryAccent}`]: !isBorderless,

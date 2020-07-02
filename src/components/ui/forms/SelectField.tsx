@@ -1,45 +1,46 @@
+/** @jsx createElement */
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import escapeStringRegexp from "escape-string-regexp";
 import { useField } from "formik";
-import React, {
+import {
   FocusEvent,
   KeyboardEvent,
+  createElement,
   useCallback,
   useMemo,
   useRef,
   useState,
 } from "react";
 
+import Dropdown from "../Dropdown";
 import Highlighter from "../Highlighter";
-import Dropdown, { useDropdown } from "../dropdowns";
 import Theme from "../theme";
+import { useOpenHandler } from "../utils";
 
 import FormGroup from "./FormGroup";
 import { hasError } from "./utils";
 
 type SelectFieldProps = {
   creatable?: boolean;
-  getOptionKey: (option: unknown) => string;
-  getOptionValue: (option: unknown) => string;
   label: string;
   name: string;
+  optionKey: string;
+  optionValue: string;
   options: unknown[];
 };
 
 const SelectField = ({
   creatable,
-  getOptionKey,
-  getOptionValue,
   label,
-  options,
   name,
+  optionKey,
+  optionValue,
+  options,
 }: SelectFieldProps) => {
   const dropdownRef = useRef();
-  const { dropdownProps, handleClose, handleOpen, isOpen } = useDropdown(
-    dropdownRef
-  );
+  const { handleClose, handleOpen, isOpen } = useOpenHandler(dropdownRef);
   const [field, meta, helpers] = useField<string>({
     name,
     type: "string",
@@ -48,27 +49,39 @@ const SelectField = ({
   const [hasFocus, setHasFocus] = useState(false);
   const hasFieldError = hasError<string>(meta) && !isOpen;
 
+  const displayValue = useMemo(() => {
+    const selected = options.find(
+      (option) => option[optionKey] === field.value
+    );
+
+    if (!selected) {
+      return field.value;
+    }
+
+    return selected[optionValue];
+  }, [field.value, optionKey, optionValue, options]);
+
   const hasExactMatch = useMemo(() => {
     return options.find((option) => {
-      const value = getOptionValue(option);
+      const value = option[optionValue];
 
-      return value === field.value;
+      return value === displayValue;
     });
-  }, [field.value, getOptionValue, options]);
+  }, [displayValue, optionValue, options]);
 
   const matches = useMemo(() => {
-    if (!field.value) {
+    if (!displayValue) {
       return options;
     }
 
-    const regex = new RegExp(escapeStringRegexp(field.value), "gi");
+    const regex = new RegExp(escapeStringRegexp(displayValue), "gi");
 
     return options.filter((option) => {
-      const value = getOptionValue(option);
+      const value = option[optionValue];
 
       return regex.test(value);
     });
-  }, [field.value, getOptionValue, options]);
+  }, [displayValue, optionValue, options]);
 
   const handleBlur = useCallback(
     (event: FocusEvent) => {
@@ -89,7 +102,7 @@ const SelectField = ({
 
         if (!hasExactMatch && matches.length > 0) {
           const match = matches[0];
-          const value = getOptionValue(match);
+          const value = match[optionValue];
 
           helpers.setValue(value);
         }
@@ -99,7 +112,7 @@ const SelectField = ({
         handleOpen();
       }
     },
-    [getOptionValue, handleClose, handleOpen, hasExactMatch, helpers, matches]
+    [handleClose, handleOpen, hasExactMatch, helpers, matches, optionValue]
   );
 
   const handleOptionClick = useCallback(
@@ -111,7 +124,8 @@ const SelectField = ({
   );
 
   const shouldShowAddOption = creatable && field.value && !hasExactMatch;
-  const shouldShowDropdown = isOpen && (creatable || matches.length > 0);
+  const shouldShowDropdown =
+    isOpen && ((creatable && displayValue) || matches.length > 0);
 
   return (
     <Theme>
@@ -144,6 +158,7 @@ const SelectField = ({
               onKeyPress={handleKeyPres}
               placeholder={label}
               type="string"
+              value={displayValue}
             />
 
             <div className="px-3 py-2">
@@ -160,17 +175,17 @@ const SelectField = ({
 
           {shouldShowDropdown && (
             <div className="relative" ref={dropdownRef}>
-              <Dropdown {...dropdownProps}>
+              <Dropdown isOpen={isOpen} width="full">
                 <div className="max-h-sm overflow-scroll py-1 text-left">
                   {matches.map((option) => {
-                    const key = getOptionKey(option);
-                    const value = getOptionValue(option);
+                    const key = option[optionKey];
+                    const value = option[optionValue];
 
                     return (
                       <div
                         className={`cursor-pointer px-4 py-1 hover:bg-${colors.grayLighter}`}
                         key={key}
-                        onClick={() => handleOptionClick(value)}
+                        onClick={() => handleOptionClick(key)}
                       >
                         <Highlighter
                           id={key}
