@@ -67,10 +67,12 @@ const NewCollectionSchema = yup.object<MutationCreateCollectionArgs>().shape({
   name: yup.string().min(2, "Too Short!").required("Required"),
 });
 
-const MyCollections = () => {
-  const modalRef = useRef();
-  const { handleToggle, isOpen } = useOpenHandler(modalRef);
+const initialValues: MutationCreateCollectionArgs = {
+  beerIds: [],
+  name: "",
+};
 
+const MyCollections = () => {
   const [createMyCollection] = useMutation<
     { createCollection: Mutation["createCollection"] },
     MutationCreateCollectionArgs
@@ -84,45 +86,39 @@ const MyCollections = () => {
     myCollections: Collection[];
   }>(MY_COLLECTIONS);
 
-  const myBeers = myBeersData ? myBeersData.myBeers : [];
-  const myCollections = data ? data.myCollections : [];
+  const modalRef = useRef();
+  const { handleToggle, isOpen } = useOpenHandler(modalRef);
 
+  const hasCollections = data && data.myCollections.length > 0;
+  const myBeers = myBeersData ? myBeersData.myBeers : [];
+  const showEmptyState = !loading && !hasCollections;
   const sortedBeers = sortByProperty(myBeers, "name");
 
-  const hasCollections = !loading && myCollections.length > 0;
-
-  const initialValues: MutationCreateCollectionArgs = {
-    beerIds: [],
-    name: "",
-  };
-
-  const handleSubmit = (
+  const handleSubmit = async (
     values: MutationCreateCollectionArgs,
     { setSubmitting }: FormikHelpers<MutationCreateCollectionArgs>
   ) => {
-    handleToggle();
     setSubmitting(true);
 
-    try {
-      createMyCollection({
-        update: (cache, { data: { createCollection } }) => {
-          const { myCollections } = cache.readQuery<{
-            myCollections: Collection[];
-          }>({
-            query: MY_COLLECTIONS,
-          });
+    await createMyCollection({
+      update: (cache, { data: { createCollection } }) => {
+        const { myCollections } = cache.readQuery<{
+          myCollections: Collection[];
+        }>({
+          query: MY_COLLECTIONS,
+        });
 
-          cache.writeQuery({
-            data: { myCollections: [createCollection, ...myCollections] },
-            query: MY_COLLECTIONS,
-          });
-        },
-        variables: values,
-      });
-    } catch (e) {
-      // $TODO: handle error
-      setSubmitting(false);
-    }
+        cache.writeQuery({
+          data: { myCollections: [createCollection, ...myCollections] },
+          query: MY_COLLECTIONS,
+        });
+      },
+      variables: values,
+    });
+
+    setSubmitting(false);
+
+    handleToggle();
   };
 
   return (
@@ -136,11 +132,12 @@ const MyCollections = () => {
         </Button>
       </div>
 
-      {hasCollections ? (
-        myCollections.map((collection) => (
+      {hasCollections &&
+        data.myCollections.map((collection) => (
           <CollectionCard collection={collection} key={collection.id} />
-        ))
-      ) : (
+        ))}
+
+      {showEmptyState && (
         <Card>
           <Heading>It is time to add your first collection!</Heading>
           <p className="mb-2">
@@ -172,7 +169,11 @@ const MyCollections = () => {
                   options={sortedBeers}
                 />
 
-                <Button isLoading={isSubmitting} onClick={submitForm}>
+                <Button
+                  isLoading={isSubmitting}
+                  onClick={submitForm}
+                  type="button"
+                >
                   Save
                 </Button>
               </Form>

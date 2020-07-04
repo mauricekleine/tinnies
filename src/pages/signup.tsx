@@ -1,7 +1,6 @@
 /** @jsx createElement */
 import { useApolloClient, useMutation } from "@apollo/react-hooks";
 import { ApolloClient, gql } from "apollo-boost";
-import { FormikHelpers } from "formik";
 import { createElement } from "react";
 import * as yup from "yup";
 
@@ -14,7 +13,7 @@ import {
 import Page from "../components/Page";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
-import { Form, Formik, InputField } from "../components/ui/forms";
+import { Form, FormError, Formik, InputField } from "../components/ui/forms";
 import { Lead } from "../components/ui/typography";
 import { Mutation, MutationSignupArgs } from "../types/graphql";
 
@@ -32,10 +31,16 @@ const SignupSchema = yup.object<MutationSignupArgs>().shape({
   password: yup.string().min(8, "Too Short!").required("Required"),
 });
 
+const initialValues: MutationSignupArgs = {
+  email: "",
+  name: "",
+  password: "",
+};
+
 const SignupPage = () => {
   const client: ApolloClient<any> = useApolloClient();
 
-  const [signup] = useMutation<
+  const [signup, { error, loading }] = useMutation<
     { signup: Mutation["signup"] },
     MutationSignupArgs
   >(SIGNUP_USER, {
@@ -45,26 +50,13 @@ const SignupPage = () => {
         client.writeData({ data: { isLoggedIn: true } });
       }
     },
+    onError: () => {
+      // error message is being handled below
+    },
   });
 
-  const initialValues: MutationSignupArgs = {
-    email: "",
-    name: "",
-    password: "",
-  };
-
-  const handleSubmit = (
-    values: MutationSignupArgs,
-    { setSubmitting }: FormikHelpers<MutationSignupArgs>
-  ) => {
-    setSubmitting(true);
-
-    try {
-      signup({ variables: values });
-    } catch (e) {
-      // $TODO: handle error
-      setSubmitting(false);
-    }
+  const handleSubmit = (values: MutationSignupArgs) => {
+    signup({ variables: values });
   };
 
   return (
@@ -77,7 +69,7 @@ const SignupPage = () => {
           onSubmit={handleSubmit}
           validationSchema={SignupSchema}
         >
-          {({ isSubmitting, submitForm }) => (
+          {({ submitForm }) => (
             <Form>
               <InputField
                 dataCy={SIGNUP_FORM_NAME_FIELD}
@@ -100,15 +92,21 @@ const SignupPage = () => {
                 type="password"
               />
 
-              <Button
-                dataCy={SIGNUP_FORM_SUBMIT_BTN}
-                disabled={isSubmitting}
-                isLoading={isSubmitting}
-                onClick={submitForm}
-                type="submit"
-              >
-                Sign up
-              </Button>
+              <div className="flex flex-row items-center justify-between">
+                <Button
+                  dataCy={SIGNUP_FORM_SUBMIT_BTN}
+                  disabled={loading}
+                  isLoading={loading}
+                  onClick={submitForm}
+                  type="submit"
+                >
+                  Sign up
+                </Button>
+
+                {error && (
+                  <FormError>{error.graphQLErrors[0].message}</FormError>
+                )}
+              </div>
             </Form>
           )}
         </Formik>

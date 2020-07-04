@@ -37,7 +37,8 @@ export const ALL_BEERS = gql`
 
 const Home = () => {
   const { data, loading } = useQuery<{ beers: Beer[] }>(ALL_BEERS);
-  const hasBeers = !loading && data && data.beers.length > 0;
+  const hasBeers = data && data.beers.length > 0;
+  const showEmptyState = !loading && !hasBeers;
 
   return (
     <Page title="Recent updates">
@@ -48,9 +49,10 @@ const Home = () => {
         </>
       )}
 
-      {hasBeers ? (
-        data.beers.map((beer) => <BeerCard beer={beer} key={beer.id} />)
-      ) : (
+      {hasBeers &&
+        data.beers.map((beer) => <BeerCard beer={beer} key={beer.id} />)}
+
+      {showEmptyState && (
         <Card>
           <Heading>It is time to add your first beer!</Heading>
           <p className="mb-2">
