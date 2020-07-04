@@ -64,7 +64,37 @@ const BeerCard = ({ beer }: Props) => {
 
   const handleDelete = () => {
     deleteMyBeer({
-      refetchQueries: [{ query: ALL_BEERS }, { query: MY_BEERS }],
+      update: (cache) => {
+        try {
+          const { beers } = cache.readQuery<{
+            beers: Beer[];
+          }>({
+            query: ALL_BEERS,
+          });
+
+          cache.writeQuery({
+            data: { beers: beers.filter(({ id }) => id !== beer.id) },
+            query: ALL_BEERS,
+          });
+        } catch {
+          // https://github.com/apollographql/apollo-feature-requests/issues/1
+        }
+
+        try {
+          const { myBeers } = cache.readQuery<{
+            myBeers: Beer[];
+          }>({
+            query: MY_BEERS,
+          });
+
+          cache.writeQuery({
+            data: { myBeers: myBeers.filter(({ id }) => id !== beer.id) },
+            query: MY_BEERS,
+          });
+        } catch {
+          // https://github.com/apollographql/apollo-feature-requests/issues/1
+        }
+      },
       variables: { id: beer.id },
     });
     handleModalClose();

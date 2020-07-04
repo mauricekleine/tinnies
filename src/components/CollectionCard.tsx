@@ -64,20 +64,32 @@ const CollectionCard = ({ collection }: Props) => {
 
   const modalRef = useRef();
   const {
-    handleClose: handleModalClose,
     handleToggle: handleModalToggle,
     isOpen: isModalOpen,
   } = useOpenHandler(modalRef);
 
   const canDelete = canDeleteCollection(collection, data && data.currentUser);
 
-  const handleDelete = () => {
-    deleteMyCollection({
-      refetchQueries: [{ query: MY_COLLECTIONS }],
+  const handleDelete = async () => {
+    await deleteMyCollection({
+      update: (cache) => {
+        const { myCollections } = cache.readQuery<{
+          myCollections: Collection[];
+        }>({
+          query: MY_COLLECTIONS,
+        });
+
+        cache.writeQuery({
+          data: {
+            myCollections: myCollections.filter(
+              ({ id }) => id !== collection.id
+            ),
+          },
+          query: MY_COLLECTIONS,
+        });
+      },
       variables: { id: collection.id },
     });
-
-    handleModalClose();
   };
 
   const beerNames = collection.beers.map((beer) => beer.name);

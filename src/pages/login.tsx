@@ -30,6 +30,8 @@ const LoginSchema = yup.object<MutationLoginArgs>().shape({
   password: yup.string().min(8, "Too Short!").required("Required"),
 });
 
+const initialValues: MutationLoginArgs = { email: "", password: "" };
+
 type MutationLoginData = {
   login: Mutation["login"];
 };
@@ -55,8 +57,6 @@ const LoginPage = () => {
   const handleSubmit = (values: MutationLoginArgs) => {
     login({ variables: values });
   };
-
-  const initialValues: MutationLoginArgs = { email: "", password: "" };
 
   return (
     <Page title="Log in">
