@@ -1,4 +1,5 @@
 /** @jsx createElement */
+import classNames from "classnames";
 import { createElement, useRef } from "react";
 
 import Page from "../components/Page";
@@ -26,7 +27,7 @@ const StyleGuide = () => {
 
   return (
     <Theme>
-      {({ colors }) => (
+      {({ border }) => (
         <Page title="Styleguide">
           <Lead>Typography</Lead>
           <Heading>Heading</Heading>
@@ -55,7 +56,10 @@ const StyleGuide = () => {
             <Dropdown isOpen width="full">
               <div className="flex flex-col px-4 py-2">
                 <span
-                  className={`border-b border-${colors.grayLight} sm:mb-2 py-2`}
+                  className={classNames(
+                    border.colors.default,
+                    "border-b sm:mb-2 py-2"
+                  )}
                 >
                   Dropdown with button
                 </span>
@@ -68,7 +72,10 @@ const StyleGuide = () => {
           <Card px="4">
             <div className="flex flex-col">
               <span
-                className={`border-b border-${colors.grayLight} sm:mb-2 py-2`}
+                className={classNames(
+                  border.colors.default,
+                  "border-b sm:mb-2 py-2"
+                )}
               >
                 Card with button
               </span>
@@ -82,7 +89,10 @@ const StyleGuide = () => {
           <Modal isOpen={isModalOpen} ref={modalRef}>
             <div className="flex flex-col">
               <span
-                className={`border-b border-${colors.grayLight} sm:mb-2 py-2`}
+                className={classNames(
+                  border.colors.default,
+                  "border-b sm:mb-2 py-2"
+                )}
               >
                 Modal with button
               </span>

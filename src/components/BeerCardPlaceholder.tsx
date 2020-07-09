@@ -1,4 +1,5 @@
 /** @jsx createElement */
+import classNames from "classnames";
 import { createElement } from "react";
 
 import Avatar from "./ui/Avatar";
@@ -8,7 +9,7 @@ import Theme from "./ui/theme";
 
 const BeerCardPlaceholder = () => (
   <Theme>
-    {({ colors }) => (
+    {({ bg }) => (
       <div className="overflow-hidden relative skeleton">
         <Card px="0">
           <div className="flex justify-between px-6">
@@ -18,7 +19,10 @@ const BeerCardPlaceholder = () => (
               </div>
 
               <div
-                className={`bg-${colors.grayLight} flex flex-col leading-snug rounded text-transparent`}
+                className={classNames(
+                  bg.default,
+                  "flex flex-col leading-snug rounded text-transparent"
+                )}
               >
                 <p className="truncate w-40">
                   <span className="font-semibold">Username</span>
@@ -30,14 +34,14 @@ const BeerCardPlaceholder = () => (
             </div>
           </div>
 
-          <div className={`bg-${colors.grayLight} h-64 my-5 w-full`} />
+          <div className={classNames(bg.default, "h-64 my-5 w-full")} />
 
           <div className="px-6">
             <div className="mb-1">
               <Rating disabled value={5} />
             </div>
 
-            <div className={`bg-${colors.grayLight} rounded text-transparent`}>
+            <div className={classNames(bg.default, "rounded text-transparent")}>
               <div className="font-semibold text-xl">Beer name</div>
               <div className="text-transparent">Brewery name</div>
             </div>

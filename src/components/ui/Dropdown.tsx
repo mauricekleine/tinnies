@@ -13,11 +13,14 @@ type DropdownProps = {
 const Dropdown = ({ children, isOpen, width }: DropdownProps) =>
   isOpen && (
     <Theme>
-      {({ colors }) => (
+      {({ bg, border }) => (
         <div
           className={classNames(
-            `absolute bg-white border border-${colors.grayLight}`,
-            `mt-1 right-0 rounded-md shadow-lg w-${width} z-40`
+            bg.white,
+            border.colors.default,
+            "absolute border mt-1 right-0 rounded-md shadow-lg",
+            `w-${width}`,
+            "z-40"
           )}
         >
           {children}

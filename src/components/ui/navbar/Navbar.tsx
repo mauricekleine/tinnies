@@ -1,6 +1,7 @@
 /** @jsx createElement */
 import { faBeer, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames";
 import NextLink from "next/link";
 import { createElement, useRef } from "react";
 
@@ -36,13 +37,22 @@ const Navbar = ({ onLogout, user }: Props) => {
 
   return (
     <Theme>
-      {({ colors }) => (
+      {({ bg, border, text }) => (
         <nav
-          className={`bg-${colors.primary} border-b-2 border-${colors.primaryAccent} flex h-16 items-center justify-between px-6 py-3`}
+          className={classNames(
+            bg.primary,
+            border.colors.primaryAccent,
+            "border-b-2  flex h-16 items-center justify-between px-6 py-3"
+          )}
         >
           <div className="flex">
             <NextLink href={user ? "/home" : "/"}>
-              <a className={`flex items-center text-${colors.white} mr-4`}>
+              <a
+                className={classNames(
+                  text.colors.white,
+                  "flex items-center mr-4"
+                )}
+              >
                 <FontAwesomeIcon
                   className="mr-2 transform -rotate-45"
                   icon={faBeer}
@@ -92,13 +102,19 @@ const Navbar = ({ onLogout, user }: Props) => {
                 <Dropdown isOpen={isOpen} width="48">
                   <div className="flex flex-col px-4 py-2">
                     <span
-                      className={`border-b border-${colors.grayLight} sm:mb-2 py-2`}
+                      className={classNames(
+                        border.colors.default,
+                        "border-b sm:mb-2 py-2"
+                      )}
                     >
                       Cheers {user.name}!
                     </span>
 
                     <div
-                      className={`border-b border-${colors.grayLight} flex flex-col mb-2 py-2 sm:hidden`}
+                      className={classNames(
+                        border.colors.default,
+                        "border-b flex flex-col mb-2 py-2 sm:hidden"
+                      )}
                     >
                       <Link href="/home">Home</Link>
                       <Link href="/my/beers">My Beers</Link>

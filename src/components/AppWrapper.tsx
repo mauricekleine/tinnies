@@ -1,4 +1,5 @@
 /** @jsx createElement */
+import classNames from "classnames";
 import { ReactNode, createElement } from "react";
 
 import useAuthentication from "../utils/use-authentication";
@@ -17,9 +18,13 @@ const AppWrapper = ({ children }: Props) => {
   return (
     <ThemeProvider value={theme}>
       <Theme>
-        {({ colors }) => (
+        {({ bg, text }) => (
           <div
-            className={`bg-${colors.grayLighter} flex flex-col font-light min-h-screen text-${colors.grayDark}`}
+            className={classNames(
+              bg.background,
+              text.colors.default,
+              "flex flex-col font-light min-h-screen"
+            )}
           >
             <Navbar onLogout={logout} user={currentUser} />
 

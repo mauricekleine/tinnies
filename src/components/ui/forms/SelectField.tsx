@@ -102,7 +102,7 @@ const SelectField = ({
 
         if (!hasExactMatch && matches.length > 0) {
           const match = matches[0];
-          const value = match[optionValue];
+          const value = match[optionKey];
 
           helpers.setValue(value);
         }
@@ -112,7 +112,7 @@ const SelectField = ({
         handleOpen();
       }
     },
-    [handleClose, handleOpen, hasExactMatch, helpers, matches, optionValue]
+    [handleClose, handleOpen, hasExactMatch, helpers, matches, optionKey]
   );
 
   const handleOptionClick = useCallback(
@@ -129,7 +129,7 @@ const SelectField = ({
 
   return (
     <Theme>
-      {({ animations, colors }) => (
+      {({ animations, bg, border, text }) => (
         <FormGroup
           error={meta.error}
           hasError={hasFieldError}
@@ -141,9 +141,9 @@ const SelectField = ({
               animations.default,
               "border border-b-2",
               {
-                [`border-${colors.grayLight}`]: !hasFieldError && !hasFocus,
-                [`border-${colors.primary}`]: !hasFieldError && hasFocus,
-                [`border-${colors.red}`]: hasFieldError && !hasFocus,
+                [border.colors.default]: !hasFieldError && !hasFocus,
+                [border.colors.primary]: !hasFieldError && hasFocus,
+                [border.colors.red]: hasFieldError && !hasFocus,
               },
               "flex rounded"
             )}
@@ -151,7 +151,7 @@ const SelectField = ({
           >
             <input
               {...field}
-              className={`appearance-none px-3 py-2 rounded text-${colors.gray} w-full focus:outline-none`}
+              className="appearance-none px-3 py-2 rounded w-full focus:outline-none"
               id={name}
               onFocus={() => setHasFocus(true)}
               onBlur={handleBlur}
@@ -164,9 +164,9 @@ const SelectField = ({
             <div className="px-3 py-2">
               <FontAwesomeIcon
                 className={classNames({
-                  [`border-${colors.grayLight}`]: !hasFieldError && !hasFocus,
-                  [`border-${colors.primary}`]: !hasFieldError && hasFocus,
-                  [`border-${colors.red}`]: hasFieldError && !hasFocus,
+                  [border.colors.default]: !hasFieldError && !hasFocus,
+                  [border.colors.primary]: !hasFieldError && hasFocus,
+                  [border.colors.red]: hasFieldError && !hasFocus,
                 })}
                 icon={faCaretDown}
               />
@@ -183,7 +183,10 @@ const SelectField = ({
 
                     return (
                       <div
-                        className={`cursor-pointer px-4 py-1 hover:bg-${colors.grayLighter}`}
+                        className={classNames(
+                          bg.hover.gray,
+                          "cursor-pointer px-4 py-1"
+                        )}
                         key={key}
                         onClick={() => handleOptionClick(key)}
                       >
@@ -198,12 +201,14 @@ const SelectField = ({
 
                   {shouldShowAddOption && (
                     <div
-                      className={`${
-                        matches.length > 0 &&
-                        `border-t border-${colors.grayLight}`
-                      } cursor-pointer px-4 py-1 hover:bg-${
-                        colors.grayLighter
-                      }`}
+                      className={classNames(
+                        bg.hover.gray,
+                        {
+                          [`border-t ${border.colors.default}`]:
+                            matches.length > 0,
+                        },
+                        "cursor-pointer px-4 py-1"
+                      )}
                       onClick={handleClose}
                     >
                       <span>Add &quot;</span>

@@ -1,4 +1,5 @@
 /** @jsx createElement */
+import classNames from "classnames";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { ReactNode, createElement } from "react";
 
@@ -11,10 +12,13 @@ type LinkProps = {
 
 const Link = ({ children, href }: LinkProps) => (
   <Theme>
-    {({ colors }) => (
+    {({ text }) => (
       <NextLink href={href}>
         <a
-          className={`duration-100 ease-in-out py-1 transition hover:text-${colors.primary} hover:underline`}
+          className={classNames(
+            text.colors.hover.primary,
+            "py-1 hover:underline"
+          )}
         >
           {children}
         </a>
