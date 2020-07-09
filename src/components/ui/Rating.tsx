@@ -19,14 +19,14 @@ type Props = {
 
 const Rating = ({ disabled = false, onClick, size = 1, value }: Props) => (
   <Theme>
-    {({ colors }) => (
+    {({ text }) => (
       <div className={`flex items-center space-x-${size}`}>
         {RATING_VALUES.map((rating) => (
           <div key={rating}>
             <FontAwesomeIcon
               className={classNames({
-                [`text-${colors.grayLight}`]: disabled,
-                [`text-${colors.yellow}`]: !disabled,
+                [text.colors.disabled]: disabled,
+                [text.colors.yellow]: !disabled,
               })}
               icon={rating <= value ? fasStar : farStar}
               onClick={() => onClick && onClick(rating)}

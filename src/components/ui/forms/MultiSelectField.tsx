@@ -87,7 +87,7 @@ const MultiSelectField = ({
 
   return (
     <Theme>
-      {({ animations, colors }) => (
+      {({ animations, bg, border, text }) => (
         <FormGroup
           error={meta.error}
           hasError={hasFieldError}
@@ -98,18 +98,17 @@ const MultiSelectField = ({
           <div
             className={classNames(
               animations.default,
-              "border border-b-2",
               {
-                [`border-${colors.grayLight}`]: !hasFieldError && !isOpen,
-                [`border-${colors.primary}`]: !hasFieldError && isOpen,
-                [`border-${colors.red}`]: hasFieldError,
+                [border.colors.default]: !hasFieldError && !isOpen,
+                [border.colors.primary]: !hasFieldError && isOpen,
+                [border.colors.red]: hasFieldError,
               },
-              "flex rounded"
+              "border border-b-2 flex rounded"
             )}
             onClick={() => handleOpen()}
           >
             <input
-              className={`appearance-none cursor-pointer px-3 py-2 rounded text-${colors.gray} truncate w-full focus:outline-none`}
+              className="appearance-none cursor-pointer px-3 py-2 rounded truncate w-full focus:outline-none"
               id={name}
               placeholder={label}
               readOnly
@@ -120,9 +119,9 @@ const MultiSelectField = ({
             <div className="px-3 py-2">
               <FontAwesomeIcon
                 className={classNames({
-                  [`border-${colors.grayLight}`]: !hasFieldError && !isOpen,
-                  [`border-${colors.primary}`]: !hasFieldError && isOpen,
-                  [`border-${colors.red}`]: hasFieldError,
+                  [border.colors.default]: !hasFieldError && !isOpen,
+                  [border.colors.primary]: !hasFieldError && isOpen,
+                  [border.colors.red]: hasFieldError,
                 })}
                 icon={faCaretDown}
               />
@@ -135,7 +134,7 @@ const MultiSelectField = ({
                 <div className={classNames(animations.default, "border-b-2")}>
                   <input
                     autoFocus
-                    className={`appearance-none px-3 py-2 rounded text-${colors.gray} w-full focus:outline-none`}
+                    className="appearance-none px-3 py-2 rounded w-full focus:outline-none"
                     id={name}
                     onChange={handleOnChange}
                     placeholder="Search..."
@@ -152,10 +151,11 @@ const MultiSelectField = ({
                   return (
                     <div
                       className={classNames(
-                        `cursor-pointer flex items-center justify-between px-4 py-1 hover:bg-${colors.grayLighter}`,
+                        bg.hover.gray,
                         {
-                          [`text-${colors.primary} font-semibold`]: isSelected,
-                        }
+                          [`${text.colors.primary} font-semibold`]: isSelected,
+                        },
+                        "cursor-pointer flex items-center justify-between px-4 py-1"
                       )}
                       key={key}
                       onClick={() => handleOptionClick(key)}
@@ -175,9 +175,7 @@ const MultiSelectField = ({
                 })}
 
                 {matches.length === 0 && (
-                  <div className={`px-4 py-1 text-${colors.gray}`}>
-                    No results
-                  </div>
+                  <div className="px-4 py-1">No results</div>
                 )}
               </div>
             </Dropdown>

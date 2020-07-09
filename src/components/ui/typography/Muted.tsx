@@ -5,7 +5,7 @@ import Theme from "../theme";
 
 const Muted = ({ children }: { children: ReactNode }) => (
   <Theme>
-    {({ colors }) => <span className={`text-${colors.gray}`}>{children}</span>}
+    {({ text }) => <span className={text.colors.muted}>{children}</span>}
   </Theme>
 );
 

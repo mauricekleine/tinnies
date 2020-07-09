@@ -24,15 +24,20 @@ const NavbarLink = ({
 
   return (
     <Theme>
-      {({ colors }) => (
+      {({ bg, border, text }) => (
         <Link href={href}>
           <a
             className={classNames(
-              `bg-${colors.primary} border border-b-2 border-transparent flex font-light h-10 items-center px-3 md:px-4 rounded text-${colors.white} focus:outline-none hover:bg-${colors.white} hover:border-${colors.primaryAccent} hover:text-${colors.primaryAccent}`,
+              bg.primary,
+              bg.hover.white,
+              border.colors.hover.primaryAccent,
+              text.colors.white,
+              text.colors.hover.primaryAccent,
               {
-                [`border-${colors.primaryAccent}`]: !isBorderless,
+                [border.colors.primaryAccent]: !isBorderless,
                 underline: isActiveRoute,
-              }
+              },
+              "border border-b-2 border-transparent flex font-light h-10 items-center px-3 md:px-4 rounded focus:outline-none"
             )}
             data-cy={dataCy}
           >

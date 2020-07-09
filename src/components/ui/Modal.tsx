@@ -29,16 +29,20 @@ const Modal = ({ children, isOpen }: ModalProps, ref) => {
 
   return createPortal(
     <Theme>
-      {({ colors }) => (
+      {({ bg, border }) => (
         <Animate
           className={classNames(
-            `bg-${colors.grayDark}`,
-            "bg-opacity-75 fixed flex h-full items-center justify-center left-0 top-0 w-full"
+            bg.modal,
+            "fixed flex h-full items-center justify-center left-0 top-0 w-full"
           )}
           isVisible={isOpen}
         >
           <div
-            className={`bg-${colors.white} border border-${colors.grayLight} border-b-2 p-4 rounded-md shadow-lg`}
+            className={classNames(
+              bg.white,
+              border.colors.default,
+              "border border-b-2 p-4 rounded-md shadow-lg"
+            )}
             ref={ref}
           >
             {children}

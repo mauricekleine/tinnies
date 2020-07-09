@@ -27,7 +27,7 @@ const InputField = ({
 
   return (
     <Theme>
-      {({ animations, colors }) => (
+      {({ animations, border }) => (
         <FormGroup
           error={meta.error}
           hasError={hasFieldError}
@@ -37,16 +37,12 @@ const InputField = ({
           <input
             className={classNames(
               animations.default,
-              "appearance-none border border-b-2",
+              border.colors.focus.primary,
               {
-                [`border-${colors.red}`]: hasFieldError,
-                [`border-${colors.grayLight}`]: !hasFieldError,
+                [border.colors.red]: hasFieldError,
+                [border.colors.default]: !hasFieldError,
               },
-              "px-3 py-2 rounded",
-              `text-${colors.gray}`,
-              "w-full",
-              `focus:border-${colors.primary}`,
-              "focus:outline-none"
+              "appearance-none border border-b-2 px-3 py-2 rounded w-full focus:outline-none"
             )}
             data-cy={dataCy}
             placeholder={label}

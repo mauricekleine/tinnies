@@ -1,12 +1,13 @@
 /** @jsx createElement */
+import classNames from "classnames";
 import { ReactNode, createElement } from "react";
 
 import Theme from "../theme";
 
 const Bold = ({ children }: { children: ReactNode }) => (
   <Theme>
-    {({ colors }) => (
-      <span className={`font-semibold text-${colors.primaryAccent}`}>
+    {({ text }) => (
+      <span className={classNames(text.colors.primaryAccent, "font-semibold")}>
         {children}
       </span>
     )}

@@ -23,20 +23,20 @@ const Button = ({
   ...props
 }: ButtonProps) => (
   <Theme>
-    {({ colors }) => (
+    {({ bg, border, text }) => (
       <button
         className={classNames(
           "border border-b-2 font-light h-10 px-3 md:px-4 rounded focus:outline-none",
           {
-            [`bg-${colors.primary}`]: !isTransparent,
-            [`border-${colors.primaryAccent}`]: !isTransparent,
+            [bg.primary]: !isTransparent,
+            [bg.hover.white]: !isTransparent,
+            [border.colors.primaryAccent]: !isTransparent,
+            [border.colors.hover.primaryAccent]: !isTransparent,
             ["border-transparent"]: isTransparent,
-            [`text-${colors.white}`]: !isTransparent,
             ["hover:underline"]: isTransparent,
-            [`hover:bg-${colors.white}`]: !isTransparent,
-            [`hover:border-${colors.primaryAccent}`]: !isTransparent,
-            [`hover:text-${colors.primaryAccent}`]: !isTransparent,
-            [`hover:text-${colors.primary}`]: isTransparent,
+            [text.colors.white]: !isTransparent,
+            [text.colors.hover.primary]: isTransparent,
+            [text.colors.hover.primaryAccent]: !isTransparent,
           }
         )}
         data-cy={dataCy}

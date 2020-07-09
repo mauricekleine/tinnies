@@ -1,4 +1,5 @@
 module.exports = {
+  purge: ["./src/**/*.ts", "./src/**/*.tsx"],
   theme: {
     extend: {
       maxHeight: {
@@ -15,4 +16,6 @@ module.exports = {
       },
     },
   },
+  variants: {},
+  plugins: [],
 };

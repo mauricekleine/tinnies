@@ -30,7 +30,7 @@ const ImageField = ({ label, name }: ImageFieldProps) => {
 
   return (
     <Theme>
-      {({ animations, colors }) => (
+      {({ animations, border }) => (
         <FormGroup
           error={meta.error}
           hasError={hasFieldError}
@@ -41,14 +41,12 @@ const ImageField = ({ label, name }: ImageFieldProps) => {
             {...getRootProps({
               className: classNames(
                 animations.default,
-                "border border-b-2",
+                border.colors.focus,
                 {
-                  [`border-${colors.red}`]: hasFieldError,
-                  [`border-${colors.grayLight}`]: !hasFieldError,
+                  [border.colors.red]: hasFieldError,
+                  [border.colors.default]: !hasFieldError,
                 },
-                "cursor-pointer flex flex-col h-64 items-center justify-center p-4 overflow-hidden rounded text-center",
-                `focus:border-${colors.primary}`,
-                "focus:outline-none"
+                "border border-b-2 cursor-pointer flex flex-col h-64 items-center justify-center p-4 overflow-hidden rounded text-center focus:outline-none"
               ),
             })}
           >

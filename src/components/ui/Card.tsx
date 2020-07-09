@@ -1,4 +1,5 @@
 /** @jsx createElement */
+import classNames from "classnames";
 import { ReactNode, createElement } from "react";
 
 import Theme from "./theme";
@@ -10,9 +11,15 @@ type Props = {
 
 const Card = ({ children, px = "6" }: Props) => (
   <Theme>
-    {({ colors }) => (
+    {({ bg, border }) => (
       <section
-        className={`bg-${colors.white} border border-b-4 border-${colors.grayLight} mb-8 px-${px} py-6 rounded-lg`}
+        className={classNames(
+          bg.white,
+          border.colors.default,
+          "border border-b-4 mb-8",
+          `px-${px}`,
+          "py-6 rounded-lg"
+        )}
       >
         {children}
       </section>
