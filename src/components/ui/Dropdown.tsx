@@ -7,10 +7,10 @@ import Theme from "./theme";
 type DropdownProps = {
   children: ReactNode | ReactNode[];
   isOpen: boolean;
-  width?: string;
+  width?: "w-24" | "w-48" | "w-full";
 };
 
-const Dropdown = ({ children, isOpen, width }: DropdownProps) =>
+const Dropdown = ({ children, isOpen, width = "w-full" }: DropdownProps) =>
   isOpen && (
     <Theme>
       {({ bg, border }) => (
@@ -18,8 +18,8 @@ const Dropdown = ({ children, isOpen, width }: DropdownProps) =>
           className={classNames(
             bg.white,
             border.colors.default,
+            width,
             "absolute border mt-1 right-0 rounded-md shadow-lg",
-            `w-${width}`,
             "z-40"
           )}
         >

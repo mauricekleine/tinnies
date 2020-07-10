@@ -175,7 +175,7 @@ const SelectField = ({
 
           {shouldShowDropdown && (
             <div className="relative" ref={dropdownRef}>
-              <Dropdown isOpen={isOpen} width="full">
+              <Dropdown isOpen={isOpen}>
                 <div className="max-h-sm overflow-scroll py-1 text-left">
                   {matches.map((option) => {
                     const key = option[optionKey];

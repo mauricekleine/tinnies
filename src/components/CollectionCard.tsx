@@ -113,7 +113,7 @@ const CollectionCard = ({ collection }: Props) => {
                 <Icon icon={faEllipsisV} />
               </Button>
             </div>
-            <Dropdown isOpen={isDropdownOpen} width="24">
+            <Dropdown isOpen={isDropdownOpen} width="w-24">
               <div className="flex justify-center px-4 py-2">
                 <Button
                   isTransparent

@@ -53,7 +53,7 @@ const StyleGuide = () => {
           <Rating disabled value={3} />
 
           <div className="relative mb-32">
-            <Dropdown isOpen width="full">
+            <Dropdown isOpen>
               <div className="flex flex-col px-4 py-2">
                 <span
                   className={classNames(

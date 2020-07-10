@@ -99,7 +99,7 @@ const Navbar = ({ onLogout, user }: Props) => {
                   <Avatar />
                 </button>
 
-                <Dropdown isOpen={isOpen} width="48">
+                <Dropdown isOpen={isOpen} width="w-48">
                   <div className="flex flex-col px-4 py-2">
                     <span
                       className={classNames(
