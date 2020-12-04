@@ -3,7 +3,7 @@ import { ApolloClient, gql } from "apollo-boost";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { Maybe, User } from "../types/graphql";
+import { User } from "../types/graphql";
 
 const IS_LOGGED_IN = gql`
   query IsUserLoggedIn {
@@ -25,9 +25,11 @@ const UNAUTHENTICATED_ROUTES = ["/", "/login", "/signup"];
 
 const useAuthentication = () => {
   const client: ApolloClient<any> = useApolloClient();
+
   const { data: localData, loading: isLoggedInIsLoading } = useQuery<{
     isLoggedIn?: boolean;
   }>(IS_LOGGED_IN);
+
   const { data, loading: currentUserIsLoading, refetch } = useQuery<{
     currentUser: User;
   }>(CURRENT_USER, {
