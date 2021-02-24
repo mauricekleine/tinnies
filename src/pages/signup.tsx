@@ -62,7 +62,7 @@ const SignupPage = () => {
   const handleSubmit = async (values: MutationSignupArgs) => {
     await signup({ variables: values });
 
-    router.replace("/home");
+    router.replace("/beers");
   };
 
   return (

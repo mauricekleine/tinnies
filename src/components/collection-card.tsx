@@ -2,7 +2,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
 
-import { MY_COLLECTIONS } from "../pages/my/collections";
+import { MY_COLLECTIONS } from "../pages/collections";
 import {
   Collection,
   Mutation,

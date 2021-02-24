@@ -6,7 +6,7 @@ export const theme = {
     fast: "duration-100 ease-in-out transition",
   },
   bg: {
-    background: "bg-gray-200",
+    background: "bg-gray-100",
     default: "bg-gray-400",
     footer: "bg-gray-800",
     hover: {
@@ -19,15 +19,15 @@ export const theme = {
   },
   border: {
     colors: {
-      default: "border-gray-400",
+      default: "border-gray-300",
       focus: {
         primary: "focus:border-indigo-500",
       },
       hover: {
-        primaryAccent: "hover:border-indigo-800",
+        primaryAccent: "hover:border-indigo-700",
       },
       primary: "border-indigo-500",
-      primaryAccent: "border-indigo-800",
+      primaryAccent: "border-indigo-700",
       red: "border-red-500",
     },
   },
@@ -37,11 +37,11 @@ export const theme = {
       disabled: "text-gray-400",
       hover: {
         primary: "hover:text-indigo-500",
-        primaryAccent: "hover:text-indigo-800",
+        primaryAccent: "hover:text-indigo-700",
       },
-      muted: "text-gray-700",
+      muted: "text-gray-500",
       primary: "text-indigo-500",
-      primaryAccent: "text-indigo-800",
+      primaryAccent: "text-indigo-700",
       red: "text-red-500",
       white: "text-white",
       yellow: "text-yellow-500",

@@ -20,7 +20,7 @@ const useAuthentication = () => {
   const router = useRouter();
 
   const isPublicRoute = UNAUTHENTICATED_ROUTES.includes(router.route);
-  const fallback = isPublicRoute ? "/home" : "/";
+  const fallback = isPublicRoute ? "/beers" : "/";
 
   const { data, loading } = useQuery<{
     currentUser: User;

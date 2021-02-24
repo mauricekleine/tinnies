@@ -1,16 +1,20 @@
 import { gql, useQuery } from "@apollo/client";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import BeerCard from "../components/beer-card";
 import BeerCardPlaceholder from "../components/beer-card-placeholder";
+import BeerRow from "../components/beer-row";
 import BeersBlankSlate from "../components/blank-slates/beers-blank-slate";
 import Page from "../components/page";
 import Card from "../components/ui/card";
-import { Heading } from "../components/ui/typography";
+import NavbarLink from "../components/ui/navbar/navbar-link";
+import { Heading, Lead } from "../components/ui/typography";
 import { Beer } from "../types/graphql";
 
-export const ALL_BEERS = gql`
-  query getAllBeers {
-    beers {
+export const MY_BEERS = gql`
+  query getMyBeers {
+    myBeers {
       addedBy {
         id
         name
@@ -32,13 +36,22 @@ export const ALL_BEERS = gql`
   }
 `;
 
-const Home = () => {
-  const { data, loading } = useQuery<{ beers: Beer[] }>(ALL_BEERS);
-  const hasBeers = data && data.beers.length > 0;
+const MyBeers = () => {
+  const { data, loading } = useQuery<{ myBeers: Beer[] }>(MY_BEERS);
+  const hasBeers = !loading && data?.myBeers?.length > 0;
   const showEmptyState = !loading && !hasBeers;
 
   return (
-    <Page title="Recent updates">
+    <Page title="My Beers">
+      <div className="flex justify-between mb-4">
+        <Lead>My Beers</Lead>
+
+        <NavbarLink href="/new/beer">
+          <FontAwesomeIcon className="h-4 mr-2 w-4" icon={faPlus} />
+          Add new beer
+        </NavbarLink>
+      </div>
+
       {loading && (
         <>
           <BeerCardPlaceholder />
@@ -47,14 +60,12 @@ const Home = () => {
       )}
 
       {hasBeers &&
-        data.beers.map((beer) => <BeerCard beer={beer} key={beer.id} />)}
+        data.myBeers.map((beer) => <BeerRow beer={beer} key={beer.id} />)}
 
       {showEmptyState && (
         <Card>
           <Heading>It is time to add your first beer!</Heading>
-          <p className="mb-2">
-            Click &quot;Add a beer&quot; in the menu bar up top
-          </p>
+          <p className="mb-2">Click &quot;Add a beer&quot; to get started</p>
 
           <BeersBlankSlate />
         </Card>
@@ -63,4 +74,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default MyBeers;

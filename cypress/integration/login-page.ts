@@ -20,7 +20,7 @@ describe("Login page", () => {
     cy.visit("/login");
   });
 
-  it("redirects to /home on success", () => {
+  it("redirects to /beers on success", () => {
     cy.get(`[data-cy=${LOGIN_FORM_EMAIL_FIELD}]`).should(
       "have.attr",
       "type",
@@ -36,7 +36,7 @@ describe("Login page", () => {
     cy.get(`[data-cy=${LOGIN_FORM_PASSWORD_FIELD}]`).type(user.password);
     cy.get(`[data-cy=${LOGIN_FORM_SUBMIT_BTN}]`).click();
 
-    cy.url().should("include", "/home");
+    cy.url().should("include", "/beers");
   });
 
   after(() => {

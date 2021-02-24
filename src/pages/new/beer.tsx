@@ -23,8 +23,7 @@ import {
   MutationCreateBeerArgs,
 } from "../../types/graphql";
 import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "../../utils/image-config";
-import { ALL_BEERS } from "../home";
-import { MY_BEERS } from "../my/beers";
+import { MY_BEERS } from "../beers";
 
 const CREATE_BEER = gql`
   mutation createBeer(
@@ -140,21 +139,6 @@ const NewBeer = () => {
       await createMyBeer({
         update: (cache, { data: { createBeer } }) => {
           try {
-            const { beers } = cache.readQuery<{
-              beers: Beer[];
-            }>({
-              query: ALL_BEERS,
-            });
-
-            cache.writeQuery({
-              data: { beers: [createBeer, ...beers] },
-              query: ALL_BEERS,
-            });
-          } catch {
-            // https://github.com/apollographql/apollo-feature-requests/issues/1
-          }
-
-          try {
             const { myBeers } = cache.readQuery<{
               myBeers: Beer[];
             }>({
@@ -175,7 +159,7 @@ const NewBeer = () => {
         },
       });
 
-      router.replace("/my/beers");
+      router.replace("/beers");
     } catch {
       // $TODO handle errors
       setSubmitting(false);

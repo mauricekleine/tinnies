@@ -65,7 +65,7 @@ const LoginPage = () => {
   const handleSubmit = async (values: MutationLoginArgs) => {
     await login({ variables: values });
 
-    router.replace("/home");
+    router.replace("/beers");
   };
 
   return (

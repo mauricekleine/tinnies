@@ -45,7 +45,7 @@ const Navbar = ({ onLogout, user }: Props) => {
           )}
         >
           <div className="flex">
-            <NextLink href={user ? "/home" : "/"}>
+            <NextLink href={user ? "/beers" : "/"}>
               <a
                 className={classNames(
                   text.colors.white,
@@ -63,24 +63,13 @@ const Navbar = ({ onLogout, user }: Props) => {
             </NextLink>
 
             {user && (
-              <div className="flex">
-                <div className="hidden sm:flex">
-                  <NavbarLink isBorderless href="/home">
-                    Home
-                  </NavbarLink>
+              <div className="hidden sm:flex">
+                <NavbarLink isBorderless href="/beers">
+                  My beers
+                </NavbarLink>
 
-                  <NavbarLink isBorderless href="/my/beers">
-                    My Beers
-                  </NavbarLink>
-
-                  <NavbarLink isBorderless href="/my/collections">
-                    My Collections
-                  </NavbarLink>
-                </div>
-
-                <NavbarLink href="/new/beer">
-                  <FontAwesomeIcon className="h-4 mr-2 w-4" icon={faPlus} />
-                  Add a beer
+                <NavbarLink isBorderless href="/collections">
+                  My Collections
                 </NavbarLink>
               </div>
             )}
@@ -115,9 +104,8 @@ const Navbar = ({ onLogout, user }: Props) => {
                         "border-b flex flex-col mb-2 py-2 sm:hidden"
                       )}
                     >
-                      <Link href="/home">Home</Link>
-                      <Link href="/my/beers">My Beers</Link>
-                      <Link href="/my/collections">My Collections</Link>
+                      <Link href="/beers">My beers</Link>
+                      <Link href="/collections">My Collections</Link>
                     </div>
 
                     <Button

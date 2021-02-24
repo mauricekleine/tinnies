@@ -22,12 +22,12 @@ const AppWrapper = ({ children }: Props) => {
             className={classNames(
               bg.background,
               text.colors.default,
-              "flex flex-col font-light min-h-screen"
+              "flex flex-col font-light min-h-screen text-sm sm:text-base"
             )}
           >
             <Navbar onLogout={logout} user={currentUser} />
 
-            <div className="flex-1 mx-auto mb-4 mt-8 w-4/5 md:w-3/5 lg:w-2/5">
+            <div className="container flex-1 mx-auto mb-4 mt-8 px-4 sm:px-0">
               {!isLoading && children}
             </div>
 

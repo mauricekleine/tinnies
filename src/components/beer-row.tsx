@@ -1,5 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import classNames from "classnames";
 import { Image } from "cloudinary-react";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useRef } from "react";
@@ -15,6 +16,7 @@ import Dropdown from "./ui/dropdown";
 import Icon from "./ui/icon";
 import Modal from "./ui/modal";
 import Rating from "./ui/rating";
+import Theme from "./ui/theme";
 import { Bold, FinePrint, Heading, Muted } from "./ui/typography";
 import { useOpenHandler } from "./ui/utils";
 
@@ -36,7 +38,7 @@ type Props = {
   beer: Beer;
 };
 
-const BeerCard = ({ beer }: Props) => {
+const BeerRow = ({ beer }: Props) => {
   const { data } = useQuery<{ currentUser: User }>(USER);
 
   const [deleteMyBeer] = useMutation<
@@ -83,93 +85,66 @@ const BeerCard = ({ beer }: Props) => {
   };
 
   return (
-    <Card px="0">
-      <div className="flex justify-between px-6">
-        <div className="flex items-center">
-          <div className="mr-2">
-            <Avatar />
-          </div>
+    <Theme>
+      {({ bg }) => (
+        <div
+          className={classNames(
+            bg.white,
+            "flex justify-between mb-1 px-4 py-4 rounded-md"
+          )}
+        >
+          <div className="space-y-1">
+            <Rating value={beer.rating} />
 
-          <div className="flex flex-col leading-snug">
-            <p className="truncate w-40">
-              <Bold>{beer.addedBy.name}</Bold>
+            <Heading>{beer.name}</Heading>
 
-              <span> rated a beer</span>
+            <p>
+              {beer.style && <Muted>{beer.style.name}, </Muted>}
+              <Muted>{beer.brewery.name}</Muted>
             </p>
-
-            <FinePrint>
-              <>{formatDistanceToNow(new Date(beer.createdAt))} ago</>
-            </FinePrint>
           </div>
-        </div>
 
-        {canDelete && (
-          <>
-            <div className="relative" ref={dropdownRef}>
-              <div className="-mt-2">
+          {canDelete && (
+            <>
+              <div className="relative" ref={dropdownRef}>
                 <Button isTransparent onClick={handleDropdownToggle}>
                   <Icon icon={faEllipsisV} />
                 </Button>
+
+                <Dropdown isOpen={isDropdownOpen} width="w-24">
+                  <div className="flex justify-center px-4 py-2">
+                    <Button
+                      isTransparent
+                      onClick={() => {
+                        handleDropdownToggle();
+                        handleModalToggle();
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </Dropdown>
               </div>
 
-              <Dropdown isOpen={isDropdownOpen} width="w-24">
-                <div className="flex justify-center px-4 py-2">
-                  <Button
-                    isTransparent
-                    onClick={() => {
-                      handleDropdownToggle();
-                      handleModalToggle();
-                    }}
-                  >
-                    Delete
-                  </Button>
+              <Modal isOpen={isModalOpen} ref={modalRef}>
+                <div className="flex flex-col text-center">
+                  <span className="mb-2">Are you sure?</span>
+
+                  <div className="flex flex-row justify-between">
+                    <Button isTransparent onClick={handleModalToggle}>
+                      No
+                    </Button>
+
+                    <Button onClick={handleDelete}>Yes</Button>
+                  </div>
                 </div>
-              </Dropdown>
-            </div>
-
-            <Modal isOpen={isModalOpen} ref={modalRef}>
-              <div className="flex flex-col text-center">
-                <span className="mb-2">Are you sure?</span>
-
-                <div className="flex flex-row justify-between">
-                  <Button isTransparent onClick={handleModalToggle}>
-                    No
-                  </Button>
-
-                  <Button onClick={handleDelete}>Yes</Button>
-                </div>
-              </div>
-            </Modal>
-          </>
-        )}
-      </div>
-
-      <Image
-        alt={`${beer.name} by ${beer.brewery.name}`}
-        className="object-cover h-64 my-5 w-full"
-        cloudName="tinnies"
-        crop="scale"
-        publicId={beer.image}
-        width="600"
-      />
-
-      <div className="px-6">
-        <div className="mb-1">
-          <Rating value={beer.rating} />
+              </Modal>
+            </>
+          )}
         </div>
-
-        <Heading>{beer.name}</Heading>
-
-        {beer.style && (
-          <p>
-            <Muted>{beer.style.name}</Muted>
-          </p>
-        )}
-
-        <Muted>{beer.brewery.name}</Muted>
-      </div>
-    </Card>
+      )}
+    </Theme>
   );
 };
 
-export default BeerCard;
+export default BeerRow;
