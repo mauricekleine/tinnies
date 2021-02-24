@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 
-import Spinner from "./Spinner";
+import Spinner from "./spinner";
 import Theme from "./theme";
 
 type ButtonProps = {

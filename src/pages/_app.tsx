@@ -5,7 +5,7 @@ import Head from "next/head";
 import { useEffect } from "react";
 import Rollbar from "rollbar";
 
-import AppWrapper from "../components/AppWrapper";
+import AppWrapper from "../components/app-wrapper";
 import { useApollo } from "../lib/apollo-client";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";

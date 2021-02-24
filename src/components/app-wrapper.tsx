@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 import useAuthentication from "../lib/use-authentication";
 
-import Footer from "./Footer";
+import Footer from "./footer";
 import Navbar from "./ui/navbar";
 import Theme, { ThemeProvider, theme } from "./ui/theme";
 

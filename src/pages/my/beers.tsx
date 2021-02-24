@@ -1,10 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
 
-import BeerCard from "../../components/BeerCard";
-import BeerCardPlaceholder from "../../components/BeerCardPlaceholder";
-import Page from "../../components/Page";
-import BeersBlankSlate from "../../components/blank-slates/BeersBlankSlate";
-import Card from "../../components/ui/Card";
+import BeerCard from "../../components/beer-card";
+import BeerCardPlaceholder from "../../components/beer-card-placeholder";
+import BeersBlankSlate from "../../components/blank-slates/beers-blank-slate";
+import Page from "../../components/page";
+import Card from "../../components/ui/card";
 import { Heading } from "../../components/ui/typography";
 import { Beer } from "../../types/graphql";
 

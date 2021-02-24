@@ -2,11 +2,11 @@ import classNames from "classnames";
 import { useField } from "formik";
 import { useDropzone } from "react-dropzone";
 
-import { ALLOWED_IMAGE_TYPES } from "../../../utils/imageConfig";
+import { ALLOWED_IMAGE_TYPES } from "../../../utils/image-config";
 import Theme from "../theme";
 import { FinePrint } from "../typography";
 
-import FormGroup from "./FormGroup";
+import FormGroup from "./form-group";
 import { hasError } from "./utils";
 
 type ImageFieldProps = {

@@ -8,9 +8,9 @@ import {
   SIGNUP_FORM_PASSWORD_FIELD,
   SIGNUP_FORM_SUBMIT_BTN,
 } from "../../cypress/selectors";
-import Page from "../components/Page";
-import Button from "../components/ui/Button";
-import Card from "../components/ui/Card";
+import Page from "../components/page";
+import Button from "../components/ui/button";
+import Card from "../components/ui/card";
 import { Form, FormError, Formik, InputField } from "../components/ui/forms";
 import { Lead } from "../components/ui/typography";
 import { CURRENT_USER_QUERY } from "../lib/use-authentication";

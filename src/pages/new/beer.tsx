@@ -3,9 +3,9 @@ import { FormikHelpers } from "formik";
 import { useRouter } from "next/router";
 import * as yup from "yup";
 
-import Page from "../../components/Page";
-import Button from "../../components/ui/Button";
-import Card from "../../components/ui/Card";
+import Page from "../../components/page";
+import Button from "../../components/ui/button";
+import Card from "../../components/ui/card";
 import {
   Form,
   Formik,
@@ -22,7 +22,7 @@ import {
   Mutation,
   MutationCreateBeerArgs,
 } from "../../types/graphql";
-import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "../../utils/imageConfig";
+import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "../../utils/image-config";
 import { ALL_BEERS } from "../home";
 import { MY_BEERS } from "../my/beers";
 

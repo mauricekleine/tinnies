@@ -1,5 +1,5 @@
-import Page from "../components/Page";
-import BeersBlankSlate from "../components/blank-slates/BeersBlankSlate";
+import BeersBlankSlate from "../components/blank-slates/beers-blank-slate";
+import Page from "../components/page";
 
 const Home = () => (
   <Page title="Beer tracking, but better">

@@ -1,8 +1,8 @@
 import classNames from "classnames";
 
-import Avatar from "./ui/Avatar";
-import Card from "./ui/Card";
-import Rating from "./ui/Rating";
+import Avatar from "./ui/avatar";
+import Card from "./ui/card";
+import Rating from "./ui/rating";
 import Theme from "./ui/theme";
 
 const BeerCardPlaceholder = () => (

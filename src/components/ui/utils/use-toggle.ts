@@ -1,6 +1,6 @@
 import { MutableRefObject, useState } from "react";
 
-import useOnClickOutside from "./useOnClickOutside";
+import useOnClickOutside from "./use-on-outside-click";
 
 const useToggle = (ref: MutableRefObject<HTMLDivElement>) => {
   const [isOpen, setIsOpen] = useState(false);

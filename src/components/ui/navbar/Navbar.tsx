@@ -11,14 +11,14 @@ import {
   NAVIGATION_SIGNUP_BTN,
 } from "../../../../cypress/selectors";
 import { User } from "../../../types/graphql";
-import Avatar from "../Avatar";
-import Button from "../Button";
-import Dropdown from "../Dropdown";
+import Avatar from "../avatar";
+import Button from "../button";
+import Dropdown from "../dropdown";
 import Theme from "../theme";
 import { Link } from "../typography";
 import { useOpenHandler } from "../utils";
 
-import NavbarLink from "./NavbarLink";
+import NavbarLink from "./navbar-link";
 
 type Props = {
   onLogout: () => void;

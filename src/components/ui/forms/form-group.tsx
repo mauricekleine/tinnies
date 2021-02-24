@@ -2,8 +2,8 @@ import { ReactNode } from "react";
 
 import { FinePrint } from "../typography";
 
-import FormError from "./FormError";
-import FormLabel from "./FormLabel";
+import FormError from "./form-error";
+import FormLabel from "./form-label";
 
 type FormGroup = {
   children: ReactNode | ReactNode[];

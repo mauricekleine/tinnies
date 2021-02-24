@@ -11,11 +11,11 @@ import {
 } from "../types/graphql";
 import { canDeleteCollection } from "../utils/permissions";
 
-import Button from "./ui/Button";
-import Card from "./ui/Card";
-import Dropdown from "./ui/Dropdown";
-import Icon from "./ui/Icon";
-import Modal from "./ui/Modal";
+import Button from "./ui/button";
+import Card from "./ui/card";
+import Dropdown from "./ui/dropdown";
+import Icon from "./ui/icon";
+import Modal from "./ui/modal";
 import { useOpenHandler } from "./ui/utils";
 
 const DELETE_COLLECTION = gql`

@@ -9,13 +9,13 @@ import { MY_BEERS } from "../pages/my/beers";
 import { Beer, Mutation, MutationDeleteBeerArgs, User } from "../types/graphql";
 import { canDeleteBeer } from "../utils/permissions";
 
-import Avatar from "./ui/Avatar";
-import Button from "./ui/Button";
-import Card from "./ui/Card";
-import Dropdown from "./ui/Dropdown";
-import Icon from "./ui/Icon";
-import Modal from "./ui/Modal";
-import Rating from "./ui/Rating";
+import Avatar from "./ui/avatar";
+import Button from "./ui/button";
+import Card from "./ui/card";
+import Dropdown from "./ui/dropdown";
+import Icon from "./ui/icon";
+import Modal from "./ui/modal";
+import Rating from "./ui/rating";
 import { Bold, FinePrint, Heading, Muted } from "./ui/typography";
 import { useOpenHandler } from "./ui/utils";
 

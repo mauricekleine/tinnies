@@ -5,12 +5,12 @@ import escapeStringRegexp from "escape-string-regexp";
 import { useField } from "formik";
 import { ChangeEvent, useCallback, useMemo, useRef, useState } from "react";
 
-import Dropdown from "../Dropdown";
-import Highlighter from "../Highlighter";
+import Dropdown from "../dropdown";
+import Highlighter from "../highlighter";
 import Theme from "../theme";
 import { useOpenHandler } from "../utils";
 
-import FormGroup from "./FormGroup";
+import FormGroup from "./form-group";
 import { hasError } from "./utils";
 
 type MultiSelectFieldProps = {

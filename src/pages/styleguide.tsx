@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import { useRef } from "react";
 
-import Page from "../components/Page";
-import Button from "../components/ui/Button";
-import Card from "../components/ui/Card";
-import Dropdown from "../components/ui/Dropdown";
-import Modal from "../components/ui/Modal";
-import Rating from "../components/ui/Rating";
+import Page from "../components/page";
+import Button from "../components/ui/button";
+import Card from "../components/ui/card";
+import Dropdown from "../components/ui/dropdown";
+import Modal from "../components/ui/modal";
+import Rating from "../components/ui/rating";
 import Theme from "../components/ui/theme";
 import {
   Bold,
@@ -16,7 +16,7 @@ import {
   Link,
   Muted,
 } from "../components/ui/typography";
-import useToggle from "../components/ui/utils/useToggle";
+import useToggle from "../components/ui/utils/use-toggle";
 
 const StyleGuide = () => {
   const modalRef = useRef();

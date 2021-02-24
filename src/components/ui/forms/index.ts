@@ -1,13 +1,13 @@
 import { Form, Formik } from "formik";
 
-import FormError from "./FormError";
-import FormGroup from "./FormGroup";
-import FormLabel from "./FormLabel";
-import ImageField from "./ImageField";
-import InputField from "./InputField";
-import MultiSelectField from "./MultiSelectField";
-import RatingField from "./RatingField";
-import SelectField from "./SelectField";
+import FormError from "./form-error";
+import FormGroup from "./form-group";
+import FormLabel from "./form-label";
+import ImageField from "./image-field";
+import InputField from "./input-field";
+import MultiSelectField from "./multi-select-field";
+import RatingField from "./rating-field";
+import SelectField from "./select-field";
 
 export {
   Form,

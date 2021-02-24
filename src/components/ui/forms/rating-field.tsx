@@ -1,8 +1,8 @@
 import { useField } from "formik";
 
-import Rating from "../Rating";
+import Rating from "../rating";
 
-import FormGroup from "./FormGroup";
+import FormGroup from "./form-group";
 import { hasError } from "./utils";
 
 type Props = {

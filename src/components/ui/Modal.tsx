@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { ReactNode, forwardRef, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
-import Animate from "./Animate";
+import Animate from "./animate";
 import Theme from "./theme";
 
 type ModalProps = {

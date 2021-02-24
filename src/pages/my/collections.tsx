@@ -5,18 +5,18 @@ import { FormikHelpers } from "formik";
 import { useRef } from "react";
 import * as yup from "yup";
 
-import CollectionCard from "../../components/CollectionCard";
-import Page from "../../components/Page";
-import CollectionsBlankSlate from "../../components/blank-slates/CollectionsBlankSlate";
-import Button from "../../components/ui/Button";
-import Card from "../../components/ui/Card";
-import Modal from "../../components/ui/Modal";
+import CollectionsBlankSlate from "../../components/blank-slates/collections-blank-slate";
+import CollectionCard from "../../components/collection-card";
+import Page from "../../components/page";
+import Button from "../../components/ui/button";
+import Card from "../../components/ui/card";
 import {
   Form,
   Formik,
   InputField,
   MultiSelectField,
 } from "../../components/ui/forms";
+import Modal from "../../components/ui/modal";
 import { Heading, Lead } from "../../components/ui/typography";
 import { useOpenHandler } from "../../components/ui/utils";
 import {

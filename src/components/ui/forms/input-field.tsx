@@ -4,7 +4,7 @@ import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 
 import Theme from "../theme";
 
-import FormGroup from "./FormGroup";
+import FormGroup from "./form-group";
 import { hasError } from "./utils";
 
 type InputFieldProps = {
