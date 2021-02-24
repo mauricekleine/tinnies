@@ -27,7 +27,7 @@ const LOGIN_USER = gql`
   }
 `;
 
-const LoginSchema = yup.object<MutationLoginArgs>().shape({
+const LoginSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Required"),
   password: yup.string().min(8, "Too Short!").required("Required"),
 });

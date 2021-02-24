@@ -24,7 +24,7 @@ export const SIGNUP_USER = gql`
   }
 `;
 
-const SignupSchema = yup.object<MutationSignupArgs>().shape({
+const SignupSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Required"),
   name: yup.string().min(2, "Too Short!").required("Required"),
   password: yup.string().min(8, "Too Short!").required("Required"),

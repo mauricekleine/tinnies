@@ -75,7 +75,7 @@ const BREWERIES_AND_BEERSTYLES = gql`
   }
 `;
 
-const NewBeerSchema = yup.object<MutationCreateBeerArgs>().shape({
+const NewBeerSchema = yup.object().shape({
   brewery: yup.string().required("Required"),
   image: yup
     .mixed()

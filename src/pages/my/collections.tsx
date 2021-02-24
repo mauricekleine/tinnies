@@ -61,7 +61,7 @@ export const MY_COLLECTIONS = gql`
   }
 `;
 
-const NewCollectionSchema = yup.object<MutationCreateCollectionArgs>().shape({
+const NewCollectionSchema = yup.object().shape({
   name: yup.string().min(2, "Too Short!").required("Required"),
 });
 
