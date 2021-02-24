@@ -1,10 +1,8 @@
-/** @jsx createElement */
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { gql } from "apollo-boost";
 import { FormikHelpers } from "formik";
-import { createElement, useRef } from "react";
+import { useRef } from "react";
 import * as yup from "yup";
 
 import CollectionCard from "../../components/CollectionCard";

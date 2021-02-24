@@ -1,5 +1,6 @@
 module.exports = {
   purge: ["./src/**/*.ts", "./src/**/*.tsx"],
+  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       maxHeight: {
@@ -16,6 +17,8 @@ module.exports = {
       },
     },
   },
-  variants: {},
+  variants: {
+    extend: {},
+  },
   plugins: [],
 };

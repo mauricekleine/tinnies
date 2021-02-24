@@ -1,14 +1,11 @@
-/** @jsx createElement */
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
-import { createElement } from "react";
+import { gql, useQuery } from "@apollo/client";
 
 import BeerCard from "../components/BeerCard";
 import BeerCardPlaceholder from "../components/BeerCardPlaceholder";
 import Page from "../components/Page";
 import BeersBlankSlate from "../components/blank-slates/BeersBlankSlate";
 import Card from "../components/ui/Card";
-import { Heading, Lead } from "../components/ui/typography";
+import { Heading } from "../components/ui/typography";
 import { Beer } from "../types/graphql";
 
 export const ALL_BEERS = gql`

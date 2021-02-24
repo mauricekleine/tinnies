@@ -1,6 +1,4 @@
-/** @jsx createElement */
 import { useField } from "formik";
-import { createElement } from "react";
 
 import Rating from "../Rating";
 

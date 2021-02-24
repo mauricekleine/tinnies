@@ -1,6 +1,4 @@
-/** @jsx createElement */
 import classNames from "classnames";
-import { createElement } from "react";
 
 import Theme from "./ui/theme";
 

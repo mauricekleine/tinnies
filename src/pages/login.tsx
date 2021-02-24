@@ -1,8 +1,5 @@
-/** @jsx createElement */
-import { useApolloClient, useMutation } from "@apollo/react-hooks";
-import { ApolloClient } from "apollo-boost";
-import gql from "graphql-tag";
-import { createElement } from "react";
+import { gql, useApolloClient, useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
 import * as yup from "yup";
 
 import {
@@ -15,12 +12,17 @@ import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 import { Form, FormError, Formik, InputField } from "../components/ui/forms";
 import { Lead } from "../components/ui/typography";
+import { CURRENT_USER_QUERY } from "../lib/use-authentication";
 import { Mutation, MutationLoginArgs } from "../types/graphql";
 
 const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
+      user {
+        email
+        name
+      }
     }
   }
 `;
@@ -37,7 +39,7 @@ type MutationLoginData = {
 };
 
 const LoginPage = () => {
-  const client: ApolloClient<any> = useApolloClient();
+  const client = useApolloClient();
   const [login, { error, loading }] = useMutation<
     MutationLoginData,
     MutationLoginArgs
@@ -46,7 +48,11 @@ const LoginPage = () => {
     onCompleted: (data) => {
       if (data && data.login) {
         localStorage.setItem("token", data.login.token);
-        client.writeData({ data: { isLoggedIn: true } });
+
+        client.writeQuery({
+          data: { currentUser: data.login.user },
+          query: CURRENT_USER_QUERY,
+        });
       }
     },
     onError: () => {
@@ -54,8 +60,12 @@ const LoginPage = () => {
     },
   });
 
-  const handleSubmit = (values: MutationLoginArgs) => {
-    login({ variables: values });
+  const router = useRouter();
+
+  const handleSubmit = async (values: MutationLoginArgs) => {
+    await login({ variables: values });
+
+    router.replace("/home");
   };
 
   return (

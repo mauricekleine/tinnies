@@ -1,7 +1,4 @@
-/** @jsx createElement */
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
-import { createElement } from "react";
+import { gql, useQuery } from "@apollo/client";
 
 import BeerCard from "../../components/BeerCard";
 import BeerCardPlaceholder from "../../components/BeerCardPlaceholder";

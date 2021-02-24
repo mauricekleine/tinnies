@@ -1,17 +1,9 @@
-/** @jsx createElement */
 import { faCaretDown, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import escapeStringRegexp from "escape-string-regexp";
 import { useField } from "formik";
-import {
-  ChangeEvent,
-  createElement,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, useCallback, useMemo, useRef, useState } from "react";
 
 import Dropdown from "../Dropdown";
 import Highlighter from "../Highlighter";

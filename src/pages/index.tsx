@@ -1,6 +1,3 @@
-/** @jsx createElement */
-import { createElement } from "react";
-
 import Page from "../components/Page";
 import BeersBlankSlate from "../components/blank-slates/BeersBlankSlate";
 

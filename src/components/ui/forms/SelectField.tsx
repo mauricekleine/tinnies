@@ -1,4 +1,3 @@
-/** @jsx createElement */
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
@@ -7,7 +6,6 @@ import { useField } from "formik";
 import {
   FocusEvent,
   KeyboardEvent,
-  createElement,
   useCallback,
   useMemo,
   useRef,

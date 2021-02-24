@@ -1,8 +1,9 @@
-/** @jsx createElement */
-import { createElement } from "react";
+import Image from "next/image";
 
-import UndrawHavingFunSVG from "./svg/undraw_having_fun_iais.svg";
-
-const BeersBlankSlate = () => <UndrawHavingFunSVG />;
+const BeersBlankSlate = () => (
+  <div className="flex items-center justify-center">
+    <Image src="/svg/undraw_having_fun_iais.svg" height={480} width={480} />
+  </div>
+);
 
 export default BeersBlankSlate;

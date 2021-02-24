@@ -64,7 +64,7 @@ export const generateUserModel = ({ user }: { user: User }) => ({
         process.env.JWT_SECRET
       );
 
-      return { token };
+      return { token, user };
     } catch (err) {
       throw new ApolloError(err);
     }

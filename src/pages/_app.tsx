@@ -1,24 +1,24 @@
-/** @jsx createElement */
-import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloProvider, NormalizedCacheObject } from "@apollo/client";
 import { config } from "@fortawesome/fontawesome-svg-core";
-import ApolloClient, { InMemoryCache, gql } from "apollo-boost";
-import withApollo from "next-with-apollo";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { createElement, useEffect } from "react";
+import { useEffect } from "react";
 import Rollbar from "rollbar";
 
-import "@fortawesome/fontawesome-svg-core/styles.css";
-import "./styles.css";
 import AppWrapper from "../components/AppWrapper";
+import { useApollo } from "../lib/apollo-client";
+
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import "tailwindcss/tailwind.css";
+import "./styles.css";
 
 config.autoAddCss = false;
 
-const App = ({
-  Component,
-  pageProps,
-  apollo,
-}: AppProps & { apollo: ApolloClient<any> }) => {
+const App = ({ Component, pageProps }: AppProps) => {
+  const apolloClient = useApollo(
+    pageProps.initialApolloState as NormalizedCacheObject
+  );
+
   useEffect(() => {
     if (process.env.ROLLBAR_CLIENT_ACCESS_TOKEN) {
       new Rollbar({
@@ -38,7 +38,7 @@ const App = ({
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      <ApolloProvider client={apollo}>
+      <ApolloProvider client={apolloClient}>
         <AppWrapper>
           <Component {...pageProps} />
         </AppWrapper>
@@ -47,37 +47,4 @@ const App = ({
   );
 };
 
-export default withApollo(({ initialState }) => {
-  const cache = new InMemoryCache();
-  cache.restore(initialState || {});
-
-  if (process.browser) {
-    cache.writeData({
-      data: {
-        isLoggedIn: !!localStorage.getItem("token"),
-      },
-    });
-  }
-
-  return new ApolloClient({
-    cache,
-    request: (operation) => {
-      if (process.browser) {
-        const token = localStorage.getItem("token");
-
-        operation.setContext({
-          headers: {
-            authorization: token ? `Bearer ${token}` : "",
-          },
-        });
-      }
-    },
-    resolvers: {},
-    typeDefs: gql`
-      extend type Query {
-        isLoggedIn: Boolean!
-      }
-    `,
-    uri: process.env.GRAPHQL_URI,
-  });
-})(App);
+export default App;

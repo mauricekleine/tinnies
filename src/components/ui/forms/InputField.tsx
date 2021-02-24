@@ -1,7 +1,6 @@
-/** @jsx createElement */
 import classNames from "classnames";
 import { useField } from "formik";
-import { DetailedHTMLProps, InputHTMLAttributes, createElement } from "react";
+import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 
 import Theme from "../theme";
 

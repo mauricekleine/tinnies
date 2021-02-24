@@ -1,7 +1,6 @@
-/** @jsx createElement */
 import classNames from "classnames";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
-import { ReactNode, createElement } from "react";
+import { ReactNode } from "react";
 
 import Theme from "../theme";
 

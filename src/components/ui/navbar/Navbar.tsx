@@ -1,9 +1,8 @@
-/** @jsx createElement */
 import { faBeer, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import NextLink from "next/link";
-import { createElement, useRef } from "react";
+import { useRef } from "react";
 
 import {
   NAVIGATION_AVATAR,

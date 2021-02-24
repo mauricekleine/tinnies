@@ -1,7 +1,5 @@
-/** @jsx createElement */
-import { useApolloClient, useMutation } from "@apollo/react-hooks";
-import { ApolloClient, gql } from "apollo-boost";
-import { createElement } from "react";
+import { gql, useApolloClient, useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
 import * as yup from "yup";
 
 import {
@@ -15,6 +13,7 @@ import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 import { Form, FormError, Formik, InputField } from "../components/ui/forms";
 import { Lead } from "../components/ui/typography";
+import { CURRENT_USER_QUERY } from "../lib/use-authentication";
 import { Mutation, MutationSignupArgs } from "../types/graphql";
 
 export const SIGNUP_USER = gql`
@@ -38,8 +37,7 @@ const initialValues: MutationSignupArgs = {
 };
 
 const SignupPage = () => {
-  const client: ApolloClient<any> = useApolloClient();
-
+  const client = useApolloClient();
   const [signup, { error, loading }] = useMutation<
     { signup: Mutation["signup"] },
     MutationSignupArgs
@@ -47,7 +45,11 @@ const SignupPage = () => {
     onCompleted: (data) => {
       if (data && data.signup) {
         localStorage.setItem("token", data.signup.token);
-        client.writeData({ data: { isLoggedIn: true } });
+
+        client.writeQuery({
+          data: { currentUser: data.signup.user },
+          query: CURRENT_USER_QUERY,
+        });
       }
     },
     onError: () => {
@@ -55,8 +57,12 @@ const SignupPage = () => {
     },
   });
 
-  const handleSubmit = (values: MutationSignupArgs) => {
-    signup({ variables: values });
+  const router = useRouter();
+
+  const handleSubmit = async (values: MutationSignupArgs) => {
+    await signup({ variables: values });
+
+    router.replace("/home");
   };
 
   return (

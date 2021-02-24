@@ -1,6 +1,5 @@
-/** @jsx createElement */
 import escapeStringRegexp from "escape-string-regexp";
-import { createElement, useMemo } from "react";
+import { useMemo } from "react";
 
 type Props = {
   id?: string;

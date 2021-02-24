@@ -1,7 +1,5 @@
-/** @jsx createElement */
 import classNames from "classnames";
 import { useField } from "formik";
-import { createElement } from "react";
 import { useDropzone } from "react-dropzone";
 
 import { ALLOWED_IMAGE_TYPES } from "../../../utils/imageConfig";

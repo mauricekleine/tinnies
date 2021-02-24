@@ -1,10 +1,8 @@
-/** @jsx createElement */
 import { SizeProp } from "@fortawesome/fontawesome-svg-core";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as fasStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
-import { createElement } from "react";
 
 import Theme from "./theme";
 

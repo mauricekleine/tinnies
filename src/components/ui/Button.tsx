@@ -1,6 +1,5 @@
-/** @jsx createElement */
 import classNames from "classnames";
-import { ButtonHTMLAttributes, DetailedHTMLProps, createElement } from "react";
+import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 
 import Spinner from "./Spinner";
 import Theme from "./theme";

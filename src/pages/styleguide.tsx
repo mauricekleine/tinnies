@@ -1,6 +1,5 @@
-/** @jsx createElement */
 import classNames from "classnames";
-import { createElement, useRef } from "react";
+import { useRef } from "react";
 
 import Page from "../components/Page";
 import Button from "../components/ui/Button";

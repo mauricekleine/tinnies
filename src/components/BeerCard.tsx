@@ -1,10 +1,8 @@
-/** @jsx createElement */
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { gql } from "apollo-boost";
 import { Image } from "cloudinary-react";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import { createElement, useRef } from "react";
+import { useRef } from "react";
 
 import { ALL_BEERS } from "../pages/home";
 import { MY_BEERS } from "../pages/my/beers";

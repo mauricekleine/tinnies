@@ -1,9 +1,6 @@
-/** @jsx createElement */
-import { useMutation, useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { FormikHelpers } from "formik";
 import { useRouter } from "next/router";
-import { createElement } from "react";
 import * as yup from "yup";
 
 import Page from "../../components/Page";

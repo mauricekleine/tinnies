@@ -1,6 +1,5 @@
-/** @jsx createElement */
 import classNames from "classnames";
-import { ReactNode, createElement, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import Theme from "./theme";
 

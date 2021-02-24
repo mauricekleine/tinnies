@@ -1,8 +1,6 @@
-/** @jsx createElement */
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { gql } from "apollo-boost";
-import { createElement, useRef } from "react";
+import { useRef } from "react";
 
 import { MY_COLLECTIONS } from "../pages/my/collections";
 import {
