@@ -45,10 +45,8 @@ const BeerCard = ({ beer }: Props) => {
   >(DELETE_BEER);
 
   const dropdownRef = useRef();
-  const {
-    handleToggle: handleDropdownToggle,
-    isOpen: isDropdownOpen,
-  } = useOpenHandler(dropdownRef);
+  const { handleToggle: handleDropdownToggle, isOpen: isDropdownOpen } =
+    useOpenHandler(dropdownRef);
 
   const modalRef = useRef();
   const {

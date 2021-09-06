@@ -20,9 +20,8 @@ import useToggle from "../components/ui/utils/use-toggle";
 
 const StyleGuide = () => {
   const modalRef = useRef();
-  const { handleToggle: handleModalToggle, isOpen: isModalOpen } = useToggle(
-    modalRef
-  );
+  const { handleToggle: handleModalToggle, isOpen: isModalOpen } =
+    useToggle(modalRef);
 
   return (
     <Theme>
