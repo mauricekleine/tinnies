@@ -55,16 +55,12 @@ const CollectionCard = ({ collection }: Props) => {
   >(DELETE_COLLECTION);
 
   const dropdownRef = useRef();
-  const {
-    handleToggle: handleDropdownToggle,
-    isOpen: isDropdownOpen,
-  } = useOpenHandler(dropdownRef);
+  const { handleToggle: handleDropdownToggle, isOpen: isDropdownOpen } =
+    useOpenHandler(dropdownRef);
 
   const modalRef = useRef();
-  const {
-    handleToggle: handleModalToggle,
-    isOpen: isModalOpen,
-  } = useOpenHandler(modalRef);
+  const { handleToggle: handleModalToggle, isOpen: isModalOpen } =
+    useOpenHandler(modalRef);
 
   const canDelete = canDeleteCollection(collection, data && data.currentUser);
 
